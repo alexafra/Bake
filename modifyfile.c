@@ -7,7 +7,7 @@
     fp4 variables and slashes
 
 */
-modifyfile(File *fp1, File *fp2)
+void modifyfile(File *fp1, File *fp2)
 {
     FILE *fp3 = fopen("back_no_hash.txt","w");
 
@@ -39,34 +39,9 @@ modifyfile(File *fp1, File *fp2)
     }  
 
 
-
+    //Get rid of variables
     while(!feof(fp3)) {
 
-        char *rawline = nextline(fp3);  // HANDLES CONTINUATION LINES
-        char nocommentline[strlen(rawline)]
-
-
-        //char *nocommentline
-        
-        //what does return and when.
-        //null means end if file
-        //Otherwise is a pointer that is a string
-
-        if (line) {
-        	
-        	/*
-				1. reset loop when hash is found.
-
-				2. 
-
-        	*/
-        }
-
-
-        if(line) {
-            printf("%8s()\t%s\n", __func__, line);
-            free(line);
-        }
-  
+        char *rawline = nextline(fp3);
     }
 }

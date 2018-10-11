@@ -3,7 +3,7 @@
 //  Written by Chris.McDonald@uwa.edu.au, September 2018
 
 #if defined(__linux__)
-extern  char    *strdup(const char *str);
+
 #endif
 
 

@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 //Global Functions
-extern char * nextline (FILE)
-extern void nextline (char *)
+extern char * nextline (FILE *);
+extern void trimline (char *);
 
 //Global Constants
 #define CH_CONTINUATION         '\\'

@@ -5,6 +5,7 @@
 //Global Functions
 extern char * nextline (FILE *);
 extern void trimline (char *);
+extern void makefile (FILE *, FILE *);
 
 //Global Constants
 #define CH_CONTINUATION         '\\'

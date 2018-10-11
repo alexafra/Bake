@@ -22,10 +22,13 @@ int main(int argc, char *argv[])
             return 1;
         }
         
-        File *fp2 = fopen("tempbake.txt","w");
+        FILE *fp2 = fopen("tempbake.txt","w");
+
         if(fp2 == NULL)
         {
-            perror(argv["tempbake.txt"]);
+            //TODO
+            //perror(argv["tempbake.txt"]);
+            //perror tempbake file integer
             fclose(fp1);
             return 1;
         }

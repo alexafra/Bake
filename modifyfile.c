@@ -1,5 +1,12 @@
 #include "bake.h"
 
+/*
+    fp1 raw
+    fp2 final
+    fp3 no hash
+    fp4 variables and slashes
+
+*/
 modifyfile(File *fp1, File *fp2)
 {
     FILE *fp3 = fopen("back_no_hash.txt","w");

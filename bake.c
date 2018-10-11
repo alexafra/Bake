@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include "bake.h"
 
 //  Written by Chris.McDonald@uwa.edu.au, September 2018
 

@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
             return 1;
         }
         
-        FILE *fp2 = fopen("tempbake.txt","w");
+        FILE *fp2 = fopen("finished_bake.txt","w");
 
         if(fp2 == NULL)
         {

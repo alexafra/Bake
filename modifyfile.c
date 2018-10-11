@@ -1,22 +1,42 @@
 #include "bake.h"
 
-fill_in (char *raw, char *nocomments) {
-	length = strlen(rawline);
-	
-	while (raw[i] != '\0' && raw[i] != '#') {
-		nocomments[i] = raw[i];
-		i++
-	}
-
-
-}
-
-
 modifyfile(File *fp1, File *fp2)
 {
+    FILE *fp3 = fopen("back_no_hash.txt","w");
+
+    if(fp3 == NULL)
+    {
+        fclose(fp1);
+        fclose(fp2);
+        fclose(fp3);
+        return 1;
+    }
+
+    char bufferLine[BUFSIZ];
+    while ( fgets(bufferLine, sizeof bufferLine, fp1) != NULL) {
+        //is fgets getting the whole line
+        //is fputs putting in the whole line
+        char no_hash[BUFSIZ];
+
+        remove_hash_line(bufferline, no_hash);
+
+        int out = fputs(no_hash, fp3);
+
+        //Not sure
+        if (out == EOF) {
+            fclose(fp1);
+            fclose(fp2);
+            fclose(fp3);
+            exit(EXIT_FAILURE);
+        }   
+    }  
+
+
+
     while(!feof(fp1)) {
+
         char *rawline = nextline(fp1);  // HANDLES CONTINUATION LINES
-        char nocommentline[] = strlen(rawline);
+        char nocommentline[strlen(rawline)]
 
 
         //char *nocommentline

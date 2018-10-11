@@ -10,3 +10,14 @@ void trimline(char *line)
         ++line;                 // iterate through characters on line
     }
 }
+
+void remove_hash_line (char *raw, char *nocomments) {
+	length = strlen(rawline);
+	
+    int i = 0;
+	while (raw[i] != '\0' && raw[i] != '#') {
+		nocomments[i] = raw[i];
+		i++;
+	}
+    nocomments[i] = '\0';
+}

@@ -1,3 +1,4 @@
+#include "bake.h"
 //  READ SUCCESSIVE LINES UNTIL END-OF-FILE OR ONE DOES NOT END WITH '\'
 char *nextline(FILE *fp)
 {

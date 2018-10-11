@@ -6,7 +6,6 @@
 extern  char    *strdup(const char *str);
 #endif
 
-#define CH_CONTINUATION         '\\'
 
 //  DEVELOPED IN LECTURE 9  (but here using pointers)
 

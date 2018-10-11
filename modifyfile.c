@@ -33,9 +33,9 @@ modifyfile(File *fp1, File *fp2)
 
 
 
-    while(!feof(fp1)) {
+    while(!feof(fp3)) {
 
-        char *rawline = nextline(fp1);  // HANDLES CONTINUATION LINES
+        char *rawline = nextline(fp3);  // HANDLES CONTINUATION LINES
         char nocommentline[strlen(rawline)]
 
 

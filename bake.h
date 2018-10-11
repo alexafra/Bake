@@ -10,6 +10,9 @@ extern void nextline (char *)
 #define CH_CONTINUATION         '\\'
 
 //Global Variables
-extern  char    *strdup(const char *str);
+#if defined(__linux__)
+	extern  char    *strdup(const char *str);
+#endif
+
 
 //Bingo Bongo

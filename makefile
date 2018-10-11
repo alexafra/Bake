@@ -1,5 +1,5 @@
-C99 	= cc -std=c99
-CFLAGS 	= -Wall -pedantic -Werror
+C99 = cc -std=c99
+CFLAGS = -Wall -pedantic -Werror
 
 
 ################Compound Targets#######################

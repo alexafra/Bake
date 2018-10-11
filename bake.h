@@ -3,14 +3,17 @@
 #include <stdlib.h>
 
 //Global Functions
-extern char * nextline (FILE)
-extern void nextline (char *)
+extern char * nextline (FILE *);
+extern void trimline (char *);
 
 //Global Constants
 #define CH_CONTINUATION         '\\'
 
 //Global Variables
-extern  char    *strdup(const char *str);
+#if defined(__linux__)
+	extern  char    *strdup(const char *str);
+#endif
+
 
 <<<<<<< HEAD
 //Bingo Bongo

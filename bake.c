@@ -2,9 +2,7 @@
 
 //  Written by Chris.McDonald@uwa.edu.au, September 2018
 
-#if defined(__linux__)
 
-#endif
 
 
 //  DEVELOPED IN LECTURE 9  (but here using pointers)

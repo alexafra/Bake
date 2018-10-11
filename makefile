@@ -2,14 +2,22 @@ C99 	= cc -std=c99
 CFLAGS 	= -Wall -pedantic -Werror
 
 
+################Compound Targets#######################
+
+bake : bake.o nextline.o string_modifiers.o
+	$(C99) $(CFLAGS) -o bake bake.o nextline.o string_modifiers.o
+
+
 ##################Base Targets#########################
+
 bake.o : bake.c bake.h
-	$(C99) $(CFLAGS) bake.c
+	$(C99) $(CFLAGS) -c bake.c
+
 nextline.o : nextline.c bake.h
-	$(C99) $(CFLAGS) bake.c
+	$(C99) $(CFLAGS) -c nextline.c
 
 string_modifiers.o : string_modifiers.c bake.h
-	$(C99) $(CFLAGS) bake.c
+	$(C99) $(CFLAGS) -c string_modifiers.c
 
 
 

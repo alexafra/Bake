@@ -25,20 +25,16 @@ int main(int argc, char *argv[])
         File *fp2 = fopen("tempbake.txt","w");
         if(fp2 == NULL)
         {
-            perror()
+            perror(argv["tempbake.txt"]);
+            fclose(fp1);
+            return 1;
         }
         
         readandwrite(fp1, fp2);
          
-        while(!feof(fp1)) {
-            char *line = nextline(fp1);  // HANDLES CONTINUATION LINES
-
-            if(line) {
-                printf("%8s()\t%s\n", __func__, line);
-                free(line);
-            }
-        }
         fclose(fp1);                     // WE OPENED IT, SO WE CLOSE IT
+        fclose(fp2);
     }
+
     return 0;
 }

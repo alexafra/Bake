@@ -6,7 +6,7 @@
 extern char * nextline (FILE *);
 extern void trimline (char *);
 extern void modifyfile (FILE *, FILE *);
-exter void remove_hash (char *, char *) {
+extern void remove_hash_line (char *, char *);
 //Global Constants
 #define CH_CONTINUATION         '\\'
 

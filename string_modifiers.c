@@ -12,7 +12,7 @@ void trimline(char *line)
 }
 
 void remove_hash_line (char *raw, char *nocomments) {
-	length = strlen(rawline);
+
 	
     int i = 0;
 	while (raw[i] != '\0' && raw[i] != '#') {

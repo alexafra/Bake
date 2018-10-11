@@ -7,7 +7,7 @@
     fp4 variables and slashes
 
 */
-void modifyfile(File *fp1, File *fp2)
+void modifyfile(FILE *fp1, FILE *fp2)
 {
     FILE *fp3 = fopen("back_no_hash.txt","w");
 
@@ -16,7 +16,7 @@ void modifyfile(File *fp1, File *fp2)
         fclose(fp1);
         fclose(fp2);
         fclose(fp3);
-        return 1;
+        exit(EXIT_FAILURE);
     }
 
     char bufferLine[BUFSIZ];
@@ -25,7 +25,7 @@ void modifyfile(File *fp1, File *fp2)
         //is fputs putting in the whole line
         char no_hash[BUFSIZ];
 
-        remove_hash_line(bufferline, no_hash);
+        remove_hash_line(bufferLine, no_hash);
 
         int out = fputs(no_hash, fp3);
 
@@ -40,8 +40,8 @@ void modifyfile(File *fp1, File *fp2)
 
 
     //Get rid of variables
-    while(!feof(fp3)) {
+    // while(!feof(fp3)) {
 
-        char *rawline = nextline(fp3);
-    }
+    //     char *rawline = nextline(fp3);
+    // }
 }

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             return 1;
         }
         
-        readandwrite(fp1, fp2);
+        modifyfile(fp1, fp2);
          
         fclose(fp1);                     // WE OPENED IT, SO WE CLOSE IT
         fclose(fp2);

@@ -11,3 +11,5 @@ extern void nextline (char *)
 
 //Global Variables
 extern  char    *strdup(const char *str);
+
+//Bingo Bongo

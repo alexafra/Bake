@@ -1,42 +1,35 @@
 #include "bake.h"
 
-//  Written by Chris.McDonald@uwa.edu.au, September 2018
-
 #if defined(__linux__)
 
 #endif
 
 
-//  DEVELOPED IN LECTURE 9  (but here using pointers)
-
-
-//  ----------------------------------------------------------------------
-
 int main(int argc, char *argv[])
 {
     if(argc > 1) {
-        FILE *fp1        = fopen(argv[1], "r");
+        FILE *fpRaw        = fopen(argv[1], "r");
 
-        if(fp1 == NULL) {
+        if(fpRaw == NULL) {
             perror(argv[1]);
             return 1;
         }
         
-        FILE *fp2 = fopen("finished_bake.txt","w");
+        FILE *fpFin = fopen("finished_bake.txt","w");
 
-        if(fp2 == NULL)
+        if(fpFin == NULL)
         {
             //TODO
             //perror(argv["tempbake.txt"]);
             //perror tempbake file integer
-            fclose(fp1);
+            fclose(fpRaw);
             return 1;
         }
         
-        modifyfile(fp1, fp2);
+        modifyfile(fpRaw, fpFin);
          
-        fclose(fp1);                     // WE OPENED IT, SO WE CLOSE IT
-        fclose(fp2);
+        fclose(fpRaw);                     // WE OPENED IT, SO WE CLOSE IT
+        fclose(fpFin);
     }
 
     return 0;

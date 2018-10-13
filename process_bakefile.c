@@ -14,17 +14,30 @@ void process_bakefile(FILE *fp) {
             free (line);
             continue;
         }
-        if (is_all_space(line)) {
+
+        //This line is a target
+        if (line[0] == '\t' && just_processed_target == true) {
+            //Some stuff
+
+            free (line);
+            continue;
+        }
+
+        skip_leading_space(line);
+
+        //The line is all whitespace
+        if (strlen(line) == 0) {
             free (line);
             continue;
         }
 
         //expand any varibales in the line
+        expand_variables(line);
 
-        //This line is a target
-        if (line[0] == '\t' && just_processed_target == true) {
+        wor
+        
 
-        }
+        
 
         //Blanks space
         //

@@ -1,5 +1,17 @@
 #include "bake.h"
 
+find_substitution(char *name) {
+	//First, find out if name is contained in our global array
+	while(strcmp(name, globalarray1[i]) != 0)
+		//this is not yet correct
+
+		
+}
+
+char *name
+
+getenv(name)
+
 expand_variables(char *line) {
 	
 	int i = 0;
@@ -14,11 +26,18 @@ expand_variables(char *line) {
 	i = i + 2;
 
 	char *name;
+
+	char name[5] 
+
 	while(line[i] != ')') {
 		name[j] = line[i];
+		i++; 
+		j++;
 	}
+	name[j+1] = '\0';
 
-	do something here about exchanging the name
+
+	find_substitution(name);
 
 	i = 0;
 

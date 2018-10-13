@@ -1,17 +1,33 @@
 #include "bake.h"
 
 void process_bakefile(FILE *fp) {
+    bool just_processed_target = false;
+
     while(!feof(fp)) {
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
-
+        char * firstword;
+        
         //The line is a comment line
         if(line[0] == '#') {
+            free (line);
             continue;
         }
 
         //expand any varibales in the line
 
-        
+        //This line is a target
+        if (line[0] == '\t' && just_processed_target == true) {
+
+        }
+
+        //Blanks space
+        //
+        //
+
+
+
+
+        free (line);
     }
 }
 

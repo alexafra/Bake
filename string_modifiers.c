@@ -26,6 +26,18 @@ void remove_hash_line (char *raw, char *nocomments) {
 
 }
 
+void move_back (char * line, int start, int amount) {
+
+}
+
+void move_forward (char * line, int start, int amount) {
+    
+}
+
+void skip_leading_space (char *line) {
+
+}
+
     //Pretty sure this works... I tested it with a number of ways in a txt file
     //May still have some bugs though
 

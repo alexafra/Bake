@@ -4,10 +4,14 @@ void process_bakefile(FILE *fp) {
     while(!feof(fp)) {
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
 
-        if(line) {
-            printf("%8s()\t%s\n", __func__, line);
-            free(line);
+        //The line is a comment line
+        if(line[0] == '#') {
+            continue;
         }
+
+        //expand any varibales in the line
+
+        
     }
 }
 

@@ -1,5 +1,16 @@
 #include "bake.h"
+/*
+    What about:
 
+    target
+    Whitespace
+    action
+    action
+    whitespace 
+    action
+
+    ??
+*/
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
     //Set environemnt and special cases into variable arrays.
@@ -8,6 +19,7 @@ void process_bakefile(FILE *fp) {
     while(!feof(fp)) {
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
         char * firstword;
+        char criticalChar;
 
         //The line is a comment line
         if(line[0] == '#') {
@@ -15,9 +27,9 @@ void process_bakefile(FILE *fp) {
             continue;
         }
 
-        //This line is a target
+        //This line is an action
         if (line[0] == '\t' && just_processed_target == true) {
-            //Some stuff
+            //Add action to target
 
             free (line);
             continue;
@@ -28,22 +40,31 @@ void process_bakefile(FILE *fp) {
         //The line is all whitespace
         if (strlen(line) == 0) {
             free (line);
+            just_processed_target = false;
             continue;
         }
 
-        //expand any varibales in the line
+        //expand any varibles in the line
         expand_variables(line);
 
-        wor
-        
+        firstword = getfirstword(line);
 
-        
+        //Gets the first non whitespace character after the first word.
+        criticalChar = getcriticalChar(line);
 
-        //Blanks space
-        //
-        //
+        if (criticalChar == '=') { //variable definition
+            process_variable_definition(word, rest_of_line);
+            just_processed_target = false;
 
-
+        } else if (criticalChar == ':') { // target definition
+            process_target_definitionb(word, rest_of_line);
+            just_processed_target = true;
+            
+        } else { //Line is unrecognised
+            printf("%s\n%s\n", "unrecognised line.", line);
+            free (line);
+            exit (EXIT_FAILURE);
+        }
 
 
 

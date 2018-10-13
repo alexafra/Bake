@@ -6,12 +6,13 @@ void process_bakefile(FILE *fp) {
 
         //The line is a comment line
         if(line[0] == '#') {
+            free (line);
             continue;
         }
 
         //expand any varibales in the line
 
-        
+        free (line);
     }
 }
 

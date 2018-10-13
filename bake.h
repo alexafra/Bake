@@ -7,7 +7,14 @@
 extern char * nextline (FILE *);
 extern void trimline (char *);
 extern void modifyfile (FILE *, FILE *);
-extern void remove_hash_line (char *, char *);
+extern void skup_leading_space (char *, char *, int);
+extern void move_back (char *, int, int, int);
+extern void skip_leading_space (char *);
+
+//Global Variables
+extern char * name[];
+extern char * substitution[];
+
 //Global Constants
 #define CH_CONTINUATION         '\\'
 

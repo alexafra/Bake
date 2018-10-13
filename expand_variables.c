@@ -2,6 +2,13 @@
 
 expand_variables(char *line) {
 	
+	int i = 0;
+
+	while(line[i] != '$' && line[i+1] != '(') {
+		i++;
+	}
+
+	
 	//search until we find $()
 	//temporarily store the string between ()
 	//if find that... then search our global array for variable substition

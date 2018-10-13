@@ -8,28 +8,16 @@
 int main(int argc, char *argv[])
 {
     if(argc > 1) {
-        FILE *fpRaw        = fopen(argv[1], "r");
+        FILE *fp        = fopen(argv[1], "r");
 
-        if(fpRaw == NULL) {
+        if(fp == NULL) {
             perror(argv[1]);
             return 1;
         }
         
-        FILE *fpFin = fopen("finished_bake.txt","w");
-
-        if(fpFin == NULL)
-        {
-            //TODO
-            //perror(argv["tempbake.txt"]);
-            //perror tempbake file integer
-            fclose(fpRaw);
-            return 1;
-        }
-        
-        modifyfile(fpRaw, fpFin);
-         
-        fclose(fpRaw);                     // WE OPENED IT, SO WE CLOSE IT
-        fclose(fpFin);
+        process_bakefile(*fp)
+                             // WE OPENED IT, SO WE CLOSE IT
+        fclose(fp);
     }
 
     return 0;

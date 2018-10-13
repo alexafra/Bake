@@ -58,7 +58,7 @@ void modifyfile(FILE *fpRaw, FILE *fpFin)
 
     variable_sub(fpNoHash, fpNoVar);
 
-
+}
 
 
 
@@ -81,4 +81,4 @@ void modifyfile(FILE *fpRaw, FILE *fpFin)
 
     //     char *rawline = nextline(fp3);
     // }
-}
+

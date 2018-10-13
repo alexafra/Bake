@@ -11,6 +11,10 @@ extern void skup_leading_space (char *, char *, int);
 extern void move_back (char *, int, int, int);
 extern void skip_leading_space (char *);
 
+//Global Variables
+extern char * name[];
+extern char * substitution[];
+
 //Global Constants
 #define CH_CONTINUATION         '\\'
 

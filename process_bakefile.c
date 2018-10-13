@@ -6,9 +6,13 @@ void process_bakefile(FILE *fp) {
     while(!feof(fp)) {
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
         char * firstword;
-        
+
         //The line is a comment line
         if(line[0] == '#') {
+            free (line);
+            continue;
+        }
+        if (is_all_space(line)) {
             free (line);
             continue;
         }
@@ -23,6 +27,8 @@ void process_bakefile(FILE *fp) {
         //Blanks space
         //
         //
+
+
 
 
 

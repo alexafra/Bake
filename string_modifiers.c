@@ -18,19 +18,16 @@ void remove_hash_line (char *raw, char *nocomments) {
         nocomments[i] = raw[i];
         i++;
     }
-    if(raw[0] == '#'){
-        //Enter nothing into char, and move to the lext line
-    }
-    else if(raw[i] == '#'){
-        //Add newline character
+    if(raw[0] != '#'){
         nocomments[i] = '\n';
         i++;
     }
     nocomments[i] = '\0';
 
+}
+
     //Pretty sure this works... I tested it with a number of ways in a txt file
     //May still have some bugs though
-}
 
 
 

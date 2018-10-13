@@ -15,27 +15,26 @@ void modifyfile(FILE *fpRaw, FILE *fpFin)
 
 //First, remove all #s from file
 
-    FILE *fpHash = fopen("bake_no_hash.txt","w");
+    FILE *fpNoHash = fopen("bake_no_hash.txt","w");
 
     if(fpHash == NULL)
     {
         fclose(fpRaw);
         fclose(fpFin);
-        fclose(fpHash);
         exit(EXIT_FAILURE);
     }
 
     char bufferLine[BUFSIZ];
-    while ( fgets(bufferLine, sizeof bufferLine, fpRaw) != NULL) {      //Can't "sizeof bufferLine" just be BUFSIZ? Isn't that the size of bufferLine by definition?
+    while ( fgets(bufferLine, sizeof bufferLine, fpRaw) != NULL) {      
         //is fgets getting the whole line
         //is fputs putting in the whole line
+        //Not sure about EOF
+        //Suppose we can have an empty string in fputs
+
         char no_hash[BUFSIZ];
-
         remove_hash_line(bufferLine, no_hash);
-
         int out = fputs(no_hash, fpHash);
 
-        //Not sure
         if (out == EOF) {
             fclose(fpRaw);
             fclose(fpFin);
@@ -47,26 +46,33 @@ void modifyfile(FILE *fpRaw, FILE *fpFin)
 
     //Next, create new file, joining lines separated by '\' and subsituting variable definitions
 
-    FILE *fpVar = fopen("bake_var.txt","w");
+    FILE *fpNoVar = fopen("bake_var.txt","w");
 
-    if(fpVar == NULL)
+    if(fpNoVar == NULL)
     {
         fclose(fpRaw);
         fclose(fpFin);
-        fclose(fpVar);
-        fclose(fpHash);
+        fclose(fpNoHash);
         exit(EXIT_FAILURE);
     }
 
-    char bufferLine2[BUFSIZ];
+    variable_sub(fpNoHash, fpNoVar);
 
-    //Next line will remove "\" and correct lines, then "variable_sub" will substitute in the definitions
-    while(fgets(bufferline2, sizeof bufferLine2, nextline(fpHash)) != NULL){
 
-        fputs(variable_sub(), fpVar)
+
+
+
+
+
+    // char bufferLine2[BUFSIZ];
+
+    // //Next line will remove "\" and correct lines, then "variable_sub" will substitute in the definitions
+    // while(fgets(bufferline2, sizeof bufferLine2, nextline(fpHash)) != NULL){
+
+    //     fputs(variable_sub(), fpVar)
    
-    }
-        //RIGHT NOW STILL TRYING TO FIGURE OUT WHAT TO DO WITH THE VARIABLE REDEFINITIONS... I THINK I SHOULD RETURN A WHOLE FILE POINTER
+    // }
+    //     //RIGHT NOW STILL TRYING TO FIGURE OUT WHAT TO DO WITH THE VARIABLE REDEFINITIONS... I THINK I SHOULD RETURN A WHOLE FILE POINTER
 
 
 

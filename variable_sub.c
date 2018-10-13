@@ -9,23 +9,22 @@ void storedef(int i, char line){
 	char *def = new char[sizeof line - i]; //let me know if this will give me the length of the definition string 	
 
 	int j = 0;
-	while(line[j] != '\0'){
+	while(line[j] != '\0') {
 		//Substitution string
-		if(j < i){
+		if (j < i) {
 			sub[j] = line[j];  
 			}
-		if(j = i){
+		if (j = i) {
 
 		}	
-		if(j > i){
+		if (j > i) {
 			def[j-i-1] = line[j];
-		}
 		}
 	}
 
 }
 
-variable_sub(FILE *fp){
+variable_sub(FILE *fpNoHash, FILE *fpNoVar){
 	//We want to receive a fp and then return a modified fp 
 
 	//This is what I think we should do:

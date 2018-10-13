@@ -2,6 +2,8 @@
 
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
+    //Set environemnt and special cases into variable arrays.
+    set_var_exp();
 
     while(!feof(fp)) {
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES

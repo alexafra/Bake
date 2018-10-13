@@ -40,7 +40,7 @@ void process_bakefile(FILE *fp) {
         //The line is all whitespace
         if (strlen(line) == 0) {
             free (line);
-            just_processed_target = false;
+            just_processed_target = false; //Not sure if this is correct.
             continue;
         }
 
@@ -57,7 +57,7 @@ void process_bakefile(FILE *fp) {
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            process_target_definitionb(word, rest_of_line);
+            process_target_definition(word, rest_of_line);
             just_processed_target = true;
             
         } else { //Line is unrecognised

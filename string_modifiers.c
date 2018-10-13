@@ -26,16 +26,23 @@ void remove_hash_line (char *raw, char *nocomments) {
 
 }
 
-void move_back (char * line, int start, int amount) {
+char * move_back (char * line, int start, int amount) {
 
 }
 
-void move_forward (char * line, int start, int amount) {
+char * move_forward (char * line, int start, int amount) {
     
 }
 
 void skip_leading_space (char *line) {
-
+    int length = strlen(line);
+    int jump = 0;
+    while (line[jump] != '\0' && (line[jump] == '\t' || line[jump] != ' ')) {
+        ++jump;
+    }
+    for (int i = 0, i <= length - jump; ++i) {
+        line [i] = line[i + jump];
+    }
 }
 
     //Pretty sure this works... I tested it with a number of ways in a txt file

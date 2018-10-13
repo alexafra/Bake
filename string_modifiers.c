@@ -23,7 +23,7 @@ char * insert_string (char * line, char * word, int position) {
     int length_word = strlen(word);
     int new_length - length_line + length_word + 1;
 
-    char * new_line = malloc(sizeof(char) * new_length);
+    char * new_line = (char *) malloc(sizeof(char) * new_length);
 
     int i = 0;
     for (i = 0; i < position; ++i) {

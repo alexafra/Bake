@@ -1,5 +1,6 @@
 #include "bake.h"
 
+//trim line of carriage return or next line character, replacing with null
 void trimline(char *line)
 {
     while(*line != '\0') {      //  loop until we reach the end of line
@@ -11,13 +12,15 @@ void trimline(char *line)
     }
 }
 
-
+//slide part of the string back a certain amount
+//Could have invalid inputs
 void move_back (char * line, int start, int amount, int length) {
     for (int i = start; i <= length - amount; ++i) {
         line [i] = line[i + jump];
     }
 }
 
+//insert a string at a point
 char * insert_string (char * line, char * word, int position) {
     int length_line = strlen(line);
     int length_word = strlen(word);
@@ -39,6 +42,7 @@ char * insert_string (char * line, char * word, int position) {
     return new_line;
 }
 
+//skip the leading space
 void skip_leading_space (char *line) {
     int length = strlen(line);
     int jump = 0;
@@ -46,6 +50,11 @@ void skip_leading_space (char *line) {
         ++jump;
     }
     move_back (line, jump, jump, length);
+}
+
+//assume non empty no leading space
+char * getfirstword (char * line) { 
+
 }
 
     //Pretty sure this works... I tested it with a number of ways in a txt file

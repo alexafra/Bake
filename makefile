@@ -13,7 +13,7 @@ bake : bake.o modifyfile.o nextline.o string_modifiers.o
 bake.o : bake.c bake.h
 	$(C99) $(CFLAGS) -c bake.c
 
-modifyfile.o : modifyfile.c bake.h
+process_bakefile.o : process_bakefile.c bake.h
 	$(C99) $(CFLAGS) -c modifyfile.c
 
 nextline.o : nextline.c bake.h

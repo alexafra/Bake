@@ -22,6 +22,7 @@ void move_back (char * line, int start, int amount, int length) {
 }
 
 //insert a string at a point
+//Will delete the old line.
 char * insert_string (char * line, char * word, int position) {
     int length_line = strlen(line);
     int length_word = strlen(word);
@@ -40,6 +41,7 @@ char * insert_string (char * line, char * word, int position) {
         *(new_line + i) = *(line + i - length_word);
     }
     *(new_line + i) = '\0';
+    free (line)
     return new_line;
 }
 
@@ -57,11 +59,11 @@ void skip_leading_space (char *line) {
 //assume non empty no leading space
 char * getfirstword (char * line) { 
     int length = 0;
-    while ( *(line + length) != ' ' && *(line + length) != '\t' ) {
+    while ( *(line + length) != ' ' && *(line + length) != '\t' && *(line + length) != ':' && *(line + length) != '=' ) {
         ++length;
     }
     ++length
-    char * word = calloc(i, sizeof(char));
+    char * word = calloc(length, sizeof(char));
 
     for (int i = 0; i < length - 1; ++i) {
         word[i] = line[i];

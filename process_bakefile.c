@@ -32,6 +32,7 @@
 
     One variable definition per line?
 
+    target and actions are the only things that should be global.
 */
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
@@ -40,6 +41,7 @@ void process_bakefile(FILE *fp) {
     char ** var_name_list = calloc (10, sizeof (char *));
     char ** var_value_list = calloc (10, sizeof (char *) );
     int * no_variables = calloc (1, sizeof (int *));
+    int * variable_length = calloc (1, sizeof (int *));
 
     *no_variables = 0;
     
@@ -73,7 +75,7 @@ void process_bakefile(FILE *fp) {
         }
 
         //expand any varibles in the line
-        expand_variables1(line, no_variables, var_value_list, var_name_list);
+        line = expand_variables1(line, no_variables, var_value_list, var_name_list);
 
         firstword = getfirstword(line);
 

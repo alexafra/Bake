@@ -8,6 +8,7 @@
 int main(int argc, char *argv[])
 {
     if(argc > 1) {
+        //need to check access()
         FILE *fp        = fopen(argv[1], "r");
 
         if(fp == NULL) {

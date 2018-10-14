@@ -5,11 +5,15 @@
 
 //Global Functions
 extern char * nextline (FILE *);
+extern void process_bakefile (FILE *);
+
 extern void trimline (char *);
-extern void modifyfile (FILE *, FILE *);
-extern void skup_leading_space (char *, char *, int);
 extern void move_back (char *, int, int, int);
+extern char * insert_string (char *, char *, int);
 extern void skip_leading_space (char *);
+extern char * getfirstword (char *);
+extern char getcriticalchar (char *);
+
 
 //Global Variables
 extern char * name[];

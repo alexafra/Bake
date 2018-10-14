@@ -30,13 +30,18 @@
 
     malloc realloc calloc free
 
+    One variable definition per line?
+
 */
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
 
     //begin with space for 10 variables.
-    char ** var_name_list = malloc (sizeof (char *) * 10)
-    char ** var_value_list = malloc ()
+    char ** var_name_list = calloc (10, sizeof (char *));
+    char ** var_value_list = calloc (10, sizeof (char *) );
+    int * no_variables = calloc (1, sizeof (int *));
+
+    *no_variables = 0;
     
 
     while(!feof(fp)) {
@@ -68,7 +73,7 @@ void process_bakefile(FILE *fp) {
         }
 
         //expand any varibles in the line
-        expand_variables1(line);
+        expand_variables1(line, no_variables, var_value_list, var_name_list);
 
         firstword = getfirstword(line);
 

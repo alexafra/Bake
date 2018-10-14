@@ -7,6 +7,6 @@
 	How are variables identified?
 */
 
-void expand_variables1 (char * line) {
+void expand_variables1 (char * line, int * no_variables, char ** var_name_list, char ** var_value_list) {
 	
 }

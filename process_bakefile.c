@@ -45,7 +45,7 @@ void process_bakefile(FILE *fp) {
         }
 
         //expand any varibles in the line
-        expand_variables(line);
+        expand_variables1(line);
 
         firstword = getfirstword(line);
 

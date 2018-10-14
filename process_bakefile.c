@@ -33,6 +33,8 @@
     One variable definition per line?
 
     target and actions are the only things that should be global.
+
+    //place $(PID), $(PPID), $(PWD), and $(RAND) into var_name_list and var_value_list
 */
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
@@ -42,8 +44,10 @@ void process_bakefile(FILE *fp) {
     char ** var_value_list = calloc (10, sizeof (char *) );
     int * no_variables = calloc (1, sizeof (int *));
     int * variable_length = calloc (1, sizeof (int *));
-
-    *no_variables = 0;
+    
+    //*no_variables = 0;
+    //*variable_length = 10;
+    init_variables (var_name_list, var_value_list, no_variables, variable_length)
     
 
     while(!feof(fp)) {
@@ -75,7 +79,7 @@ void process_bakefile(FILE *fp) {
         }
 
         //expand any varibles in the line
-        line = expand_variables(line, no_variables, var_value_list, var_name_list);
+        line = expand_variables(line, no_variables, var_value_list, var_name_list, *no_variables);
 
         firstword = getfirstword(line);
 

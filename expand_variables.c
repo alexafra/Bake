@@ -15,6 +15,7 @@
 //error if $() is empty
 //assume space int the brackets throws an error. $(var ) or $( var )
 //assume $ (var) throws an error
+// what if var name is one of the saved names ie PPID = Value
 
 	//does $ define a variable
 	//does $(...) define a variable
@@ -32,7 +33,7 @@
 	//can you use wildcards
 
 //line is a non empty, no leading space string.
-void expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list) {
+void expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int no_vars) {
 
 	int length = strlen(line);
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
@@ -42,7 +43,7 @@ void expand_variables (char * line, int * no_variables, char ** var_name_list, c
 		if (line[i] == '$') {
 			var_name_length = get_var_length (line, i , length)
 			var_name = get_var_name(line, i, var_name_length);
-			var_value = get_var_value (var_name, var_naem_list, var_value_list);
+			var_value = get_var_value (var_name, var_naem_list, var_value_list, no_vars);
 			
 
 			move_back (line, i, var_name_length + 3, length); //$() 3 extra characters
@@ -100,7 +101,18 @@ char * get_var_name(line *, int var_start, int var_name_length) {
 
 }	
 
-char * get_var_value (char * var_name) {
-
+char * get_var_value (char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
+	for (int i = 0; i < no_vars; ++i) {
+		char * saved_variable_name = *(var_name_list + i);
+		if (strcmp(var_name, saved_variable_name) == 0)  {
+			return *(var_value_list + i);
+		}
+	}
+	char *  env_value = getenv(var_name);
+	if (env_value == NULL) {
+		env_value = calloc(1, sizeof(char));
+		*env_value = '\0';
+	}
+	return env_value;
 }
 	

@@ -11,10 +11,33 @@
 
     ??
 */
+
+/*
+
+    https://www.eskimo.com/~scs/cclass/int/sx8.html
+
+    
+    add our two variable methods to the heap.
+    they will be destroyed after this method.
+    We will end each pointer array with a \0 to determine the end.
+
+    We dont know the length of the array
+    immutable strings
+    immutable pointers
+
+    char ** var_names;
+    char ** var_values;
+
+    malloc realloc calloc free
+
+*/
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    //Set environemnt and special cases into variable arrays.
-    set_var_exp();
+
+    //begin with space for 10 variables.
+    char ** var_name_list = malloc (sizeof (char *) * 10)
+    char ** var_value_list = malloc ()
+    
 
     while(!feof(fp)) {
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
@@ -53,15 +76,20 @@ void process_bakefile(FILE *fp) {
         criticalChar = getcriticalChar(line);
 
         if (criticalChar == '=') { //variable definition
-            process_variable_definition(word, rest_of_line);
+            process_variable_definition(firstword, rest_of_line);
+            //i think free here 
+            free (firstword);
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            process_target_definition(word, rest_of_line);
+            process_target_definition(firstword, rest_of_line);
+            //i think free here
+            free (firstword);
             just_processed_target = true;
             
         } else { //Line is unrecognised
             printf("%s\n%s\n", "unrecognised line.", line);
+            free (firstword);
             free (line);
             exit (EXIT_FAILURE);
         }
@@ -73,7 +101,7 @@ void process_bakefile(FILE *fp) {
     }
 }
 
-
+/*
 while not end of file
 get the next full/continuation line
 expand any variables on that line
@@ -96,3 +124,5 @@ categorise the expanded line:
   otherwise the line is unrecognised, print any error message and exit
 
 fclose file
+
+*/

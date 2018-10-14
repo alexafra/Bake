@@ -5,7 +5,7 @@ CFLAGS = -Wall -pedantic -Werror
 ################Compound Targets#######################
 
 bake : bake.o modifyfile.o nextline.o string_modifiers.o 
-	$(C99) $(CFLAGS) -o bake bake.o modifyfile.o nextline.o string_modifiers.o 
+	$(C99) $(CFLAGS) -g -o bake bake.o process_bakefile.o nextline.o string_modifiers.o 
 
 
 ##################Base Targets#########################
@@ -21,6 +21,11 @@ nextline.o : nextline.c bake.h
 
 string_modifiers.o : string_modifiers.c bake.h
 	$(C99) $(CFLAGS) -c string_modifiers.c
+
+expand_variables1.o : expand_variables1.c bake.h
+	$(C99) $(CFLAGS) -c expand_variables.c
+
+
 
 
 

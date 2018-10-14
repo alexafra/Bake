@@ -47,7 +47,7 @@ void process_bakefile(FILE *fp) {
     
     //*no_variables = 0;
     //*variable_length = 10;
-    init_variables (var_name_list, var_value_list, no_variables, variable_length)
+    init_variables (var_name_list, var_value_list, no_variables, variable_length);
     
 
     while(!feof(fp)) {
@@ -82,6 +82,8 @@ void process_bakefile(FILE *fp) {
         line = expand_variables(line, no_variables, var_value_list, var_name_list, *no_variables);
 
         firstword = getfirstword(line);
+        int firstwordlength = strlen(firstword)
+        rest_of_line = getrestofline(line, firstwordlength);
 
         //Gets the first non whitespace character after the first word.
         criticalChar = getcriticalChar(line);
@@ -90,17 +92,20 @@ void process_bakefile(FILE *fp) {
             process_variable_definition(firstword, rest_of_line);
             //i think free here 
             free (firstword);
+            free (rest_of_line);
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
             process_target_definition(firstword, rest_of_line);
             //i think free here
             free (firstword);
+            free (rest_of_line);
             just_processed_target = true;
             
         } else { //Line is unrecognised
             printf("%s\n%s\n", "unrecognised line.", line);
             free (firstword);
+            free (rest_of_line);
             free (line);
             exit (EXIT_FAILURE);
         }

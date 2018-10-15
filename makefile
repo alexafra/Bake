@@ -30,7 +30,7 @@ process_variable_definition.o : process_variable_definition.c bake.h
 
 
 
-Files to ADD: bake.c 	bake.h expand_variables.c 	globals.c 	nextline.c 	process_variable_definition.c 	string_modifiers.c 	process_bakefile.c
+
 
 
 

@@ -17,30 +17,35 @@ int clean_suite(void) {
 
 
 void test_moveback(void) {
-	printf("1");
-	char * word0 = "hello";
-	char * word1 = "hel123lo";
-	printf("2");
+
+	char word1[] = "hello";
+	char word2[] = "hello";
+	char word3[] = "hello";
 	
-	move_back(word1, 3, 3, 9);
-	printf("3");
+	//printf("1");
+	move_back(word1, 1, 0);
+	move_back(word2, 1, 1);
+	move_back(word3, 1, 2);
 
 
-	CU_ASSERT(0 == strcmp(word0, word1));
-	printf("4");
+
+	CU_ASSERT(0 == strcmp("hello", word1));
+	CU_ASSERT(0 == strcmp("hllo", word2));
+	CU_ASSERT(0 == strcmp("hlo", word3));
+	
 
 
 }
 
 void test_skipleadingspace(void) {
-	char * word0 = "hello";
-	char * word1 = "   hello";
-	//char * word2 = "hello   ";
+	char word1[] = "   hello";
+	char word2[] = "\thello";
 
 	skip_leading_space(word1);
+	skip_leading_space(word2);
 
-	CU_ASSERT(0 == strcmp(word0, word1));
-	//CU_ASSERT(0 == strcmp(word0, word2));
+	CU_ASSERT(0 == strcmp("hello", word1));
+	CU_ASSERT(0 == strcmp("hello", word2));
 }
 
 int main (void) {

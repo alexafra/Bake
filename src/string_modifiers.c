@@ -13,10 +13,12 @@ void trimline(char *line)
 }
 
 //slide part of the string back a certain amount
+//amount ahead to slide into start $ position
 //Could have invalid inputs
 //Be careful how you interpret length
-void move_back (char * line, int start, int amount, int length) {
-    for (int i = start; i < length - amount; ++i) {
+void move_back (char * line, int start, int amount) {
+    int length = strlen(line);
+    for (int i = start; (i + amount) < (length + 1); ++i) {
         line [i] = line[i + amount];
     }
 }
@@ -48,12 +50,11 @@ char * insert_string (char * line, char * word, int position) {
 //Consider all types of space perhaps not just space and tab.
 //skip the leading space
 void skip_leading_space (char *line) {
-    int length = strlen(line) + 1;
     int jump = 0;
     while (line[jump] != '\0' && (line[jump] == '\t' || line[jump] == ' ')) {
         ++jump;
     }
-    move_back (line, jump, jump, length);
+    move_back (line, jump, jump);
 }
 
 //assume non empty no leading space
@@ -81,11 +82,10 @@ char getcriticalchar (char * line) {
     int lengthfword = strlen(firstword);
     free (firstword);
 
-    int lengthline = strlen(line);
     char * editedline = calloc(1, sizeof(line));
     strcpy (editedline, line);
 
-    move_back (editedline, lengthfword, lengthfword, lengthline );
+    move_back (editedline, lengthfword, lengthfword );
     skip_leading_space (editedline);
     char criticalchar = editedline[0];
 

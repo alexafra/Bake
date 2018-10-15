@@ -10,7 +10,7 @@ test : test_string_modifiers.o string_modifiers.o
 
 
 test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h
-	$(C99) $(CFLAGS) -c $(TESTLOC)/test_string_modifiers.c #-lcunit
+	$(C99) $(CFLAGS) -c $(TESTLOC)/test_string_modifiers.c 
 
 
 ################Compound Targets#######################

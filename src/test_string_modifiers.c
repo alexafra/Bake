@@ -15,16 +15,17 @@ int clean_suite(void) {
 	return 0;
 }
 
-void test_trimline(void) {
+void test_skipleadingspace(void) {
 	char * word0 = "hello";
 	char * word1 = "   hello";
-	char * word2 = "hello   ";
-	
-	trimline(word1);
-	trimline(word2);
+	//char * word2 = "hello   ";
+
+	printf("\n.%s.\n", word1);
+	skip_leading_space(word1);
+	printf("\n.%s.\n", word1);
 
 	CU_ASSERT(0 == strcmp(word0, word1));
-	CU_ASSERT(0 == strcmp(word0, word2));
+	//CU_ASSERT(0 == strcmp(word0, word2));
 }
 
 int main (void) {
@@ -44,7 +45,7 @@ int main (void) {
 	}
 
 	//Add test1 to suite1
-	if ((NULL == CU_add_test(pSuite1, "\n\n....... Testing trimline function ........\n\n", test_trimline))) {
+	if ((NULL == CU_add_test(pSuite1, "\n\n....... Testing skip_lead_space function ........\n\n", test_skipleadingspace))) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

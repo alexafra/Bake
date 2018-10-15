@@ -15,14 +15,29 @@ int clean_suite(void) {
 	return 0;
 }
 
+
+void test_moveback(void) {
+	printf("1");
+	char * word0 = "hello";
+	char * word1 = "hel123lo";
+	printf("2");
+	
+	move_back(word1, 3, 3, 9);
+	printf("3");
+
+
+	CU_ASSERT(0 == strcmp(word0, word1));
+	printf("4");
+
+
+}
+
 void test_skipleadingspace(void) {
 	char * word0 = "hello";
 	char * word1 = "   hello";
 	//char * word2 = "hello   ";
 
-	printf("\n.%s.\n", word1);
 	skip_leading_space(word1);
-	printf("\n.%s.\n", word1);
 
 	CU_ASSERT(0 == strcmp(word0, word1));
 	//CU_ASSERT(0 == strcmp(word0, word2));
@@ -45,7 +60,7 @@ int main (void) {
 	}
 
 	//Add test1 to suite1
-	if ((NULL == CU_add_test(pSuite1, "\n\n....... Testing skip_lead_space function ........\n\n", test_skipleadingspace))) {
+	if ((NULL == CU_add_test(pSuite1, "test move_back", test_moveback)) || (NULL == CU_add_test(pSuite1, "test skip_leading_space", test_skipleadingspace))) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

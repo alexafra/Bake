@@ -15,17 +15,37 @@ int clean_suite(void) {
 	return 0;
 }
 
+
+void test_moveback(void) {
+
+	char word1[] = "hello";
+	char word2[] = "hello";
+	char word3[] = "hello";
+	
+	//printf("1");
+	move_back(word1, 1, 0);
+	move_back(word2, 1, 1);
+	move_back(word3, 1, 2);
+
+
+
+	CU_ASSERT(0 == strcmp("hello", word1));
+	CU_ASSERT(0 == strcmp("hllo", word2));
+	CU_ASSERT(0 == strcmp("hlo", word3));
+	
+
+
+}
+
 void test_skipleadingspace(void) {
-	char * word0 = "hello";
-	char * word1 = "   hello";
-	//char * word2 = "hello   ";
+	char word1[] = "   hello";
+	char word2[] = "\thello";
 
-	printf("\n.%s.\n", word1);
 	skip_leading_space(word1);
-	printf("\n.%s.\n", word1);
+	skip_leading_space(word2);
 
-	CU_ASSERT(0 == strcmp(word0, word1));
-	//CU_ASSERT(0 == strcmp(word0, word2));
+	CU_ASSERT(0 == strcmp("hello", word1));
+	CU_ASSERT(0 == strcmp("hello", word2));
 }
 
 int main (void) {
@@ -45,7 +65,7 @@ int main (void) {
 	}
 
 	//Add test1 to suite1
-	if ((NULL == CU_add_test(pSuite1, "\n\n....... Testing skip_lead_space function ........\n\n", test_skipleadingspace))) {
+	if ((NULL == CU_add_test(pSuite1, "test move_back", test_moveback)) || (NULL == CU_add_test(pSuite1, "test skip_leading_space", test_skipleadingspace))) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

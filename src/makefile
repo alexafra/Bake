@@ -1,15 +1,16 @@
 C99 = cc -std=c99
 CFLAGS = -Wall -pedantic -Werror
+TESTLOC = ../tests
 
 
 ###################test########################
 
 test : test_string_modifiers.o string_modifiers.o
-	$(C99) $(CFLAGS) -o test_string_modifiers test_string_modifiers.o string_modifiers.o -lcunit
+	$(C99) $(CFLAGS) -o $(TESTLOC)/test_string_modifiers test_string_modifiers.o string_modifiers.o -lcunit
 
 
-test_string_modifiers.o : test_string_modifiers.c bake.h
-	$(C99) $(CFLAGS) -c test_string_modifiers.c #-lcunit
+test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c $(TESTLOC)/test_string_modifiers.c #-lcunit
 
 
 ################Compound Targets#######################

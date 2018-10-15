@@ -1,5 +1,5 @@
 //#include "/Users/alexanderfrazis/Cits/Cits2002/Bake/src/bake.h"
-#include "bake.h"
+#include "../src/bake.h"
 #include "CUnit/Basic.h"
 #include "CUnit/CUnit.h"
 //gcc -Wall  test_string_modifiers.c  -lcunit -o test_string_modifiers

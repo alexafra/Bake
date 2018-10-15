@@ -2,11 +2,20 @@ C99 = cc -std=c99
 CFLAGS = -Wall -pedantic -Werror
 
 
+###################test########################
+
+test : test_string_modifiers.o string_modifiers.o
+	$(C99) $(CFLAGS) -o test_string_modifiers test_string_modifiers.o string_modifiers.o -lcunit
+
+
+test_string_modifiers.o : test_string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c test_string_modifiers.c #-lcunit
+
+
 ################Compound Targets#######################
 
-bake : bake.o bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
+bake : bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
 	$(C99) $(CFLAGS) -o bake bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
-
 
 ##################Base Targets#########################
 
@@ -30,7 +39,10 @@ process_variable_definition.o : process_variable_definition.c bake.h
 
 
 
-Files to ADD: bake.c 	bake.h expand_variables.c 	globals.c 	nextline.c 	process_variable_definition.c 	string_modifiers.c 	process_bakefile.c
+
+
+
+#Files to ADD: bake.c 	bake.h expand_variables.c 	globals.c 	nextline.c 	process_variable_definition.c 	string_modifiers.c 	process_bakefile.c
 
 
 

@@ -87,7 +87,6 @@ void process_bakefile(FILE *fp) {
         int length = strlen(line);
 
         firstword = getfirstword(line);
-        int firstwordlength = strlen(firstword);
         char * rest_of_line = substring(line, firstwordlength, length); //start and end
 
         //Gets the first non whitespace character after the first word.

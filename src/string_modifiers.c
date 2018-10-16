@@ -92,19 +92,28 @@ char * substring(char * line, int start, int end) {
 
 //assume non empty no leading space
 //must be string
+//what to do if no critical char?
 char getcriticalchar (char * line) {
+    line = strdup(line);
+    skip_leading_space (line);
     char * firstword = getfirstword (line);
     int lengthfword = strlen(firstword);
     free (firstword);
 
-    char * editedline = calloc(1, sizeof(line));
-    strcpy (editedline, line);
+    move_back (line, 0, lengthfword);
+    skip_leading_space (line); 
 
-    move_back (editedline, lengthfword, lengthfword );
-    skip_leading_space (editedline);
-    char criticalchar = editedline[0];
+    char criticalchar;
+    if (strlen(line) > 0) {
+        criticalchar = line[0];
+    } else {
+        //no critical char what to do?
+        criticalchar = '\0';
+    }
+    //could be empty
+    
 
-    free (editedline);
+    free (line);
     return criticalchar;
 
 }

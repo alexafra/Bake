@@ -16,8 +16,8 @@ $(TESTTARGET)/test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.
 
 ################Compound Targets#######################
 
-bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o string_modifiers.o $(TARGET)/process_variable_definition.o 
-	$(C99) $(CFLAGS) -o $(TARGET)/bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o 
+bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o
+	$(C99) $(CFLAGS) -o $(TARGET)/bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o
 
 ##################Base Targets#########################
 
@@ -38,6 +38,9 @@ $(TARGET)/expand_variables.o : expand_variables.c bake.h
 
 $(TARGET)/process_variable_definition.o : process_variable_definition.c bake.h 
 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_variable_definition.o process_variable_definition.c 
+
+$(TARGET)/process_target_definition.o : process_target_definition.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_definition.o process_target_definition.c 
 
 
 

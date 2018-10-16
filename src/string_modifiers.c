@@ -75,7 +75,11 @@ char * getfirstword (char * line) {
 
 }
 
-char * substring(char * line, int start, int end);
+char * substring(char * line, int start, int end) {
+    char * stubstring = calloc (1, sizeof(char));
+    return stubstring;
+
+}
 
 //assume non empty no leading space
 //must be string

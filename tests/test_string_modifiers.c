@@ -40,8 +40,6 @@ void test_movebacksimple(void) {
 void test_movebackhard(void) {
 
 	char word1[] = "hello";
-	char word2[] = "hello";
-	char word3[] = "hello";
 	
 	//printf("1");
 	move_back(word1, -1, 0);
@@ -91,7 +89,9 @@ int main (void) {
 	}
 
 	//Add test1 to suite1
-	if ((NULL == CU_add_test(pSuite1, "test move back simple", test_movebacksimple)) || (NULL == CU_add_test(pSuite1, "test skip leading space simple", test_skipleadingspacesimple)) || (NULL == CU_add_test(pSuite1, "test move back hard", test_movebackhard)) ) {
+	if ((NULL == CU_add_test(pSuite1, "test move back simple", test_movebacksimple))
+		|| (NULL == CU_add_test(pSuite1, "test skip leading space simple", test_skipleadingspacesimple)) 
+		|| (NULL == CU_add_test(pSuite1, "test move back hard", test_movebackhard)) ) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

@@ -13,6 +13,8 @@
 */
 
 /*
+    ............. spaces may be ok in variables ..........
+    ............. not inbetween $() ..........
 
     https://www.eskimo.com/~scs/cclass/int/sx8.html
 

@@ -81,7 +81,7 @@ char * get_var_name(char * line, int var_start, int var_name_length) {
 
 }	
 
-char * get_var_value (char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
+char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
 	for (int i = 0; i < no_vars; ++i) {
 		char * saved_variable_name = *(var_name_list + i);
 		if (strcmp(var_name, saved_variable_name) == 0)  {

@@ -50,8 +50,6 @@ $(TARGET)/process_target_definition.o : process_target_definition.c bake.h
 
 
 #Files to ADD: bake.c 	bake.h expand_variables.c 	globals.c 	nextline.c 	process_variable_definition.c 	string_modifiers.c 	process_bakefile.c
->>>>>>> 29660dc240d074699e91d2e4c1b7b0312382176d:src/makefile
-
 
 
 

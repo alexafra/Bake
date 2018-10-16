@@ -54,7 +54,7 @@ void skip_leading_space (char *line) {
     while (line[jump] != '\0' && (line[jump] == '\t' || line[jump] == ' ')) {
         ++jump;
     }
-    move_back (line, jump, jump);
+    move_back (line, 0, jump);
 }
 
 //assume non empty no leading space

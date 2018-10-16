@@ -38,6 +38,7 @@
 */
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
+    bool first_target_line = true;
 
     //begin with space for 10 variables.
     char ** var_name_list = calloc (10, sizeof (char *));
@@ -98,11 +99,12 @@ void process_bakefile(FILE *fp) {
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            process_target_definition(firstword, rest_of_line, no_variables, variable_length);
+            process_target_line(firstword, rest_of_line, no_variables, variable_length);
             //i think free here
             free (firstword);
             free (rest_of_line);
             just_processed_target = true;
+            first_target_line = false;
             
         } else { //Line is unrecognised
             printf("%s\n%s\n", "unrecognised line.", line);

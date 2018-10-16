@@ -95,13 +95,6 @@ char * get_var_value (char * var_name, char ** var_name_list, char ** var_value_
 	}
 	return env_value;
 }
-
-char * get_rest_of_line (char *line, int firstwordlength) {
-	char * rest_of_line = strdup(line);
-	move_back (rest_of_line, 0, firstwordlength);
-	skip_leading_space(rest_of_line);
-	return rest_of_line;
-}
 	
 char * expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list) {
 

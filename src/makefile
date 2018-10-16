@@ -1,12 +1,22 @@
 C99 = cc -std=c99
 CFLAGS = -Wall -pedantic -Werror
+TESTLOC = ../tests
+
+
+###################test########################
+
+test : test_string_modifiers.o string_modifiers.o
+	$(C99) $(CFLAGS) -o $(TESTLOC)/test_string_modifiers test_string_modifiers.o string_modifiers.o -lcunit
+
+
+test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c $(TESTLOC)/test_string_modifiers.c 
 
 
 ################Compound Targets#######################
 
-bake : bake.o modifyfile.o nextline.o string_modifiers.o 
-	$(C99) $(CFLAGS) -g -o bake bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
-
+bake : bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
+	$(C99) $(CFLAGS) -o bake bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
 
 ##################Base Targets#########################
 
@@ -14,7 +24,7 @@ bake.o : bake.c bake.h
 	$(C99) $(CFLAGS) -c bake.c
 
 process_bakefile.o : process_bakefile.c bake.h
-	$(C99) $(CFLAGS) -c string_modifiers.c expand_variables.c process_variable_definition.c 
+	$(C99) $(CFLAGS) -c string_modifiers.c
 
 nextline.o : nextline.c bake.h
 	$(C99) $(CFLAGS) -c nextline.c
@@ -31,6 +41,12 @@ process_variable_definition.o : process_variable_definition.c bake.h
 
 
 
+<<<<<<< HEAD:makefile
+=======
+
+
+#Files to ADD: bake.c 	bake.h expand_variables.c 	globals.c 	nextline.c 	process_variable_definition.c 	string_modifiers.c 	process_bakefile.c
+>>>>>>> 29660dc240d074699e91d2e4c1b7b0312382176d:src/makefile
 
 
 

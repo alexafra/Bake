@@ -8,7 +8,7 @@ extern char * nextline (FILE *);
 extern void process_bakefile (FILE *);
 
 extern void trimline (char *);
-extern void move_back (char *, int, int, int);
+extern void move_back (char *, int, int);
 extern char * insert_string (char *, char *, int);
 extern void skip_leading_space (char *);
 extern char * getfirstword (char *);

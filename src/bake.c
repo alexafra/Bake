@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
             return 1;
         }
         
-        process_bakefile(*fp)
+        process_bakefile(fp);
                              // WE OPENED IT, SO WE CLOSE IT
         fclose(fp);
     }

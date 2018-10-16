@@ -1,42 +1,46 @@
 C99 = cc -std=c99
 CFLAGS = -Wall -pedantic -Werror
 TESTLOC = ../tests
-
+TARGET = ../target
+TESTTARGET = ../testtarget
 
 ###################test########################
 
-test : test_string_modifiers.o string_modifiers.o
-	$(C99) $(CFLAGS) -o $(TESTLOC)/test_string_modifiers test_string_modifiers.o string_modifiers.o -lcunit
+test : $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o
+	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o -lcunit
 
 
-test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h
-	$(C99) $(CFLAGS) -c $(TESTLOC)/test_string_modifiers.c 
+$(TESTTARGET)/test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_string_modifiers.o $(TESTLOC)/test_string_modifiers.c 
 
 
 ################Compound Targets#######################
 
-bake : bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
-	$(C99) $(CFLAGS) -o bake bake.o process_bakefile.o expand_variables.o nextline.o string_modifiers.o process_variable_definition.o 
+bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o
+	$(C99) $(CFLAGS) -o $(TARGET)/bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o
 
 ##################Base Targets#########################
 
-bake.o : bake.c bake.h
-	$(C99) $(CFLAGS) -c bake.c
+$(TARGET)/bake.o : bake.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
 
-process_bakefile.o : process_bakefile.c bake.h
-	$(C99) $(CFLAGS) -c string_modifiers.c
+$(TARGET)/process_bakefile.o : process_bakefile.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
 
-nextline.o : nextline.c bake.h
-	$(C99) $(CFLAGS) -c nextline.c
+$(TARGET)/nextline.o : nextline.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
 
-string_modifiers.o : string_modifiers.c bake.h
-	$(C99) $(CFLAGS) -c string_modifiers.c
+$(TARGET)/string_modifiers.o : string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/string_modifiers.o string_modifiers.c
 
-expand_variables.o : expand_variables.c bake.h
-	$(C99) $(CFLAGS) -c expand_variables.c
+$(TARGET)/expand_variables.o : expand_variables.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/expand_variables.o expand_variables.c
 
-process_variable_definition.o : process_variable_definition.c bake.h 
-	$(C99) $(CFLAGS) -c process_variable_definition.c 
+$(TARGET)/process_variable_definition.o : process_variable_definition.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_variable_definition.o process_variable_definition.c 
+
+$(TARGET)/process_target_definition.o : process_target_definition.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_definition.o process_target_definition.c 
 
 
 

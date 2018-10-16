@@ -75,6 +75,20 @@ char * getfirstword (char * line) {
 
 }
 
+char * get_rest_of_line (char *line, int firstwordlength) {
+    char * rest_of_line = strdup(line);
+    move_back (rest_of_line, 0, firstwordlength);
+    skip_leading_space(rest_of_line);
+    return rest_of_line;
+}
+
+//stub
+char * substring(char * line, int start, int end) {
+    char * stubstring = calloc (1, sizeof(char));
+    return stubstring;
+
+}
+
 //assume non empty no leading space
 //must be string
 char getcriticalchar (char * line) {

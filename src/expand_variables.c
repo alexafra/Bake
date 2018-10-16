@@ -95,7 +95,10 @@ char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_l
 	}
 	return env_value;
 }
+
+//Insert into preexisting memory and return 0 or 1?????
 	
+//what if the line in just the variable and the variable equals nothing?
 char * expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list) {
 
 	int length = strlen(line);
@@ -113,13 +116,11 @@ char * expand_variables (char * line, int * no_variables, char ** var_name_list,
 			move_back (line, i, var_name_length + 3); //$() 3 extra characters
 			line = insert_string(line, var_value, i);
 			
-			length = strlen(line);
-
-			//returning null on error, check length cant be 0.
-			if (length == 0) {
-				return { '\0' }
-			}
-
+			//
+			//What to do if insert_string returns an error
+			//
+			//
+		
 			free(var_name);
 			free (var_value);
 		}

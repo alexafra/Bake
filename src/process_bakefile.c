@@ -83,14 +83,17 @@ void process_bakefile(FILE *fp) {
         }
 
         //expand any varibles in the line
-        line = expand_variables(line, no_variables, var_name_list, var_value_list);
-        int length = strlen(line);
+        char * exp_line = expand_variables(line, no_variables, var_name_list, var_value_list);
+        
 
-        firstword = getfirstword(line);
-        char * rest_of_line = substring(line, firstwordlength, length); //start and end
+        int length = strlen(exp_line );
+
+        firstword = getfirstword(exp_line );
+        int firstwordlength = strlen(firstword);
+        char * rest_of_line = substring(exp_line , firstwordlength, length); //start and end
 
         //Gets the first non whitespace character after the first word.
-        criticalChar = getcriticalchar(line);
+        criticalChar = getcriticalchar(exp_line );
 
         if (criticalChar == '=') { //variable definition
             process_variable_definition(firstword, rest_of_line, no_variables, variable_length);
@@ -120,6 +123,7 @@ void process_bakefile(FILE *fp) {
 
 
         free (line);
+        free(exp_line);
     }
 }
 

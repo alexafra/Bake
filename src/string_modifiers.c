@@ -28,8 +28,13 @@ void move_back (char * line, int start, int amount) {
 //what to do if faulty position
 char * insert_string (char * line, char * word, int position) {
     int length_line = strlen(line);
-    if (position < 0 || position >= length_line ) {
-        return {'\0'};
+    if (position < 0 || position > length_line ) {
+        char * err_line = (char *) calloc(1, sizeof(char));
+        err_line[0] = '\0';
+        //
+        //MUST PRINT ERROR
+        //
+        return err_line;
     }
     
     int length_word = strlen(word);
@@ -48,7 +53,6 @@ char * insert_string (char * line, char * word, int position) {
         *(new_line + i) = *(line + i - length_word);
     }
     *(new_line + i) = '\0';
-    free (line);
     return new_line;
 }
 

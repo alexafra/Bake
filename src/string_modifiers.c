@@ -75,6 +75,8 @@ char * getfirstword (char * line) {
 
 }
 
+char * substring(char * line, int start, int end);
+
 //assume non empty no leading space
 //must be string
 char getcriticalchar (char * line) {

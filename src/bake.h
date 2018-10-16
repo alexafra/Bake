@@ -13,7 +13,12 @@ extern char * insert_string (char *, char *, int);
 extern void skip_leading_space (char *);
 extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
+extern char * substring(char *, int , int);
+extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list);
 
+extern void init_variables (char **, char **, int *, int *);
+extern void process_variable_definition(char *, char *, int *, int *);
+extern void process_target_definition(char *firstword, char *rest_of_line, int *no_variables, int *variable_length);
 
 //Global Variables
 extern char * name[];

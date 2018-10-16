@@ -47,7 +47,8 @@ void process_bakefile(FILE *fp) {
     
     //*no_variables = 0;
     //*variable_length = 10;
-    init_variables (var_name_list, var_value_list, no_variables, variable_length);
+    
+    //init_variables (var_name_list, var_value_list, no_variables, variable_length);
     
 
     while(!feof(fp)) {
@@ -79,24 +80,25 @@ void process_bakefile(FILE *fp) {
         }
 
         //expand any varibles in the line
-        line = expand_variables(line, no_variables, var_value_list, var_name_list, *no_variables);
+        line = expand_variables(line, no_variables, var_name_list, var_value_list);
+        int length = strlen(line);
 
         firstword = getfirstword(line);
-        int firstwordlength = strlen(firstword)
-        rest_of_line = getrestofline(line, firstwordlength);
+        int firstwordlength = strlen(firstword);
+        char * rest_of_line = substring(line, firstwordlength, length); //start and end
 
         //Gets the first non whitespace character after the first word.
-        criticalChar = getcriticalChar(line);
+        criticalChar = getcriticalchar(line);
 
         if (criticalChar == '=') { //variable definition
-            process_variable_definition(firstword, rest_of_line);
+            process_variable_definition(firstword, rest_of_line, no_variables, variable_length);
             //i think free here 
             free (firstword);
             free (rest_of_line);
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            process_target_definition(firstword, rest_of_line);
+            process_target_definition(firstword, rest_of_line, no_variables, variable_length);
             //i think free here
             free (firstword);
             free (rest_of_line);

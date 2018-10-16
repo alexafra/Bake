@@ -25,8 +25,13 @@ void move_back (char * line, int start, int amount) {
 
 //insert a string at a point
 //Will delete the old line.
+//what to do if faulty position
 char * insert_string (char * line, char * word, int position) {
     int length_line = strlen(line);
+    if (position < 0 || position >= length_line ) {
+        return {'\0'};
+    }
+    
     int length_word = strlen(word);
     int new_length = length_line + length_word + 1;
 

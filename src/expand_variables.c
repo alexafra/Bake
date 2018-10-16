@@ -115,6 +115,11 @@ char * expand_variables (char * line, int * no_variables, char ** var_name_list,
 			
 			length = strlen(line);
 
+			//returning null on error, check length cant be 0.
+			if (length == 0) {
+				return { '\0' }
+			}
+
 			free(var_name);
 			free (var_value);
 		}

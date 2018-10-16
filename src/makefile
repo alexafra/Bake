@@ -6,8 +6,8 @@ TESTTARGET = ../testtarget
 
 ###################test########################
 
-test : $(TESTTARGET)/test_string_modifiers.o string_modifiers.o
-	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o string_modifiers.o -lcunit
+test : $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o
+	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o -lcunit
 
 
 $(TESTTARGET)/test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h

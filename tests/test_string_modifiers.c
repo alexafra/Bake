@@ -76,58 +76,41 @@ void test_getfirstwordsimple (void) {
 
 }
 
+void test_getcriticalcharsimple (void) {
+
+}
+
+
+
+// extern void trimline (char *);
+// extern char * insert_string (char *, char *, int);
+// extern char getcriticalchar (char *);
+// extern char * substring(char *, int , int);
+// extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list);
+
 //Incomplete
 void test_skipleadingspacehard(void) {
-	char word1[] = "   hello";
-	char word2[] = "\thello";
+}
 
-	skip_leading_space(word1);
-	skip_leading_space(word2);
+void test_getcriticalcharhard (void) {
 
-	CU_ASSERT(0 == strcmp("hello", word1));
-	CU_ASSERT(0 == strcmp("hello", word2));
 }
 
 
 //incomplete
 void test_getfirstwordhard (void) {
-	char line1[] = "hello my name is alex";
-	char line2[] = "  hello my name is alex";
-	char line3[] = "\t hello my name is alex";
-
-	char * firstword1 = getfirstword(line1);
-	char * firstword2 = getfirstword(line2);
-	char * firstword3 = getfirstword(line3);
-
-
-	CU_ASSERT(0 == strcmp("hello", firstword1));
-	CU_ASSERT(0 == strcmp("hello", firstword2));
-	CU_ASSERT(0 == strcmp("hello", firstword3));
-
-	free (firstword1);
-	free (firstword2);
-	free (firstword3);
 
 }
 
 void test_movebackhard(void) {
-
 	char word1[] = "hello";
 	
-
 	move_back(word1, -1, 0);
-
 
 	CU_ASSERT(0 == strcmp("hello", word1));
 }
 
 
-// extern void trimline (char *);
-// extern char * insert_string (char *, char *, int);
-// extern char * getfirstword (char *);
-// extern char getcriticalchar (char *);
-// extern char * substring(char *, int , int);
-// extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list);
 
 int main (void) {
 
@@ -149,16 +132,10 @@ int main (void) {
 	if ((NULL == CU_add_test(pSuite1, "test move back simple", test_movebacksimple))
 		|| (NULL == CU_add_test(pSuite1, "test skip leading space simple", test_skipleadingspacesimple)) 
 		|| (NULL == CU_add_test(pSuite1, "test get first word simple", test_getfirstwordsimple))
-		
+
 		|| (NULL == CU_add_test(pSuite1, "test skip leading space hard", test_skipleadingspacehard))
 		|| (NULL == CU_add_test(pSuite1, "test move back hard", test_movebackhard))
 		|| (NULL == CU_add_test(pSuite1, "test get first word hard", test_getfirstwordhard))
-
-		
-		
-
-
-
 		) {
 		CU_cleanup_registry();
 		return CU_get_error();

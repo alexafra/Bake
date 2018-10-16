@@ -59,6 +59,7 @@ void skip_leading_space (char *line) {
 
 //assume non empty no leading space
 char * getfirstword (char * line) { 
+    skip_leading_space (line);
     int length = 0;
     while ( *(line + length) != ' ' && *(line + length) != '\t' && *(line + length) != ':' && *(line + length) != '=' ) {
         ++length;

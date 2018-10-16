@@ -51,14 +51,20 @@ void test_movebackhard(void) {
 
 }
 void test_skipleadingspacesimple(void) {
-	char word1[] = "   hello";
-	char word2[] = "\thello";
+	char line1[] = "   hello";
+	char line2[] = "\thello";
+	char line3[] = "   hello my name is ben";
+	char line4[] = "\thello my name is josh";
 
-	skip_leading_space(word1);
-	skip_leading_space(word2);
+	skip_leading_space(line1);
+	skip_leading_space(line2);
+	skip_leading_space(line3);
+	skip_leading_space(line4);
 
-	CU_ASSERT(0 == strcmp("hello", word1));
-	CU_ASSERT(0 == strcmp("hello", word2));
+	CU_ASSERT(0 == strcmp("hello", line1));
+	CU_ASSERT(0 == strcmp("hello", line2));
+	CU_ASSERT(0 == strcmp("hello", line3));
+	CU_ASSERT(0 == strcmp("hello", line4));
 }
 
 //Incomplete
@@ -103,6 +109,8 @@ void test_getfirstwordhard (void) {
 	char * firstword2 = getfirstword(line2);
 	char * firstword3 = getfirstword(line3);
 
+	printf("\nfirst word 2 length: %lu\n\n", strlen(firstword2));
+	printf("\nfirst word 3 length: %lu\n\n", strlen(firstword3));
 
 	CU_ASSERT(0 == strcmp("hello", firstword1));
 	CU_ASSERT(0 == strcmp("hello", firstword2));

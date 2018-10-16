@@ -99,7 +99,8 @@ void process_bakefile(FILE *fp) {
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            process_target_line(firstword, rest_of_line, no_variables, variable_length);
+            process_target_definition(firstword, rest_of_line, no_variables, variable_length);
+            //process_target_line(firstword, rest_of_line, no_variables, variable_length);
             //i think free here
             free (firstword);
             free (rest_of_line);

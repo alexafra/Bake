@@ -37,19 +37,7 @@ void test_movebacksimple(void) {
 
 }
 
-void test_movebackhard(void) {
 
-	char word1[] = "hello";
-	
-	//printf("1");
-	move_back(word1, -1, 0);
-
-
-	CU_ASSERT(0 == strcmp("hello", word1));
-	
-
-
-}
 void test_skipleadingspacesimple(void) {
 	char line1[] = "   hello";
 	char line2[] = "\thello";
@@ -67,17 +55,6 @@ void test_skipleadingspacesimple(void) {
 	CU_ASSERT(0 == strcmp("hello my name is josh", line4));
 }
 
-//Incomplete
-void test_skipleadingspacehard(void) {
-	char word1[] = "   hello";
-	char word2[] = "\thello";
-
-	skip_leading_space(word1);
-	skip_leading_space(word2);
-
-	CU_ASSERT(0 == strcmp("hello", word1));
-	CU_ASSERT(0 == strcmp("hello", word2));
-}
 
 void test_getfirstwordsimple (void) {
 	char line1[] = "hello my name is alex";
@@ -99,6 +76,19 @@ void test_getfirstwordsimple (void) {
 
 }
 
+//Incomplete
+void test_skipleadingspacehard(void) {
+	char word1[] = "   hello";
+	char word2[] = "\thello";
+
+	skip_leading_space(word1);
+	skip_leading_space(word2);
+
+	CU_ASSERT(0 == strcmp("hello", word1));
+	CU_ASSERT(0 == strcmp("hello", word2));
+}
+
+
 //incomplete
 void test_getfirstwordhard (void) {
 	char line1[] = "hello my name is alex";
@@ -118,6 +108,17 @@ void test_getfirstwordhard (void) {
 	free (firstword2);
 	free (firstword3);
 
+}
+
+void test_movebackhard(void) {
+
+	char word1[] = "hello";
+	
+
+	move_back(word1, -1, 0);
+
+
+	CU_ASSERT(0 == strcmp("hello", word1));
 }
 
 
@@ -146,13 +147,15 @@ int main (void) {
 
 	//Add test1 to suite1
 	if ((NULL == CU_add_test(pSuite1, "test move back simple", test_movebacksimple))
-		|| (NULL == CU_add_test(pSuite1, "test move back hard", test_movebackhard))
-
 		|| (NULL == CU_add_test(pSuite1, "test skip leading space simple", test_skipleadingspacesimple)) 
-		|| (NULL == CU_add_test(pSuite1, "test skip leading space hard", test_skipleadingspacehard))
-
 		|| (NULL == CU_add_test(pSuite1, "test get first word simple", test_getfirstwordsimple))
+		
+		|| (NULL == CU_add_test(pSuite1, "test skip leading space hard", test_skipleadingspacehard))
+		|| (NULL == CU_add_test(pSuite1, "test move back hard", test_movebackhard))
 		|| (NULL == CU_add_test(pSuite1, "test get first word hard", test_getfirstwordhard))
+
+		
+		
 
 
 

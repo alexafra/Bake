@@ -10,8 +10,8 @@ test : $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o
 	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o -lcunit
 
 
-$(TESTTARGET)/test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h
-	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_string_modifiers.o $(TESTLOC)/test_string_modifiers.c 
+$(TESTTARGET)/test_small_string_modifiers.o : $(TESTLOC)/test_small_string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_small_string_modifiers.o $(TESTLOC)/test_small_string_modifiers.c 
 
 
 ################Compound Targets#######################

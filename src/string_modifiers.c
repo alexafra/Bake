@@ -39,7 +39,6 @@ char * insert_string (char * line, char * word, int position, int* error) {
     } else {
         *error = 0;
     }
-    printf("\nhere\n");
     int length_word = strlen(word);
     int new_length = length_line + length_word + 1;
 

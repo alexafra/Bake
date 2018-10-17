@@ -3,7 +3,6 @@ CFLAGS = -Wall -pedantic -Werror
 TESTLOC = ../tests
 TARGET = ../target
 TESTTARGET = ../testtarget
- #TEST  = "FUCK"
 
 
 ###################test########################

@@ -1,16 +1,9 @@
 C99 = cc -std=c99
-<<<<<<< HEAD
 CFLAGS = -Wall -pedantic -Werror
 TESTLOC = ../tests
 TARGET = ../target
 TESTTARGET = ../testtarget
  #TEST  = "FUCK"
-=======
-CFLAGS = -Wall -pedantic -Werror 
-TESTLOC = /home/kieren/Bake/tests
-TARGET = /home/kieren/Bake/target
-TESTTARGET = /home/kieren/Bake/testtarget
->>>>>>> 1ae6a35ac3c85348d2b83215eca8debd4ba42eb7
 
 
 ###################test########################

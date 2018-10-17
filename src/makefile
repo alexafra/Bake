@@ -3,16 +3,28 @@ CFLAGS = -Wall -pedantic -Werror
 TESTLOC = ../tests
 TARGET = ../target
 TESTTARGET = ../testtarget
+ #TEST  = "FUCK"
+
 
 ###################test########################
 
-test : $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o
-	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o -lcunit
+test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o
+	$(C99) $(CFLAGS) -o $(TESTTARGET)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o -lcunit 
 
+$(TESTTARGET)/test.o : $(TESTLOC)/test.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test.o $(TESTLOC)/test.c 
 
 $(TESTTARGET)/test_small_string_modifiers.o : $(TESTLOC)/test_small_string_modifiers.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_small_string_modifiers.o $(TESTLOC)/test_small_string_modifiers.c 
 
+$(TESTTARGET)/test_moderate_string_modifiers.o : $(TESTLOC)/test_moderate_string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTLOC)/test_moderate_string_modifiers.c 
+
+$(TESTTARGET)/test_substring.o : $(TESTLOC)/test_substring.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_substring.o $(TESTLOC)/test_substring.c 
+
+$(TESTTARGET)/test_expand_variable_functions.o : $(TESTLOC)/test_expand_variable_functions.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_expand_variable_functions.o $(TESTLOC)/test_expand_variable_functions.c 
 
 ################Compound Targets#######################
 
@@ -42,7 +54,13 @@ $(TARGET)/process_variable_definition.o : process_variable_definition.c bake.h
 $(TARGET)/process_target_definition.o : process_target_definition.c bake.h 
 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_definition.o process_target_definition.c 
 
+echostuff : 
+	echo $(TARGET)
 
+#1. dollar sign is invisible
+#2. $ () means $is invisible and carry on
+#3. $( ) any space inside becomes an unrecognisable variable
+#4. $( this is undefined and throws an error.
 
 
 #<<<<<<< HEAD:makefile

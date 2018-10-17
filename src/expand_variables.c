@@ -36,7 +36,10 @@
 
 #include "bake.h"
 
-
+// #1. dollar sign is invisible
+// #2. $ () means $is invisible and carry on
+// #3. $( ) any space inside becomes an unrecognisable variable
+// #4. $( this is undefined and throws an error.
 
 //Gets the var length and validates the variable
 int get_var_length (char * line, int var_start, int length) {

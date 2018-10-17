@@ -2,6 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 //Global Functions
 extern char * nextline (FILE *);

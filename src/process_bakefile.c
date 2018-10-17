@@ -82,18 +82,29 @@ void process_bakefile(FILE *fp) {
             continue;
         }
 
+        int error;
         //expand any varibles in the line
-        char * exp_line = expand_variables(line, no_variables, var_name_list, var_value_list);
+        char * exp_line = expand_variables(line, no_variables, var_name_list, var_value_list, &error);
+        if (error != 0) {
+            //do some error stuff
+        }
         
 
-        int length = strlen(exp_line );
+        int length = strlen(exp_line);
 
-        firstword = getfirstword(exp_line );
+        firstword = getfirstword(exp_line);
+
         int firstwordlength = strlen(firstword);
-        char * rest_of_line = substring(exp_line , firstwordlength, length); //start and end
+
+        
+        char * rest_of_line = substring(exp_line , firstwordlength, length, &error);
+        if (error != 0) {
+            //do some error stuff
+        } 
+        //start and end
 
         //Gets the first non whitespace character after the first word.
-        criticalChar = getcriticalchar(exp_line );
+        criticalChar = getcriticalchar(exp_line);
 
         if (criticalChar == '=') { //variable definition
             process_variable_definition(firstword, rest_of_line, no_variables, variable_length);

@@ -12,31 +12,34 @@ void trimline(char *line)
     }
 }
 
-//slide part of the string back a certain amount
-//amount ahead to slide into start $ position
-//Could have invalid inputs
-//Be careful how you interpret length
-void move_back (char * line, int start, int amount) {
+void move_back (char * line, int start, int amount, int *error) {
     int length = strlen(line);
+    if (start < 0 || (amount + start) > length) {
+        *error = 1;
+        *line = '\0';
+        return;
+    } else {
+        *error = 0;
+    }
+    
     for (int i = start; (i + amount) < (length + 1); ++i) {
         line [i] = line[i + amount];
     }
 }
 
-//insert a string at a point
-//Will delete the old line.
-//what to do if faulty position
-char * insert_string (char * line, char * word, int position) {
+char * insert_string (char * line, char * word, int position, int* error) {
     int length_line = strlen(line);
     if (position < 0 || position > length_line ) {
-        char * err_line = (char *) calloc(1, sizeof(char));
-        err_line[0] = '\0';
-        //
-        //MUST PRINT ERROR
-        //
-        return err_line;
+        *error = 1;
+        
+        char * new_line = (char *) malloc(sizeof(char) ); //*line = '\0'; whats up here
+        new_line[0] = '\0';
+        return new_line;//return line failes
+
+    } else {
+        *error = 0;
     }
-    
+    printf("\nhere\n");
     int length_word = strlen(word);
     int new_length = length_line + length_word + 1;
 
@@ -56,28 +59,31 @@ char * insert_string (char * line, char * word, int position) {
     return new_line;
 }
 
-//Consider all types of space perhaps not just space and tab.
-//skip the leading space
 void skip_leading_space (char *line) {
     int jump = 0;
     while (line[jump] != '\0' && (line[jump] == '\t' || line[jump] == ' ')) {
         ++jump;
     }
-    move_back (line, 0, jump);
+    int error;
+    move_back (line, 0, jump, &error);
+    if (error != 0) {
+        line[0] = '\0';
+    }
+
 }
 
 //assume non empty no leading space
+//worried about possible errors
 char * getfirstword (char * line) { 
     skip_leading_space (line);
     int length = 0;
     while ( *(line + length) != ' ' && *(line + length) != '\t' && *(line + length) != ':' && *(line + length) != '=' ) {
         ++length;
     }
-    ++length;
-    char * word = calloc(length, sizeof(char));
+    char * word = calloc(length + 1, sizeof(char));
 
     int i;
-    for (i = 0; i < length - 1; ++i) {
+    for (i = 0; i < length; ++i) {
         word[i] = line[i];
     }
     word[i] = '\0';
@@ -85,17 +91,55 @@ char * getfirstword (char * line) {
 
 }
 
-char * get_rest_of_line (char *line, int firstwordlength) {
+char * get_rest_of_line (char *line) {
+    
+    char * firstword = getfirstword (line);
+    int firstwlength = strlen(firstword);
+
     char * rest_of_line = strdup(line);
-    move_back (rest_of_line, 0, firstwordlength);
+    skip_leading_space(rest_of_line);
+
+    int error;
+    move_back (rest_of_line, 0, firstwlength, &error);
+    if (error != 0) {
+        rest_of_line[0] = '\0';
+        return rest_of_line;
+    }
+
+    skip_leading_space(rest_of_line);
+    move_back (rest_of_line, 0, 1, &error);
+    if (error != 0) {
+        rest_of_line[0] = '\0';
+        return rest_of_line;
+    }
     skip_leading_space(rest_of_line);
     return rest_of_line;
 }
 
 //stub
-char * substring(char * line, int start, int end) {
-    char * stubstring = calloc (1, sizeof(char));
-    return stubstring;
+char * substring(char * line, int start, int end, int * error) {
+    int length = strlen(line);
+    char * new_line;
+    if (start < 0 || end > length || end < start) {
+        *error = 1;
+        
+        new_line = (char *) malloc(sizeof(char) ); //*line = '\0'; whats up here
+        new_line[0] = '\0';
+        return new_line;//return line failes
+    } else {
+        *error = 0;
+    }
+
+    int newlinelength = end - start;
+    new_line = calloc (length + 1, sizeof(char));
+
+    int i;
+    for (i = 0; i < newlinelength; ++i) {
+        new_line[i] = line[i + start];
+    }
+    new_line[i] = '\0';
+
+    return new_line;
 
 }
 
@@ -109,10 +153,16 @@ char getcriticalchar (char * line) {
     int lengthfword = strlen(firstword);
     free (firstword);
 
-    move_back (line, 0, lengthfword);
-    skip_leading_space (line); 
-
     char criticalchar;
+
+    int error; 
+    move_back (line, 0, lengthfword, &error);
+    if (error != 0) {
+        criticalchar = '\0';
+    }
+
+    skip_leading_space (line); 
+    
     if (strlen(line) > 0) {
         criticalchar = line[0];
     } else {

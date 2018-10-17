@@ -99,7 +99,7 @@ char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_l
 //Insert into preexisting memory and return 0 or 1?????
 	
 //what if the line in just the variable and the variable equals nothing?
-char * expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list) {
+char * expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int* error) {
 
 	int length = strlen(line);
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
@@ -112,9 +112,16 @@ char * expand_variables (char * line, int * no_variables, char ** var_name_list,
 			var_name = get_var_name(line, i, var_name_length);
 			var_value = get_var_value (var_name, var_name_list, var_value_list, *no_variables);
 			
+			int error;
+			move_back (line, i, var_name_length + 3, &error); //$() 3 extra characters
+			if (error != 0) {
+				//some error stuff
+			}
 
-			move_back (line, i, var_name_length + 3); //$() 3 extra characters
-			line = insert_string(line, var_value, i);
+			line = insert_string(line, var_value, i, &error);
+			if (error != 0) {
+				//some error stuff
+			}
 			
 			//
 			//What to do if insert_string returns an error

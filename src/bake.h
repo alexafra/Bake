@@ -8,13 +8,13 @@ extern char * nextline (FILE *);
 extern void process_bakefile (FILE *);
 
 extern void trimline (char *);
-extern void move_back (char *, int, int);
-extern char * insert_string (char *, char *, int);
+extern void move_back (char *, int, int, int*);
+extern char * insert_string (char *, char *, int, int*);
 extern void skip_leading_space (char *);
 extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
-extern char * substring(char *, int , int);
-extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list);
+extern char * substring(char *, int , int, int*);
+extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int *);
 
 extern void init_variables (char **, char **, int *, int *);
 extern void process_variable_definition(char *, char *, int *, int *);

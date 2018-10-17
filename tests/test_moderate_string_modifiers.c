@@ -69,9 +69,7 @@ void test_insertstringsimple (void) {
 	char* result14 = insert_string (base1, insert1, 4, &err14);
 	char* result15 = insert_string (base1, insert1, 5, &err15);
 	//Should be null from here.
-	printf("\nerror in test1\n");
 	char* result16 = insert_string (base1, insert1, 6, &err16);
-	printf("\nerror in test2\n");
 	char* result17 = insert_string (base1, insert1, 7, &err17);
 	char* result18 = insert_string (base1, insert1, -1, &err18);
 	char* result19 = insert_string (base1, insert1, -2, &err19);

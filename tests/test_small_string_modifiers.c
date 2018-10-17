@@ -11,7 +11,6 @@ void test_movebacksimple(void) {
 	int error1;
 	int error2;
 	int error3;
-	//printf("1");
 	move_back(word1, 1, 0, &error1);
 	move_back(word2, 1, 1, &error2);
 	move_back(word3, 1, 2, &error3);

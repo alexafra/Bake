@@ -1,3 +1,7 @@
+#include "test.h"
+#include "CUnit/Basic.h"
+#include "CUnit/CUnit.h"
+
 void test_substringsimple (void) {
 					//"0123456789012345678"
 	char* line1 = 	"this is a sentence"; //length is 18

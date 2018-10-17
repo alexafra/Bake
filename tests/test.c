@@ -1,5 +1,4 @@
 //#include "/Users/alexanderfrazis/Cits/Cits2002/Bake/src/bake.h"
-#include "../src/bake.h"
 #include "test.h"
 #include "CUnit/Basic.h"
 #include "CUnit/CUnit.h"
@@ -61,7 +60,7 @@ int main (void) {
 	}
 
 	//Add suite1 to registry
-	pSuite1 = CU_add_suite("Basic_Test_Suite1", init_suite, clean_suite);
+	pSuite1 = CU_add_suite("string modifiers testing", init_suite, clean_suite);
 
 	if (NULL == pSuite1) {
 		CU_cleanup_registry();
@@ -83,6 +82,19 @@ int main (void) {
 		|| (NULL == CU_add_test(pSuite1, "test get insert string hard", test_insertstringhard ))
 		|| (NULL == CU_add_test(pSuite1, "test get substring ahrd", test_substringhard ))
 		) {
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	CU_pSuite pSuite2 = NULL;
+	pSuite2 = CU_add_suite("expand variables testing", init_suite, clean_suite);
+
+	if (NULL == pSuite2) {
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if ((NULL == CU_add_test(pSuite2, "test get variable name", test_getvarnamesimple))) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

@@ -1,3 +1,7 @@
+#include "test.h"
+#include "CUnit/Basic.h"
+#include "CUnit/CUnit.h"
+
 //what to do if no critical line
 //currently null - perhaps throw error?????????
 void test_getcriticalcharsimple (void) {

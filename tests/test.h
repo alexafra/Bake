@@ -1,4 +1,5 @@
-
+#include "../src/bake.h"
+extern void test_getvarnamesimple(void);
 extern void test_movebacksimple(void);
 extern void test_skipleadingspacesimple(void);
 extern void test_insertstringsimple (void);

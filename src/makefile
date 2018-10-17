@@ -57,6 +57,10 @@ $(TARGET)/process_target_definition.o : process_target_definition.c bake.h
 echostuff : 
 	echo $(TARGET)
 
+clean :
+	rm -f ../target/*
+	rm -f ../testtarget/*
+
 #1. dollar sign is invisible
 #2. $ () means $is invisible and carry on
 #3. $( ) any space inside becomes an unrecognisable variable

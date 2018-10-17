@@ -25,9 +25,16 @@ just use curl's --head option to find the modification date. However, any target
 
 process_target_line(char *firstword, char *rest_of_line, int *no_variables, int *variable_length) {
 
+	//Find current directory
+	char *curr_dir = get_current_dir_name();
+	//need to call free() after, when using "get_current_dir_name()"
+
 	if(first_target_line) {
 		char *default_target = firstword;
-	} 
+	}
+
+	struct stat file
+	if(stat(firstword, )) 
 	
 
 	//we need to chop off the ":"

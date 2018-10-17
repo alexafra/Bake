@@ -1,13 +1,14 @@
 C99 = cc -std=c99
-CFLAGS = -Wall -pedantic -Werror
-TESTLOC = ../tests
-TARGET = ../target
-TESTTARGET = ../testtarget
+CFLAGS = -Wall -pedantic -Werror 
+TESTLOC = /home/kieren/Bake/tests
+TARGET = /home/kieren/Bake/target
+TESTTARGET = /home/kieren/Bake/testtarget
+
 
 ###################test########################
 
 test : $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o
-	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o -lcunit
+	$(C99) $(CFLAGS) -o $(TESTTARGET)/test_string_modifiers $(TESTTARGET)/test_string_modifiers.o $(TARGET)/string_modifiers.o #-lcunit
 
 
 $(TESTTARGET)/test_string_modifiers.o : $(TESTLOC)/test_string_modifiers.c bake.h

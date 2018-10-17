@@ -40,7 +40,7 @@
 */
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    bool first_target_line = true;
+    //bool first_target_line = true;
 
     //begin with space for 10 variables.
     char ** var_name_list = calloc (10, sizeof (char *));
@@ -120,7 +120,7 @@ void process_bakefile(FILE *fp) {
             free (firstword);
             free (rest_of_line);
             just_processed_target = true;
-            first_target_line = false;
+            //first_target_line = false;
             
         } else { //Line is unrecognised
             printf("%s\n%s\n", "unrecognised line.", line);

@@ -85,7 +85,6 @@ char * get_var_name(char * line, int var_start, int var_name_length) {
 
 }	
 
-char * substitute_variable (char *line)
 
 char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
 	for (int i = 0; i < no_vars; ++i) {

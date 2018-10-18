@@ -97,6 +97,6 @@ char * substitute_variable (int pos, char * line, char ** var_name_list, char **
 	var_name[var_name_length] = '\0';
 
 
-	//now you havbe the var name , the var length, the start of the var position
+	//now you havbe the var name , the var length, the start of the var position.
 
 }

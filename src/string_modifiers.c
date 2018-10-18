@@ -76,20 +76,20 @@ void skip_leading_space (char *line) {
 //worried about possible errors
 char * getfirstword (char * line) { 
     skip_leading_space (line);
-    int length1;
+    int length;
 
-    length1 = 0;
-    
-    printf("\n%d\n", length1);
-    while ( *(line + length1) != ' ' && *(line + length1) != '\t' && *(line + length1) != ':' && *(line + length1) != '=' ) {
-        ++length1;
+    length = 0;
+    //printf("\n1\n");
+    //printf("\n%d\n", length1);
+    while ( *(line + length) != ' ' && *(line + length) != '\t' && *(line + length) != ':' && *(line + length) != '='  && *(line + length) != '\0') {
+        ++length;
     }
 
 
-    char * word = calloc(length1 + 1, sizeof(char));
+    char * word = calloc(length + 1, sizeof(char));
 
     int i;
-    for (i = 0; i < length1; ++i) {
+    for (i = 0; i < length; ++i) {
         word[i] = line[i];
     }
     word[i] = '\0';
@@ -113,6 +113,7 @@ char * get_rest_of_line (char *line) {
     }
 
     skip_leading_space(rest_of_line);
+
     move_back (rest_of_line, 0, 1, &error);
     if (error != 0) {
         rest_of_line[0] = '\0';
@@ -153,32 +154,32 @@ char * substring(char * line, int start, int end, int * error) {
 //must be string
 //what to do if no critical char?
 char getcriticalchar (char * line) {
-    line = strdup(line);
-    skip_leading_space (line);
-    char * firstword = getfirstword (line);
+    char * line_dup = strdup(line);
+    skip_leading_space (line_dup);
+    char * firstword = getfirstword (line_dup);
     int lengthfword = strlen(firstword);
-    free (firstword);
+    
 
-    char criticalchar;
+    char criticalchar = '\0';
 
-    int error; 
-    move_back (line, 0, lengthfword, &error);
+    int error = 0; 
+    move_back (line_dup, 0, lengthfword, &error);
     if (error != 0) {
         criticalchar = '\0';
     }
 
-    skip_leading_space (line); 
+    skip_leading_space (line_dup); 
     
-    if (strlen(line) > 0) {
-        criticalchar = line[0];
+    if (strlen(line_dup) > 0) {
+        criticalchar = line_dup[0];
     } else {
         //no critical char what to do?
         criticalchar = '\0';
     }
     //could be empty
     
-
-    free (line);
+    free (firstword);
+    free (line_dup);
     return criticalchar;
 
 }

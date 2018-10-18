@@ -1,13 +1,20 @@
 #include "bake.h"
 
+
+/*
+Can you override old variables
+can you override the 4 key variables
+
+*/
 char * expand_variables2 (char * line, char ** var_name_list, char ** var_value_list, int* error) {
 
 	int length = strlen(line);
+	char * subs_line = line;
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
-	
-		if (line[i] == '$') {
-			line = substitute_variable (i, line, var_name_list, var_value_list, error);
-			length = strlen(line);
+		
+		if (subs_line[i] == '$') {
+			subs_line = substitute_variable (i, line, var_name_list, var_value_list, error);
+			length = strlen(subs_line);
 			i = 0;
 		}
 	}
@@ -117,6 +124,14 @@ char * substitute_variable (int pos, char * line, char ** var_name_list, char **
 	}
 
 	free(exp_line);
+	free(var_value);
 	return expanded_line;
+
+}
+
+
+//this is a toughie, time to work out your structures.
+
+char * get_var_value(char * var_name) {
 
 }

@@ -48,9 +48,21 @@ void process_bakefile(FILE *fp) {
 
     //begin with space for 10 variables.
     char ** var_name_list = calloc (10, sizeof (char *));
-    char ** var_value_list = calloc (10, sizeof (char *) );
+    char ** var_value_list = calloc (10, sizeof (char *));
     int * no_variables = calloc (1, sizeof (int *));
     int * variable_length = calloc (1, sizeof (int *));
+
+
+
+    /*
+        so we want to create a list of structs.
+        Each struct contains a var_name and a var_value.
+        maybe use a hash.
+        the end of the list is a \0.
+
+        Can variabels be overriden
+        Can key variables be overriden
+    */
     
     //*no_variables = 0;
     //*variable_length = 10;

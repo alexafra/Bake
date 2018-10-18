@@ -1,7 +1,9 @@
 C99 = cc -std=c99
 CFLAGS = -Wall -pedantic -Werror
 TESTLOC = ../tests
+TARGET = FUCK
 TARGET = ../target
+
 TESTTARGET = ../testtarget
 
 

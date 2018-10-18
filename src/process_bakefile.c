@@ -42,6 +42,10 @@ void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
     //bool first_target_line = true;
 
+
+   //I ASKED CHRIS MACDONALD AND HE SAID WE WOULD BE BETTER OFF USING A STRUCTURE TO STORE THE NAME & VALUEs. 
+   //YOU WOULD realloc EACH TIME YOU NEEDED TO STORE A NEW VALUE/NAME, WHICH MEANS YOU WOULDN"T DEAL WITH THE PROBLEM OF STARTING WITH ONLY 10 SPACES
+
     //begin with space for 10 variables.
     char ** var_name_list = calloc (10, sizeof (char *));
     char ** var_value_list = calloc (10, sizeof (char *) );

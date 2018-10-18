@@ -21,9 +21,64 @@ just use curl's --head option to find the modification date. However, any target
 
 */
 
+		if(dependency is itself a target--check the data structure) {
+				
+			(somehow access data from the structure)
+			
+			char *newtarget = struct.target;
+			char **newdependencies = struct.depenedencies;
+			char *newaction_line = struct.action_line;
+			process_this_line(newtarget, newdependencies, newaction_line);
+
+		} else if(dependency is an URL) {
+			
+			DO URL-y THINGS HERE;
+
+		} else if(dependency is a file that can be found) {
+
+			move to next dependency;
+
+		} else if(dependency does not exist) {
+				
+			send some error;
+		}
+		something++;	
+
+	}	
+
+		
+	if(target was modified more recently than all dependencies) {
+			
+		do nothing with this entire line--ie exit;
+		
+	} else {
+
+		run action_line on SHELL;
+	}	
+
+}	
+
+char ** isolate_dependencies(char *rest_of_line) {
+	//split up all dependencies and return an array of char pointers
+}
+
 //If(no )
 
+
 process_target_line(char *firstword, char *rest_of_line, int *no_variables, int *variable_length) {
+
+	create structure filled with (MAYBE PUT THIS OUTSIDE OF THIS FUNCTION) 
+	- target
+	- array of dependencies
+	- action line 
+
+
+	//ALGORITHM FOR THIS FUNCTION
+
+	char **dependencies = isolate_dependencies(&rest_of_line);
+
+	process_this_line(target, dependencies, action_line);
+	
 
 	//Find current directory
 	char *curr_dir = get_current_dir_name();

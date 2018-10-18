@@ -36,13 +36,10 @@ char * expand_variables2 (char * line, char ** var_name_list, char ** var_value_
 //err 2, is defined expected input not given ie. line[pos] != '$'
 //err 3, invalid string? ie. $(hello no end of brace
 
-/*
-	1. 
-*/
 
 char * substitute_variable (int pos, char * line, char ** var_name_list, char ** var_value_list, int* error) {
 	int length = strlen(line);
-	char * exp_line
+	char * exp_line;
 
 	if (pos < 0 || pos >= length) {
 		*error = 1;
@@ -96,7 +93,30 @@ char * substitute_variable (int pos, char * line, char ** var_name_list, char **
 	}
 	var_name[var_name_length] = '\0';
 
-
 	//now you havbe the var name , the var length, the start of the var position.
+
+	//delete the variable $(var_name) bit
+	int err;
+	move_back (line, start, var_name_length + 3, &err);
+	if (err != 0) {
+		*error = 1;
+		exp_line = calloc (1, sizeof(char)); 
+		exp_line[0] = '\0';
+		return exp_line;
+	}
+
+	//now you need to get the variable, and insert it into the pos position
+	char * var_value = get_var_value(var_name); //will there be an err?
+
+	char * expanded_line = insert_string (exp_line, var_value, pos, &err);
+	if (err != 0) {
+		*error = 1;
+		exp_line = calloc (1, sizeof(char)); 
+		exp_line[0] = '\0';
+		return exp_line;
+	}
+
+	free(exp_line);
+	return expanded_line;
 
 }

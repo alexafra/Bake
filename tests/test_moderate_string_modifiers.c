@@ -114,6 +114,4 @@ void test_insertstringsimple (void) {
 	free(result18);
 	free(result19);
 
-
-	
 }

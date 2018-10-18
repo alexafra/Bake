@@ -53,6 +53,11 @@ void test_getfirstwordsimple (void) {
 	char line5[] = "      hello";
 	char line6[] = "hello      ";
 	char line7[] = "      hello       ";
+	char line8[] = "";
+	char line9[] = "\t";
+	char line10[] = "    ";
+	char line11[] = "  \t ";
+	//other characters? - i dont think so
 
 	char * firstword1 = getfirstword(line1);
 	char * firstword2 = getfirstword(line2);
@@ -61,6 +66,10 @@ void test_getfirstwordsimple (void) {
 	char * firstword5 = getfirstword(line5);
 	char * firstword6 = getfirstword(line6);
 	char * firstword7 = getfirstword(line7);
+	char * firstword8 = getfirstword(line8);
+	char * firstword9 = getfirstword(line9);
+	char * firstword10 = getfirstword(line10);
+	char * firstword11 = getfirstword(line11);
 
 	CU_ASSERT(0 == strcmp("hello", firstword1));
 	CU_ASSERT(0 == strcmp("hello", firstword2));
@@ -69,6 +78,10 @@ void test_getfirstwordsimple (void) {
 	CU_ASSERT(0 == strcmp("hello", firstword5));
 	CU_ASSERT(0 == strcmp("hello", firstword6));
 	CU_ASSERT(0 == strcmp("hello", firstword7));
+	CU_ASSERT(0 == strcmp("", firstword8));
+	CU_ASSERT(0 == strcmp("", firstword9));
+	CU_ASSERT(0 == strcmp("", firstword10));
+	CU_ASSERT(0 == strcmp("", firstword11));
 
 	free (firstword1);
 	free (firstword2);
@@ -77,5 +90,9 @@ void test_getfirstwordsimple (void) {
 	free (firstword5);
 	free (firstword6);
 	free (firstword7);
+	free (firstword8);
+	free (firstword9);
+	free (firstword10);
+	free (firstword11);
 
 }

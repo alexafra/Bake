@@ -38,6 +38,14 @@
 
     //place $(PID), $(PPID), $(PWD), and $(RAND) into var_name_list and var_value_list
 */
+
+typedef struct Variable {
+    char * var_name;
+    char * var_value;
+} Variable;
+
+
+
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
     //bool first_target_line = true;
@@ -47,10 +55,20 @@ void process_bakefile(FILE *fp) {
    //YOU WOULD realloc EACH TIME YOU NEEDED TO STORE A NEW VALUE/NAME, WHICH MEANS YOU WOULDN"T DEAL WITH THE PROBLEM OF STARTING WITH ONLY 10 SPACES
 
     //begin with space for 10 variables.
-    char ** var_name_list = calloc (10, sizeof (char *));
-    char ** var_value_list = calloc (10, sizeof (char *));
-    int * no_variables = calloc (1, sizeof (int *));
-    int * variable_length = calloc (1, sizeof (int *));
+    Variable * variable = calloc (5, sizeof(char *));
+    //insert the 4 variables
+    //insert the null pointer
+
+    variable[0].var_name = "";
+    variable[0].var_value = "";
+    variable[1].var_name = "";
+    variable[1].var_value = "";
+    variable[2].var_name = "";
+    variable[2].var_value = "";
+    variable[3].var_name = "";
+    variable[3].var_value = "";
+    variable[4] = "\0";
+
 
 
 
@@ -63,6 +81,8 @@ void process_bakefile(FILE *fp) {
         Can variabels be overriden
         Can key variables be overriden
     */
+
+
     
     //*no_variables = 0;
     //*variable_length = 10;

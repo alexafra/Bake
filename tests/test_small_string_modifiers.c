@@ -62,7 +62,6 @@ void test_getfirstwordsimple (void) {
 	char * firstword6 = getfirstword(line6);
 	char * firstword7 = getfirstword(line7);
 
-
 	CU_ASSERT(0 == strcmp("hello", firstword1));
 	CU_ASSERT(0 == strcmp("hello", firstword2));
 	CU_ASSERT(0 == strcmp("hello", firstword3));

@@ -81,7 +81,6 @@ process_target_line(char *firstword, char *rest_of_line, int *no_variables, int 
 	
 
 	//Find current directory
-	char *curr_dir = get_current_dir_name();
 	//need to call free() after, when using "get_current_dir_name()"
 
 	if(first_target_line) {
@@ -102,6 +101,5 @@ process_target_line(char *firstword, char *rest_of_line, int *no_variables, int 
 	if(there are no dependencies) {
 		rebuild the target
 	}
-
 
 }

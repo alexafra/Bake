@@ -20,6 +20,11 @@ just use curl's --head option to find the modification date. However, any target
 . It is an error if curl reports if a URL-based dependency is not found; it is not sought as a target. 
 
 */
+process_this_line(char *target, char **dependencies, char *action_line) {
+
+	int something++ = 0;
+
+	while(there are still dependencies to examine, ie **dependencies != '\0') {
 
 		if(dependency is itself a target--check the data structure) {
 				
@@ -81,6 +86,9 @@ process_target_line(char *firstword, char *rest_of_line, int *no_variables, int 
 	
 
 	//Find current directory
+	
+
+	/*char *curr_dir = get_current_dir_name();
 	//need to call free() after, when using "get_current_dir_name()"
 
 	if(first_target_line) {
@@ -102,4 +110,5 @@ process_target_line(char *firstword, char *rest_of_line, int *no_variables, int 
 		rebuild the target
 	}
 
+	*/
 }

@@ -75,14 +75,20 @@ void skip_leading_space (char *line) {
 //worried about possible errors
 char * getfirstword (char * line) { 
     skip_leading_space (line);
-    int length = 0;
-    while ( *(line + length) != ' ' && *(line + length) != '\t' && *(line + length) != ':' && *(line + length) != '=' ) {
-        ++length;
+    int length1;
+
+    length1 = 0;
+    
+    printf("\n%d\n", length1);
+    while ( *(line + length1) != ' ' && *(line + length1) != '\t' && *(line + length1) != ':' && *(line + length1) != '=' ) {
+        ++length1;
     }
-    char * word = calloc(length + 1, sizeof(char));
+
+
+    char * word = calloc(length1 + 1, sizeof(char));
 
     int i;
-    for (i = 0; i < length; ++i) {
+    for (i = 0; i < length1; ++i) {
         word[i] = line[i];
     }
     word[i] = '\0';

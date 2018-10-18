@@ -109,20 +109,23 @@ testD : $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TES
 	$(C99) $(CFLAGS) -g -o $(TESTLOC)/test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o -lcunit 
 	$(C99) $(CFLAGS) -g -o test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o -lcunit 
 
-$(TESTTARGET)/testD.o : $(TESTLOC)/test.c bake.h
+$(TESTTARGET)/testD.o : $(TESTLOC)/test.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/testD.o $(TESTLOC)/test.c 
 
-$(TESTTARGET)/test_small_string_modifiersD.o : $(TESTLOC)/test_small_string_modifiers.c bake.h
+$(TESTTARGET)/test_small_string_modifiersD.o : $(TESTLOC)/test_small_string_modifiers.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTLOC)/test_small_string_modifiers.c 
 
-$(TESTTARGET)/test_moderate_string_modifiersD.o : $(TESTLOC)/test_moderate_string_modifiers.c bake.h
+$(TESTTARGET)/test_moderate_string_modifiersD.o : $(TESTLOC)/test_moderate_string_modifiers.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTLOC)/test_moderate_string_modifiers.c 
 
-$(TESTTARGET)/test_substringD.o : $(TESTLOC)/test_substring.c bake.h
+$(TESTTARGET)/test_substringD.o : $(TESTLOC)/test_substring.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/test_substringD.o $(TESTLOC)/test_substring.c 
 
-$(TESTTARGET)/test_expand_variable_functionsD.o : $(TESTLOC)/test_expand_variable_functions.c bake.h
+$(TESTTARGET)/test_expand_variable_functionsD.o : $(TESTLOC)/test_expand_variable_functions.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/test_expand_variable_functionsD.o $(TESTLOC)/test_expand_variable_functions.c 
+
+# $(TESTTARGET)/string_modifiersD.o : string_modifiers.c bake.h
+# 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/string_modifiersD.o string_modifiers.c
 
 #1. dollar sign is invisible
 #2. $ () means $is invisible and carry on

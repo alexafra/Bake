@@ -16,7 +16,7 @@ void test_getcriticalcharsimple (void) {
 	char line9[] = "9";
 	char line10[] = "Abigsingleword";
 	char line11[] = "Abigsingleword       ";
-	char line12[] = "       Abigsingleword";
+	//char line11[] = "       Abigsingleword";
 
 	char critical1 = getcriticalchar(line1);
 	char critical2 = getcriticalchar(line2);
@@ -29,7 +29,6 @@ void test_getcriticalcharsimple (void) {
 	char critical9 = getcriticalchar(line9);
 	char critical10 = getcriticalchar(line10);
 	char critical11 = getcriticalchar(line11);
-	char critical12 = getcriticalchar(line12);
 
 	CU_ASSERT(critical1 == 'm');
 	CU_ASSERT(critical2 == 'w');
@@ -42,7 +41,7 @@ void test_getcriticalcharsimple (void) {
 	CU_ASSERT(critical9 == '\0');
 	CU_ASSERT(critical10 == '\0');
 	CU_ASSERT(critical11 == '\0');
-	CU_ASSERT(critical12 == '\0');
+
 }
 
 //issue with error management

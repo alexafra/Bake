@@ -18,6 +18,7 @@ extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
 extern char * substring(char *, int , int, int*);
 extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int *);
+extern char * expand_variables2 (char *, char **, char ** , int*);
 
 extern void init_variables (char **, char **, int *, int *);
 extern void process_variable_definition(char *, char *, int *, int *);

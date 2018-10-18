@@ -40,6 +40,7 @@
 // #2. $ () means $is invisible and carry on
 // #3. $( ) any space inside becomes an unrecognisable variable
 // #4. $( this is undefined and throws an error.
+// #5. every time you add a variable value you start again in case that variable value was itself another variable.
 
 //Gets the var length and validates the variable
 int get_var_length (char * line, int var_start, int length) {
@@ -83,6 +84,8 @@ char * get_var_name(char * line, int var_start, int var_name_length) {
 	return var_name;
 
 }	
+
+char * substitute_variable (char *line)
 
 char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
 	for (int i = 0; i < no_vars; ++i) {

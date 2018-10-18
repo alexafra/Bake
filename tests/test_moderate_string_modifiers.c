@@ -16,7 +16,7 @@ void test_getcriticalcharsimple (void) {
 	char line9[] = "9";
 	char line10[] = "Abigsingleword";
 	char line11[] = "Abigsingleword       ";
-	char line12[] = "       Abigsingleword";
+	char line12[] = "		Abigsingleword";
 
 	char critical1 = getcriticalchar(line1);
 	char critical2 = getcriticalchar(line2);

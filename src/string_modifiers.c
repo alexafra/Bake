@@ -1,3 +1,4 @@
+
 #include "bake.h"
 
 //trim line of carriage return or next line character, replacing with null

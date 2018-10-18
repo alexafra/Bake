@@ -5,10 +5,14 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "variable.h"
+
+
 
 //Global Functions
 extern char * nextline (FILE *);
 extern void process_bakefile (FILE *);
+//extern char * substitute_variable (int pos, char * line, Variable * variable, int* error);
 
 extern void trimline (char *);
 extern void move_back (char *, int, int, int*);
@@ -17,8 +21,9 @@ extern void skip_leading_space (char *);
 extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
 extern char * substring(char *, int , int, int*);
-extern char * expand_variables(char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int *);
-extern char * expand_variables2 (char *, char **, char ** , int*);
+extern char * expand_variables(char * line, Variable **, int *);
+extern char * itoa (int, int *);
+//extern char * expand_variables2 (char *, char **, char ** , int*);
 
 extern void init_variables (char **, char **, int *, int *);
 extern void process_variable_definition(char *, char *, int *, int *);

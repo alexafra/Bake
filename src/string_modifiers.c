@@ -184,6 +184,27 @@ char getcriticalchar (char * line) {
 
 }
 
+char * itoa (int value, int * err) {
+    int remainder = value;
+    int power = 10;
+    int i = 0;
+    char * numberstring = calloc(11, sizeof(char));
+
+    while (remainder != 0) {
+        remainder = value % power;
+        numberstring[10 - i] = remainder;
+        value = remainder;
+        power = power * 10;
+        ++i;
+        if (i > 11) {
+            *err = 1;
+            numberstring[0] = '\0';
+        }
+    }
+    numberstring[0] = '\0';
+    return numberstring;
+}
+
     //Pretty sure this works... I tested it with a number of ways in a txt file
     //May still have some bugs though
 

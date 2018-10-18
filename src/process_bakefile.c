@@ -1,4 +1,5 @@
 #include "bake.h"
+#include "variable.h"
 /*
     What about:
 
@@ -39,10 +40,6 @@
     //place $(PID), $(PPID), $(PWD), and $(RAND) into var_name_list and var_value_list
 */
 
-typedef struct Variable {
-    char * var_name;
-    char * var_value;
-} Variable;
 
 
 
@@ -55,19 +52,18 @@ void process_bakefile(FILE *fp) {
    //YOU WOULD realloc EACH TIME YOU NEEDED TO STORE A NEW VALUE/NAME, WHICH MEANS YOU WOULDN"T DEAL WITH THE PROBLEM OF STARTING WITH ONLY 10 SPACES
 
     //begin with space for 10 variables.
-    Variable * variable = calloc (5, sizeof(char *));
-    //insert the 4 variables
+    Variable *variable[5];    //insert the 4 variables
     //insert the null pointer
 
-    variable[0].var_name = "";
-    variable[0].var_value = "";
-    variable[1].var_name = "";
-    variable[1].var_value = "";
-    variable[2].var_name = "";
-    variable[2].var_value = "";
-    variable[3].var_name = "";
-    variable[3].var_value = "";
-    variable[4] = "\0";
+    variable[0][0].var_name = "VAR1";
+    variable[0][0].var_value = "test1";
+    variable[1][0].var_name = "VAR2";
+    variable[1][0].var_value = "test2";
+    variable[2][0].var_name = "VAR3";
+    variable[2][0].var_value = "test3";
+    variable[3][0].var_name = "VAR4";
+    variable[3][0].var_value = "test4";
+    variable[4] = NULL;
 
 
 
@@ -120,7 +116,7 @@ void process_bakefile(FILE *fp) {
 
         int error;
         //expand any varibles in the line
-        char * exp_line = expand_variables(line, no_variables, var_name_list, var_value_list, &error);
+        char * exp_line = expand_variables(line, variable, &error);
         if (error != 0) {
             //do some error stuff
         }
@@ -143,14 +139,14 @@ void process_bakefile(FILE *fp) {
         criticalChar = getcriticalchar(exp_line);
 
         if (criticalChar == '=') { //variable definition
-            process_variable_definition(firstword, rest_of_line, no_variables, variable_length);
+            //process_variable_definition(firstword, rest_of_line, no_variables, variable_length);
             //i think free here 
             free (firstword);
             free (rest_of_line);
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            process_target_definition(firstword, rest_of_line, no_variables, variable_length);
+            //process_target_definition(firstword, rest_of_line, no_variables, variable_length);
             //process_target_line(firstword, rest_of_line, no_variables, variable_length);
             //i think free here
             free (firstword);

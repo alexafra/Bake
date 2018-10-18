@@ -1,137 +1,141 @@
-#include "bake.h"
-
-
 /*
-Can you override old variables
-can you override the 4 key variables
+	how exactly can we allocate and reallocate global variable memory in static memory?
 
 */
-char * expand_variables2 (char * line, char ** var_name_list, char ** var_value_list, int* error) {
+
+/*
+	How are variables identified?
+*/
+
+
+
+//assume $() is a must
+//without braces its an error
+//Assume () only braces allowed
+//error if $() is empty
+//assume space int the brackets throws an error. $(var ) or $( var )
+//assume $ (var) throws an error
+// what if var name is one of the saved names ie PPID = Value
+
+	//does $ define a variable
+	//does $(...) define a variable
+	//what if you see $word
+	//what if you see $ word
+
+	// 1. find the variables using the dollar sign.
+	// 2. store variable names
+	// 3. find variable values
+	// 4. delete variables in line
+	// 5. add vairbale values 
+
+	// $(var$(var2))
+	//can you use other brackets
+	//can you use wildcards
+
+//line is a non empty, no leading space string.
+
+#include "bake.h"
+
+// #1. dollar sign is invisible
+// #2. $ () means $is invisible and carry on
+// #3. $( ) any space inside becomes an unrecognisable variable
+// #4. $( this is undefined and throws an error.
+// #5. every time you add a variable value you start again in case that variable value was itself another variable.
+
+//Gets the var length and validates the variable
+int get_var_length (char * line, int var_start, int length) {
+	int i = var_start;
+	if (length < i + 4) {
+		printf("need a minimum length four for a variable"); //should go to an error
+		exit(EXIT_FAILURE);
+	}
+	if (line[i] != '$') {
+		printf("$ not at start of variable name"); //should go to an error
+		exit(EXIT_FAILURE);
+	}
+	if (line [i + 1] != '(') {
+		printf("$ not followed by ("); //should go to an error
+		exit(EXIT_FAILURE);
+	}
+	i = var_start + 2;
+	while (line[i] != ')') {
+		if (line[i] == '\0') {
+			printf("variable does not have close bracket )"); //should go to an error
+			exit(EXIT_FAILURE);
+		}
+		if (line[i] == '\t' || line[i] == ' ') {
+			printf("spaces not allowed in variable reference"); //should go to an error
+			exit(EXIT_FAILURE);
+		}
+		++i;
+	}
+	//at this point line[i] = ')'
+	int var_length = i - var_start - 3;
+	return var_length;
+}
+
+char * get_var_name(char * line, int var_start, int var_name_length) {
+	char * var_name = calloc (var_name_length + 1, sizeof(char));
+	int i = var_start + 2;
+	for (; i < i + var_name_length; ++i) {
+		var_name[i - var_start - 2] = line[i]; 
+	}
+	var_name[i] = '\0';
+	return var_name;
+
+}	
+
+
+char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
+	for (int i = 0; i < no_vars; ++i) {
+		char * saved_variable_name = *(var_name_list + i);
+		if (strcmp(var_name, saved_variable_name) == 0)  {
+			return *(var_value_list + i);
+		}
+	}
+	char *  env_value = getenv(var_name);
+	if (env_value == NULL) {
+		env_value = calloc(1, sizeof(char));
+		*env_value = '\0';
+	}
+	return env_value;
+}
+
+//Insert into preexisting memory and return 0 or 1?????
+	
+//what if the line in just the variable and the variable equals nothing?
+char * expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int* error) {
 
 	int length = strlen(line);
-	char * subs_line = line;
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
+		int var_name_length = - 1;
+		char * var_name;
+		char * var_value;
+
+		if (line[i] == '$') {
+			var_name_length = get_var_length (line, i , length);
+			var_name = get_var_name(line, i, var_name_length);
+			var_value = get_var_value (var_name, var_name_list, var_value_list, *no_variables);
+			
+			int error;
+			move_back (line, i, var_name_length + 3, &error); //$() 3 extra characters
+			if (error != 0) {
+				//some error stuff
+			}
+
+			line = insert_string(line, var_value, i, &error);
+			if (error != 0) {
+				//some error stuff
+			}
+			
+			//
+			//What to do if insert_string returns an error
+			//
+			//
 		
-		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, line, var_name_list, var_value_list, error);
-			length = strlen(subs_line);
-			i = 0;
+			free(var_name);
+			free (var_value);
 		}
 	}
 	return line;
-}
-
-//pos 0 should be $
-//0 <= pos < length
-//return null on failure
-
-//nesting penalised????
-//escaping naming??? <= highly unlikely
-
-
-// #1. $( ) any space inside becomes an unrecognisable variable <= simply wont match a varible name.
-// #2. $( this is undefined and throws an error.
-// #3. other braces are not acceptable
-// #4. dollar sign is invisible
-// #5. $ () means $is invisible and carry on '$ ()' => ' ()' 
-// #6. a$b => ab, 
-// #7. a$ b => a b, 
-// #8. $a => a
-// #9. abc$ => abc
-
-//err 1, is index of array is out of bounds.
-//err 2, is defined expected input not given ie. line[pos] != '$'
-//err 3, invalid string? ie. $(hello no end of brace
-
-
-char * substitute_variable (int pos, char * line, char ** var_name_list, char ** var_value_list, int* error) {
-	int length = strlen(line);
-	char * exp_line;
-
-	if (pos < 0 || pos >= length) {
-		*error = 1;
-		exp_line = calloc (1, sizeof(char)); 
-		exp_line[0] = '\0';
-		return exp_line;
-	}
-	if (line[pos] != '$') {
-		*error = 2;
-		exp_line = calloc (1, sizeof(char)); 
-		exp_line[0] = '\0';
-		return exp_line;
-	}
-
-	//covers case 3, 4, 5, 6, 7, 8, 9
-	if (length < pos + 2 || line[pos + 1] !+ '(') {
-		int mberr;
-		exp_line = move_back(line, pos, 1, *mberr);
-		if (*mberr != 0) {
-			free (exp_line)
-			*error = 1;
-			exp_line = calloc (1, sizeof(char)); 
-			exp_line[0] = '\0';
-			return exp_line;
-		}
-		return mberr;
-	}
-
-	//at this point you are guaranteed *$(
-	//now you must ensure a closing bracket.
-	//covers case 2
-	bool is_closing_bracket = false;
-	int end_var;
-	for (end_var = pos + 2; end_var < length; ++i) {
-		if (line[end_var] == ')');
-		is_closing_brack = true;
-		break;
-	} 
-	if (!is_closing_bracket) {
-		*error = 3;
-		exp_line = calloc (1, sizeof(char)); 
-		exp_line[0] = '\0';
-		return exp_line;
-	}
-
-	int var_name_length = (end_var) - (pos + 2);
-	char * var_name = calloc(var_name_length + 1, sizeof(char));
-	//now you know you have a $( and a ) at some point AND end_var points to that end bracket.
-	for (int i = pos + 2; i < var_name_length; ++i) {
-		var_name[i] = line[i];
-	}
-	var_name[var_name_length] = '\0';
-
-	//now you havbe the var name , the var length, the start of the var position.
-
-	//delete the variable $(var_name) bit
-	int err;
-	move_back (line, start, var_name_length + 3, &err);
-	if (err != 0) {
-		*error = 1;
-		exp_line = calloc (1, sizeof(char)); 
-		exp_line[0] = '\0';
-		return exp_line;
-	}
-
-	//now you need to get the variable, and insert it into the pos position
-	char * var_value = get_var_value(var_name); //will there be an err?
-
-	char * expanded_line = insert_string (exp_line, var_value, pos, &err);
-	if (err != 0) {
-		*error = 1;
-		exp_line = calloc (1, sizeof(char)); 
-		exp_line[0] = '\0';
-		return exp_line;
-	}
-
-	free(exp_line);
-	free(var_value);
-	return expanded_line;
-
-}
-
-
-//this is a toughie, time to work out your structures.
-
-char * get_var_value(char * var_name) {
-
 }

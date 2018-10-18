@@ -1,9 +1,10 @@
+
 #include "bake.h"
 
 //trim line of carriage return or next line character, replacing with null
 void trimline(char *line)
 {
-    while(*line != '\0') {      //  loop until we reach the end of line
+    while(*line != '\0') {      // loop until we reach the end of line
         if( *line == '\n' || *line == '\r' ) {
             *line = '\0';       // overwrite with null-byte
             break;              // leave the loop early

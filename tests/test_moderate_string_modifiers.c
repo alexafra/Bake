@@ -26,6 +26,7 @@ void test_getcriticalcharsimple (void) {
 	char critical6 = getcriticalchar(line6);
 	char critical7 = getcriticalchar(line7);
 	char critical8 = getcriticalchar(line8);
+	printf("1\n");
 	char critical9 = getcriticalchar(line9);
 	char critical10 = getcriticalchar(line10);
 	char critical11 = getcriticalchar(line11);
@@ -37,12 +38,14 @@ void test_getcriticalcharsimple (void) {
 	CU_ASSERT(critical4 == ':');
 	CU_ASSERT(critical5 == ':');
 	CU_ASSERT(critical6 == '=');
+	printf("5\n");
 	CU_ASSERT(critical7 == '=');
 	CU_ASSERT(critical8 == '=');
 	CU_ASSERT(critical9 == '\0');
 	CU_ASSERT(critical10 == '\0');
 	CU_ASSERT(critical11 == '\0');
 	CU_ASSERT(critical12 == '\0');
+	printf("6\n");
 }
 
 //issue with error management
@@ -94,6 +97,7 @@ void test_insertstringsimple (void) {
 	CU_ASSERT(0 == err11);
 	CU_ASSERT(0 == err12);
 	CU_ASSERT(0 == err13);
+
 	CU_ASSERT(0 == err14);
 	CU_ASSERT(0 == err15);
 

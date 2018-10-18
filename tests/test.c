@@ -22,7 +22,7 @@ int clean_suite(void) {
 //////////////Incomplete ////////////////
 void test_movebackhard(void) {
 	char word1[] = "hello";
-	int err1;
+	int err1 = 0;
 
 	move_back(word1, -1, 0, &err1);
 

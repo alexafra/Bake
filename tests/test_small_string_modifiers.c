@@ -49,18 +49,34 @@ void test_getfirstwordsimple (void) {
 	char line1[] = "hello my name is alex";
 	char line2[] = "  hello my name is alex";
 	char line3[] = "\t hello my name is alex";
+	char line4[] = "hello";
+	char line5[] = "      hello";
+	char line6[] = "hello      ";
+	char line7[] = "      hello       ";
 
 	char * firstword1 = getfirstword(line1);
 	char * firstword2 = getfirstword(line2);
 	char * firstword3 = getfirstword(line3);
+	char * firstword4 = getfirstword(line4);
+	char * firstword5 = getfirstword(line5);
+	char * firstword6 = getfirstword(line6);
+	char * firstword7 = getfirstword(line7);
 
 
 	CU_ASSERT(0 == strcmp("hello", firstword1));
 	CU_ASSERT(0 == strcmp("hello", firstword2));
 	CU_ASSERT(0 == strcmp("hello", firstword3));
+	CU_ASSERT(0 == strcmp("hello", firstword4));
+	CU_ASSERT(0 == strcmp("hello", firstword5));
+	CU_ASSERT(0 == strcmp("hello", firstword6));
+	CU_ASSERT(0 == strcmp("hello", firstword7));
 
 	free (firstword1);
 	free (firstword2);
 	free (firstword3);
+	free (firstword4);
+	free (firstword5);
+	free (firstword6);
+	free (firstword7);
 
 }

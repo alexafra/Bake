@@ -6,3 +6,6 @@ extern void test_insertstringsimple (void);
 extern void test_getfirstwordsimple(void);
 extern void test_substringsimple (void);
 extern void test_getcriticalcharsimple (void);
+extern void test_itoasimple(void);
+extern void test_numberlengthsimple(void);
+//extern void test_getvarvaluesimple (void);

@@ -16,7 +16,8 @@
 // #6 other braces are not acceptable
 // #7 no nesting
 
-void test_getvarnamesimple(void) {
+
+void test_getvarvaluesimple(void) {
 
 }
 

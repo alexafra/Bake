@@ -184,26 +184,49 @@ char getcriticalchar (char * line) {
 
 }
 
-char * itoa (int value, int * err) {
-    int remainder = value;
-    int power = 10;
-    int i = 0;
-    char * numberstring = calloc(11, sizeof(char));
-
-    while (remainder != 0) {
-        remainder = value % power;
-        numberstring[10 - i] = remainder;
-        value = remainder;
-        power = power * 10;
-        ++i;
-        if (i > 11) {
-            *err = 1;
-            numberstring[0] = '\0';
-        }
+int numberlength (int value) {
+    if (value == 0) {
+        return 1;
     }
-    numberstring[0] = '\0';
+    int numsize = 0;
+    int power = 10;
+    int remainder;
+
+    while (value != 0) {
+        remainder = value % power;
+        value = value - remainder;
+        power = power * 10;
+        ++numsize;
+    }
+    return numsize;
+}
+
+
+char * itoa (int value) {
+    int remainder;
+    
+    
+
+    int numsize = numberlength(value);
+
+    char * numberstring = calloc(numsize + 1, sizeof(char));
+
+    char digit;
+    for (int i = 0; i < numsize; ++i) {
+        remainder = value % 10;
+        
+        digit = '0' + remainder;
+        numberstring[numsize - i - 1] = digit;
+
+        
+        value = value - remainder;
+        value = value / 10;
+    }
+    numberstring[numsize] = '\0';
     return numberstring;
 }
+
+
 
     //Pretty sure this works... I tested it with a number of ways in a txt file
     //May still have some bugs though

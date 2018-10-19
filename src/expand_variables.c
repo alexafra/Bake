@@ -44,14 +44,14 @@ char * get_var_value(char * var_name, Variable ** variables, int * err) {
 	while (*special_variable != '\0') {
 		if (0 == strcmp(special_variable[i], var_name)) {
 			if (i == 0) {
-				var_value = itoa(getpid(), err);
+				var_value = itoa(getpid());
 			} else if (i == 1) {
-				var_value = itoa(getppid(), err);
+				var_value = itoa(getppid());
 			} else if (i == 2) {
 				char * buff = calloc(300, sizeof(char));
 				var_value = getcwd(buff, 300);
 			} else if (i == 3) {
-				var_value = itoa(rand(), err);
+				var_value = itoa(rand());
 			}
 		}
 		++i;

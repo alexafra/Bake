@@ -120,7 +120,6 @@ void process_bakefile(FILE *fp) {
         if (error != 0) {
             //do some error stuff
         }
-        
 
         int length = strlen(exp_line);
 

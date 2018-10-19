@@ -18,21 +18,7 @@ can override new variables.
 //nesting penalised????
 //escaping naming??? <= highly unlikely
 
-
-
-char * get_var_value(char * var_name, Variable ** variables, int * err) {
-	
-	int i = 0;
-	char * var_value = "\0";
-	var_value = getenv(var_name);
-	while (variables[i] != '\0') {
-		if (0 == strcmp(variables[i][0].var_name, var_name)) {
-			var_value = strdup (variables[i][0].var_value);
-		}
-		++i;
-	}
-
-
+char * get_special_value (char * var_name) {
 	const char *special_variable[5];
 	special_variable[0] = "PID";
 	special_variable[1] = "PPID";
@@ -40,26 +26,53 @@ char * get_var_value(char * var_name, Variable ** variables, int * err) {
 	special_variable[3] = "RAND";
 	special_variable[4] = "\0";
 
-	i = 0;
-	while (*special_variable != '\0') {
+	char * special_value;
+
+	int i = 0;
+	while (*(special_variable + i) != '\0') {
 		if (0 == strcmp(special_variable[i], var_name)) {
 			if (i == 0) {
-				var_value = itoa(getpid());
+				special_value = itoa(getpid());
 			} else if (i == 1) {
-				var_value = itoa(getppid());
+				special_value = itoa(getppid());
 			} else if (i == 2) {
-				char * buff = calloc(300, sizeof(char));
-				var_value = getcwd(buff, 300);
+				char * buff = calloc(BUFSIZ, sizeof(char)); //what should buffer size be
+				special_value = getcwd(buff, BUFSIZ);
 			} else if (i == 3) {
-				var_value = itoa(rand());
+				special_value = itoa(rand());
 			}
 		}
 		++i;
 	}
-	if (*err != 0) {
-		*var_value = '\0';
-	}
+	return special_value;
+}
+
+/*
+	Override strategy from least to most important/
+	1.set var_value to env_values
+	2. set var_value to saved variables
+	3. set var_value to special variable
+
+	Each one will override the next if valid.
+*/
+char * get_var_value(char * var_name, Variable ** variables) {
 	
+	int i = 0;
+	char * var_value = "\0";
+	var_value = getenv(var_name);
+	while (variables[i] != '\0') {
+		if (0 == strcmp(variables[i]->var_name, var_name)) {
+			free (var_value);
+			var_value = strdup (variables[i]->var_value);
+		}
+		++i;
+	}
+	char *special_value = get_special_value(var_name);
+	if (*special_value != '\0') {
+		free (var_value);
+		var_value = special_value;
+	}
+	free (special_value);
 	return var_value;
 }
 
@@ -120,25 +133,21 @@ char * substitute_variable (int pos, char * line, Variable ** variables, int* er
 	//now you havbe the var name , the var length, the start of the var position.
 
 	//delete the variable $(var_name) bit
-	int err;
-	move_back (exp_line, pos, var_name_length + 3, &err);
-	if (err != 0) {
-		*error = 1;
+	move_back (exp_line, pos, var_name_length + 3, error);
+	if (*error != 0) {
 		exp_line[0] = '\0';
 		return exp_line;
 	}
 
 	//now you need to get the variable, and insert it into the pos position
-	char * var_value = get_var_value(var_name, variables, &err); //will there be an err?
-	if (err != 0) {
-		*error = 1; 
+	char * var_value = get_var_value(var_name, variables); //will there be an err?
+	if (*error != 0) { 
 		exp_line[0] = '\0';
 		return exp_line;
 	}
 
-	exp_line = insert_string (exp_line, var_value, pos, &err);
-	if (err != 0) {
-		*error = 1;
+	exp_line = insert_string (exp_line, var_value, pos, error);
+	if (*error != 0) {
 		exp_line[0] = '\0';
 		return exp_line;
 	}
@@ -169,8 +178,7 @@ char * expand_variables (char * line, Variable ** variable, int * error) {
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
 		
 		if (subs_line[i] == '$') {
-			int error = 0;
-			subs_line = substitute_variable (i, line, variable, &error);
+			subs_line = substitute_variable (i, line, variable, error);
 			length = strlen(subs_line);
 			i = 0;
 		}

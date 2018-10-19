@@ -21,7 +21,7 @@ extern void skip_leading_space (char *);
 extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
 extern char * substring(char *, int , int, int*);
-extern char * expand_variables(char * line, Variable **, int *);
+extern char * expand_variables(char * line, Variable **, int*);
 extern char * itoa (int);
 extern int numberlength (int); 
 //extern char * expand_variables2 (char *, char **, char ** , int*);

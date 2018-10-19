@@ -171,14 +171,14 @@ char * substitute_variable (int pos, char * line, Variable ** variables, int* er
 //err 2, is defined expected input not given ie. line[pos] != '$'
 //err 3, invalid string? ie. $(hello no end of brace
 
-char * expand_variables (char * line, Variable ** variable, int * error) {
+char * expand_variables (char * line, Variable ** variables, int * error) {
 
 	int length = strlen(line);
 	char * subs_line = line;
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
 		
 		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, line, variable, error);
+			subs_line = substitute_variable (i, line, variables, error);
 			length = strlen(subs_line);
 			i = 0;
 		}

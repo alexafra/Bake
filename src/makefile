@@ -55,8 +55,8 @@ clean :
 
 
 test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o 
-	$(C99) $(CFLAGS) -o $(TESTLOC)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o -lcunit 
-	$(C99) $(CFLAGS) -o test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o -lcunit 
+	$(C99) $(CFLAGS) -o $(TESTLOC)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/expand_variables.o -lcunit 
+	$(C99) $(CFLAGS) -o test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/expand_variables.o -lcunit 
 
 $(TESTTARGET)/test.o : $(TESTLOC)/test.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test.o $(TESTLOC)/test.c 
@@ -73,8 +73,6 @@ $(TESTTARGET)/test_substring.o : $(TESTLOC)/test_substring.c bake.h
 $(TESTTARGET)/test_expand_variable_functions.o : $(TESTLOC)/test_expand_variable_functions.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_expand_variable_functions.o $(TESTLOC)/test_expand_variable_functions.c 
 
-$(TESTTARGET)/test_expand_variable_functions.o : $(TESTLOC)/test_expand_variable_functions.c bake.h
-	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_expand_variable_functions.o $(TESTLOC)/test_expand_variable_functions.c 
 
 
 ##################DEBUG MODE#########################
@@ -109,8 +107,8 @@ $(TARGET)/process_target_definitionD.o : process_target_definition.c bake.h
 ##############DEBUG MODE ###########################
 
 testD : $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o
-	$(C99) $(CFLAGS) -g -o $(TESTLOC)/test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o -lcunit 
-	$(C99) $(CFLAGS) -g -o test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o -lcunit 
+	$(C99) $(CFLAGS) -g -o $(TESTLOC)/test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o -lcunit 
+	$(C99) $(CFLAGS) -g -o test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o -lcunit 
 
 $(TESTTARGET)/testD.o : $(TESTLOC)/test.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/testD.o $(TESTLOC)/test.c 

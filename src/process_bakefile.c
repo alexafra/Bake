@@ -52,18 +52,18 @@ void process_bakefile(FILE *fp) {
    //YOU WOULD realloc EACH TIME YOU NEEDED TO STORE A NEW VALUE/NAME, WHICH MEANS YOU WOULDN"T DEAL WITH THE PROBLEM OF STARTING WITH ONLY 10 SPACES
 
     //begin with space for 10 variables.
-    Variable *variable[5];    //insert the 4 variables
+    Variable *variables[5];    //insert the 4 variables
     //insert the null pointer
 
-    variable[0][0].var_name = "VAR1";
-    variable[0][0].var_value = "test1";
-    variable[1][0].var_name = "VAR2";
-    variable[1][0].var_value = "test2";
-    variable[2][0].var_name = "VAR3";
-    variable[2][0].var_value = "test3";
-    variable[3][0].var_name = "VAR4";
-    variable[3][0].var_value = "test4";
-    variable[4] = NULL;
+    (*variables[0]).var_name = "VAR1";
+    (*variables[0]).var_value = "test1";
+    (*variables[1]).var_name = "VAR2";
+    (*variables[1]).var_value = "test2";
+    (*variables[2]).var_name = "VAR3";
+    (*variables[2]).var_value = "test3";
+    (*variables[3]).var_name = "VAR4";
+    (*variables[3]).var_value = "test4";
+    variables[4] = NULL;
 
 
 
@@ -116,7 +116,7 @@ void process_bakefile(FILE *fp) {
 
         int error;
         //expand any varibles in the line
-        char * exp_line = expand_variables(line, variable, &error);
+        char * exp_line = expand_variables(line, variables, &error);
         if (error != 0) {
             //do some error stuff
         }

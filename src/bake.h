@@ -21,12 +21,15 @@ extern void skip_leading_space (char *);
 extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
 extern char * substring(char *, int , int, int*);
-extern char * expand_variables(char * line, Variable **, int*);
 extern char * itoa (int);
 extern int numberlength (int); 
 //extern char * expand_variables2 (char *, char **, char ** , int*);
 
-extern void init_variables (char **, char **, int *, int *);
+extern char * expand_variables(char *, Variable **, int*);
+extern char * get_special_value (char *);
+extern char * get_var_value(char *, Variable **);
+
+
 extern void process_variable_definition(char *, char *, int *, int *);
 extern void process_target_definition(char *firstword, char *rest_of_line, int *no_variables, int *variable_length);
 

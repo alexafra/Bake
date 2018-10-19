@@ -19,17 +19,18 @@ can override new variables.
 //escaping naming??? <= highly unlikely
 
 char * get_special_value (char * var_name) {
-	const char *special_variable[5];
+	char *special_variable[5];
 	special_variable[0] = "PID";
 	special_variable[1] = "PPID";
 	special_variable[2] = "PWD";
 	special_variable[3] = "RAND";
 	special_variable[4] = "\0";
 
-	char * special_value;
+	char * special_value = "";
 
 	int i = 0;
-	while (*(special_variable + i) != '\0') {
+	//while tests first character in first word
+	while (**(special_variable + i) != '\0') {
 		if (0 == strcmp(special_variable[i], var_name)) {
 			if (i == 0) {
 				special_value = itoa(getpid());

@@ -59,7 +59,7 @@ int main (void) {
 		return CU_get_error();
 	}
 
-	//Add suite1 to registry
+	//Suite 1
 	pSuite1 = CU_add_suite("string modifiers testing", init_suite, clean_suite);
 
 	if (NULL == pSuite1) {
@@ -77,6 +77,7 @@ int main (void) {
 		|| (NULL == CU_add_test(pSuite1, "test itoa simple", test_itoasimple ))
 		|| (NULL == CU_add_test(pSuite1, "test numberlength simple", test_numberlengthsimple ))
 		
+		
 
 		|| (NULL == CU_add_test(pSuite1, "test skip leading space hard", test_skipleadingspacehard))
 		|| (NULL == CU_add_test(pSuite1, "test move back hard", test_movebackhard))
@@ -84,11 +85,12 @@ int main (void) {
 		|| (NULL == CU_add_test(pSuite1, "test get critical char hard", test_getcriticalcharhard))
 		|| (NULL == CU_add_test(pSuite1, "test get insert string hard", test_insertstringhard ))
 		|| (NULL == CU_add_test(pSuite1, "test get substring ahrd", test_substringhard ))
-		) {
+	) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 
+	//Suite 2
 	CU_pSuite pSuite2 = NULL;
 	pSuite2 = CU_add_suite("expand variables testing", init_suite, clean_suite);
 
@@ -97,10 +99,13 @@ int main (void) {
 		return CU_get_error();
 	}
 
-	// if ((NULL == CU_add_test(pSuite2, "test get variable name", test_getvarnamesimple))) {
-	// 	CU_cleanup_registry();
-	// 	return CU_get_error();
-	// }
+	if (	(NULL == CU_add_test(pSuite1, "test expandvariables simple", test_expandvariablessimple ))
+		|| 	(NULL == CU_add_test(pSuite1, "test getspecialvar simple", test_getspecialvarsimple ))
+		|| 	(NULL == CU_add_test(pSuite1, "test getvarvalue simple", test_getvarvaluesimple ))
+	) { 
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 
 	CU_basic_run_tests(); //OUTPUT to the screen
 

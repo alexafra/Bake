@@ -106,7 +106,7 @@ $(TARGET)/process_target_definitionD.o : process_target_definition.c bake.h
 
 ##############DEBUG MODE ###########################
 
-testD : $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o
+testD : $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/expand_variablesD.o $(TARGET)/string_modifiersD.o
 	$(C99) $(CFLAGS) -g -o $(TESTLOC)/test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o -lcunit 
 	$(C99) $(CFLAGS) -g -o test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o -lcunit 
 

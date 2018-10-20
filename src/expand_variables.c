@@ -26,7 +26,8 @@ char * get_special_value (char * var_name) {
 	special_variable[3] = "RAND";
 	special_variable[4] = "\0";
 
-	char * special_value = "";
+	char * special_value = calloc(1, sizeof(char));
+	*special_value = '\0';
 
 	int i = 0;
 	//while tests first character in first word
@@ -56,10 +57,13 @@ char * get_special_value (char * var_name) {
 
 	Each one will override the next if valid.
 */
+
+//issues with freeing memory here.
 char * get_var_value(char * var_name, Variable ** variables) {
 	
 	int i = 0;
-	char * var_value = "\0";
+	char * var_value = (char*) calloc(1, sizeof(char));
+	*var_value = '\0';
 	var_value = getenv(var_name);
 	while (variables[i] != '\0') {
 		if (0 == strcmp(variables[i]->var_name, var_name)) {
@@ -70,7 +74,6 @@ char * get_var_value(char * var_name, Variable ** variables) {
 	}
 	char *special_value = get_special_value(var_name);
 	if (*special_value != '\0') {
-		free (var_value);
 		var_value = special_value;
 	}
 	free (special_value);

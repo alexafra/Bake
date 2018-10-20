@@ -55,15 +55,17 @@ void process_bakefile(FILE *fp) {
     Variable *variables[5];    //insert the 4 variables
     //insert the null pointer
 
-    (*variables[0]).var_name = "VAR1";
-    (*variables[0]).var_value = "test1";
-    (*variables[1]).var_name = "VAR2";
-    (*variables[1]).var_value = "test2";
-    (*variables[2]).var_name = "VAR3";
-    (*variables[2]).var_value = "test3";
-    (*variables[3]).var_name = "VAR4";
-    (*variables[3]).var_value = "test4";
+    Variable variable1 = {"VAR1", "test1"};
+    Variable variable2 = {"VAR2", "test2"};
+    Variable variable3 = {"VAR3", "test3"};
+    Variable variable4 = {"VAR4", "test4"};
+
+    variables[0] = &variable1;
+    variables[1] = &variable2;
+    variables[2] = &variable3;
+    variables[3] = &variable4;
     variables[4] = NULL;
+
 
 
 

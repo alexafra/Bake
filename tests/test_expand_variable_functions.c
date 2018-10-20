@@ -17,13 +17,268 @@
 // #7 no nesting
 
 
-void test_getvarvaluesimple(void) {
+/*
+	Lord how do we test this shit
+	We are going to test lines in our makefile first
+	and then we are going to test some fuckery corner cases
+	and then were going to the proff and show him what it does and does not pass
+
+	C99 = cc -std=c99
+CFLAGS = -Wall -pedantic -Werror
+TESTLOC = ../tests
+TARGET = ../target
+
+TESTTARGET = ../testtarget
+
+test_expand_variable_functions.c
+
+*/
+
+void test_getspecialvarsimple (void) {
+	//1 - 4 will produce values, 5-10 will produce "";
+	char * var1 = "PID";
+	char * var2 = "PPID";
+	char * var3 = "PWD";
+	char * var4 = "RAND";
+
+	char * value1 = get_special_value(var1);
+	char * value2 = get_special_value(var2);
+	char * value3 = get_special_value(var3);
+	char * value4 = get_special_value(var4);
+
+	
+
+	//prove there are contents
+	CU_ASSERT(0 != strcmp(value1, ""));
+	CU_ASSERT(0 != strcmp(value2, ""));
+	CU_ASSERT(0 != strcmp(value3, ""));
+	CU_ASSERT(0 != strcmp(value4, ""));
+
+	//proving contents are correct
+	int spval1 = atoi(value1);
+	int spval2 = atoi(value2);
+	char * spval3 = calloc(BUFSIZ, sizeof(char));
+	spval3 = getcwd(spval3, BUFSIZ);
+
+
+	CU_ASSERT(spval1 == getpid());
+	CU_ASSERT(spval2 == getppid());
+	CU_ASSERT(0 == strcmp(value3, spval3));
+	
+
+	//rand will fail because its producing randome values!!!!!
+	//how do you test its producing random values????
+	// int spval4 = atoi(value4);
+	// CU_ASSERT(spval4 == rand());
+
+
+	//proving non keywords fail
+	char * var5 = " PID";
+	char * var6 = " PID ";
+	char * var7 = " RAND";
+	char * var8 = " RAND ";
+	char * var9 = "\tPPID";
+	char * var10 = ".PWD";
+	char * var11 = "PWDs";
+	char * var12 = "var1";
+
+	char * value5 = get_special_value(var5);
+	char * value6 = get_special_value(var6);
+	char * value7 = get_special_value(var7);
+	char * value8 = get_special_value(var8);
+	char * value9 = get_special_value(var9);
+	char * value10 = get_special_value(var10);
+	char * value11 = get_special_value(var11);
+	char * value12 = get_special_value(var12);
+
+	CU_ASSERT(0 == strcmp(value5, ""));
+	CU_ASSERT(0 == strcmp(value6, ""));
+	CU_ASSERT(0 == strcmp(value7, ""));
+	CU_ASSERT(0 == strcmp(value8, ""));
+	CU_ASSERT(0 == strcmp(value9, ""));
+	CU_ASSERT(0 == strcmp(value10, ""));
+	CU_ASSERT(0 == strcmp(value11, ""));
+	CU_ASSERT(0 == strcmp(value12, ""));
+
+	//something is being freed that shouldnt be
+	free(value1);
+	free(value2);
+	free(value3);
+	free(value4);
+	free(value5);
+	free(value6);
+	free(value7);
+	free(value8);
+	free(value10);
+	free(value11);
+	free(value12);
 
 }
 
-void test_getvarnamehard(void) {
+void test_getvarvaluesimple (void) {
+	
+	//Youve declared an array of Variable pointers.
+	//But you havent allocated any memory adjacent to these pointers.
+	//thus this does closely may an array of Variables.
+
+	Variable * variables[5];
+    Variable variable1 = {"VAR1", "test1"};
+    Variable variable2 = {"VAR2", "test2"};
+    Variable variable3 = {"VAR3", "test3"};
+    Variable variable4 = {"VAR4", "test4"};
+
+    variables[0] = &variable1;
+    variables[1] = &variable2;
+    variables[2] = &variable3;
+    variables[3] = &variable4;
+    variables[4] = NULL;
+
+
+    //set variables values
+    char *name1 = "VAR1";
+    char *name2 = "VAR2";
+    char *name3 = "VAR3";
+    char *name4 = "VAR4";
+
+    char *value1 = get_var_value(name1, variables);
+    char *value2 = get_var_value(name2, variables);
+    char *value3 = get_var_value(name3, variables);
+    char *value4 = get_var_value(name4, variables);
+
+    CU_ASSERT(0 == strcmp(value1, "test1"));
+    CU_ASSERT(0 == strcmp(value2, "test2"));
+    CU_ASSERT(0 == strcmp(value3, "test3"));
+    CU_ASSERT(0 == strcmp(value4, "test4"));
+
+
+    //////////////////////////////////////////////////////
+    //environment values
+    char *envname1 = "SHELL";
+    char *envvalue1 = get_var_value(envname1, variables);
+    CU_ASSERT(0 == strcmp(envvalue1, "/bin/bash"));
+
+
+
+    ///////////////////////////////////////////////////////
+    //special values
+
+
+ 	char * var21 = "PID";
+	char * var22 = "PPID";
+	char * var23 = "PWD";
+	char * var24 = "RAND";
+
+	char * value21 = get_var_value(var21, variables);
+	char * value22 = get_var_value(var22, variables);
+	char * value23 = get_var_value(var23, variables);
+	char * value24 = get_var_value(var24, variables);
+
+	
+
+	//prove there are contents
+	CU_ASSERT(0 != strcmp(value21, ""));
+	CU_ASSERT(0 != strcmp(value22, ""));
+	CU_ASSERT(0 != strcmp(value23, ""));
+	CU_ASSERT(0 != strcmp(value24, ""));
+
+	// //proving contents are correct
+	// int spval21 = atoi(value21);
+	// int spval22 = atoi(value22);
+	// char * spval23 = calloc(BUFSIZ, sizeof(char));
+	// spval23 = getcwd(spval23, BUFSIZ);
+
+
+	// CU_ASSERT(spval21 == getpid());
+	// CU_ASSERT(spval22 == getppid());
+	// CU_ASSERT(0 == strcmp(value23, spval23));
+	
+
+	// //rand will fail because its producing randome values!!!!!
+	// //how do you test its producing random values????
+	// // int spval4 = atoi(value4);
+	// // CU_ASSERT(spval4 == rand());
+
+
+	// //proving non keywords fail
+	// char * var25 = " PID";
+	// char * var26 = " PID ";
+	// char * var27 = " RAND";
+	// char * var28 = " RAND ";
+	// char * var29 = "\tPPID";
+	// char * var210 = ".PWD";
+	// char * var211 = "PWDs";
+	// char * var212 = "var1";
+
+	// char * value25 = get_var_value(var25, variables);
+	// char * value26 = get_var_value(var26, variables);
+	// char * value27 = get_var_value(var27, variables);
+	// char * value28 = get_var_value(var28, variables);
+	// char * value29 = get_var_value(var29, variables);
+	// char * value210 = get_var_value(var210, variables);
+	// char * value211 = get_var_value(var211, variables);
+	// char * value212 = get_var_value(var212, variables);
+
+	// CU_ASSERT(0 == strcmp(value25, ""));
+	// CU_ASSERT(0 == strcmp(value26, ""));
+	// CU_ASSERT(0 == strcmp(value27, ""));
+	// CU_ASSERT(0 == strcmp(value28, ""));
+	// CU_ASSERT(0 == strcmp(value29, ""));
+	// CU_ASSERT(0 == strcmp(value210, ""));
+	// CU_ASSERT(0 == strcmp(value211, ""));
+	// CU_ASSERT(0 == strcmp(value212, ""));
+
+
 
 }
+
+void test_expandvariablessimple (void) {
+	// Variable *variables[6];    //insert the 4 variables
+ //    //insert the null pointer
+
+ //    variables[0][0].var_name = "C99";
+ //    variables[1][0].var_name = "CFLAGS";
+ //    variables[2][0].var_name = "TESTLOC";
+ //    variables[3][0].var_name = "TARGET";
+ //    variables[4][0].var_name = "TESTTARGET";
+
+ //    variables[0][0].var_value = "cc -std=c99";
+ //    variables[1][0].var_value = "-Wall -pedantic -Werror";
+ //    variables[2][0].var_value = "../tests";
+ //    variables[3][0].var_value = "../target";
+ //    variables[4][0].var_value = "../testtarget";
+ //    variables[5] = NULL;
+
+
+    // char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+    // int err1 = 0;
+    // char * ln1expanded = expand_variables (ln1, variables, &err1);
+
+    // char * ln1expected = "bake : ../target/bake.o ../target/process_bakefile.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
+
+    // CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
+}
+
+
+
+/*
+
+char * expand_variables (char * line, Variable ** variable, int * error) {
+
+	int length = strlen(line);
+	char * subs_line = line;
+	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
+		
+		if (subs_line[i] == '$') {
+			subs_line = substitute_variable (i, line, variable, error);
+			length = strlen(subs_line);
+			i = 0;
+		}
+	}
+	return line;
+}
+
+*/
+
 
 
 /*

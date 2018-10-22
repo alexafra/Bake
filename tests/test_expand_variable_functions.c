@@ -1,3 +1,12 @@
+/*
+	1. check memory issue
+	2. check unit tests/
+
+*/
+
+
+
+
 // char * expand_variables (char * line, int * no_variables, char ** var_name_list, char ** var_value_list, int* error) {
 // char * get_var_value(char * var_name, char ** var_name_list, char ** var_value_list, int no_vars) {
 
@@ -91,35 +100,29 @@ void test_getspecialvarsimple (void) {
 	char * value11 = get_special_value(var11);
 	char * value12 = get_special_value(var12);
 
-	CU_ASSERT(0 == strcmp(value5, ""));
-	CU_ASSERT(0 == strcmp(value6, ""));
-	CU_ASSERT(0 == strcmp(value7, ""));
-	CU_ASSERT(0 == strcmp(value8, ""));
-	CU_ASSERT(0 == strcmp(value9, ""));
-	CU_ASSERT(0 == strcmp(value10, ""));
-	CU_ASSERT(0 == strcmp(value11, ""));
-	CU_ASSERT(0 == strcmp(value12, ""));
+	CU_ASSERT(value5 == NULL);
+	CU_ASSERT(value6 == NULL);
+	CU_ASSERT(value7 == NULL);
+	CU_ASSERT(value8 == NULL);
+	CU_ASSERT(value9 == NULL);
+	CU_ASSERT(value10 == NULL);
+	CU_ASSERT(value11 == NULL);
+	CU_ASSERT(value12 == NULL);
+
 
 	//something is being freed that shouldnt be
 	free(value1);
 	free(value2);
 	free(value3);
 	free(value4);
-	free(value5);
-	free(value6);
-	free(value7);
-	free(value8);
-	free(value10);
-	free(value11);
-	free(value12);
 
 }
 
 void test_getvarvaluesimple (void) {
 	
-	//Youve declared an array of Variable pointers.
-	//But you havent allocated any memory adjacent to these pointers.
-	//thus this does closely may an array of Variables.
+	// //Youve declared an array of Variable pointers.
+	// //But you havent allocated any memory adjacent to these pointers.
+	// //thus this does closely may an array of Variables.
 
 	Variable * variables[5];
     Variable variable1 = {"VAR1", "test1"};
@@ -151,16 +154,16 @@ void test_getvarvaluesimple (void) {
     CU_ASSERT(0 == strcmp(value4, "test4"));
 
 
-    //////////////////////////////////////////////////////
-    //environment values
+ //    //////////////////////////////////////////////////////
+ //    //environment values
     char *envname1 = "SHELL";
     char *envvalue1 = get_var_value(envname1, variables);
     CU_ASSERT(0 == strcmp(envvalue1, "/bin/bash"));
 
 
 
-    ///////////////////////////////////////////////////////
-    //special values
+ //    ///////////////////////////////////////////////////////
+ //    //special values
 
 
  	char * var21 = "PID";
@@ -180,82 +183,110 @@ void test_getvarvaluesimple (void) {
 	CU_ASSERT(0 != strcmp(value22, ""));
 	CU_ASSERT(0 != strcmp(value23, ""));
 	CU_ASSERT(0 != strcmp(value24, ""));
+ 
+	//proving contents are correct
+	int spval21 = atoi(value21);
+	int spval22 = atoi(value22);
+	char * spval23 = calloc(BUFSIZ, sizeof(char));
+	spval23 = getcwd(spval23, BUFSIZ);
 
-	// //proving contents are correct
-	// int spval21 = atoi(value21);
-	// int spval22 = atoi(value22);
-	// char * spval23 = calloc(BUFSIZ, sizeof(char));
-	// spval23 = getcwd(spval23, BUFSIZ);
 
-
-	// CU_ASSERT(spval21 == getpid());
-	// CU_ASSERT(spval22 == getppid());
-	// CU_ASSERT(0 == strcmp(value23, spval23));
-	
-
-	// //rand will fail because its producing randome values!!!!!
-	// //how do you test its producing random values????
-	// // int spval4 = atoi(value4);
-	// // CU_ASSERT(spval4 == rand());
+	CU_ASSERT(spval21 == getpid());
+	CU_ASSERT(spval22 == getppid());
+	CU_ASSERT(0 == strcmp(value23, spval23));
 
 
 	// //proving non keywords fail
-	// char * var25 = " PID";
-	// char * var26 = " PID ";
-	// char * var27 = " RAND";
-	// char * var28 = " RAND ";
-	// char * var29 = "\tPPID";
-	// char * var210 = ".PWD";
-	// char * var211 = "PWDs";
-	// char * var212 = "var1";
+	char * var25 = " PID";
+	char * var26 = " PID ";
+	char * var27 = " RAND";
+	char * var28 = " RAND ";
+	char * var29 = "\tPPID";
+	char * var210 = ".PWD";
+	char * var211 = "PWDs";
+	char * var212 = "var1";
 
-	// char * value25 = get_var_value(var25, variables);
-	// char * value26 = get_var_value(var26, variables);
-	// char * value27 = get_var_value(var27, variables);
-	// char * value28 = get_var_value(var28, variables);
-	// char * value29 = get_var_value(var29, variables);
-	// char * value210 = get_var_value(var210, variables);
-	// char * value211 = get_var_value(var211, variables);
-	// char * value212 = get_var_value(var212, variables);
+	char * value25 = get_var_value(var25, variables);
+	char * value26 = get_var_value(var26, variables);
+	char * value27 = get_var_value(var27, variables);
+	char * value28 = get_var_value(var28, variables);
+	char * value29 = get_var_value(var29, variables);
+	char * value210 = get_var_value(var210, variables);
+	char * value211 = get_var_value(var211, variables);
+	char * value212 = get_var_value(var212, variables);
 
-	// CU_ASSERT(0 == strcmp(value25, ""));
-	// CU_ASSERT(0 == strcmp(value26, ""));
-	// CU_ASSERT(0 == strcmp(value27, ""));
-	// CU_ASSERT(0 == strcmp(value28, ""));
-	// CU_ASSERT(0 == strcmp(value29, ""));
-	// CU_ASSERT(0 == strcmp(value210, ""));
-	// CU_ASSERT(0 == strcmp(value211, ""));
-	// CU_ASSERT(0 == strcmp(value212, ""));
+	CU_ASSERT(0 == strcmp(value25, ""));
+	CU_ASSERT(0 == strcmp(value26, ""));
+	CU_ASSERT(0 == strcmp(value27, ""));
+	CU_ASSERT(0 == strcmp(value28, ""));
+	CU_ASSERT(0 == strcmp(value29, ""));
+	CU_ASSERT(0 == strcmp(value210, ""));
+	CU_ASSERT(0 == strcmp(value211, ""));
+	CU_ASSERT(0 == strcmp(value212, ""));
 
 
 
 }
 
+void test_substitutevariablesimple (void) {
+
+	Variable *variables[6];
+
+	Variable variable1 = {"C99", "cc -std=c99"};
+    Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
+    Variable variable3 = {"TESTLOC", "../tests"};
+    Variable variable4 = {"TARGET", "../target"};
+    Variable variable5 = {"TESTTARGET", "../testtarget"};
+
+    variables[0] = &variable1;
+    variables[1] = &variable2;
+    variables[2] = &variable3;
+    variables[3] = &variable4;
+    variables[4] = &variable5;
+    variables[5] = NULL;
+
+
+
+    int pos1 = 7;
+    char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+
+    char * ln1expanded = substitute_variable (pos1, ln1, variables);
+
+    char * ln1expected = "bake : ../target/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+
+    CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
+
+
+    //todo
+    //char * line1 =
+    //char * line2 = 
+
+}
+
 void test_expandvariablessimple (void) {
-	// Variable *variables[6];    //insert the 4 variables
- //    //insert the null pointer
+	Variable *variables[6];
 
- //    variables[0][0].var_name = "C99";
- //    variables[1][0].var_name = "CFLAGS";
- //    variables[2][0].var_name = "TESTLOC";
- //    variables[3][0].var_name = "TARGET";
- //    variables[4][0].var_name = "TESTTARGET";
+	Variable variable1 = {"C99", "cc -std=c99"};
+    Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
+    Variable variable3 = {"TESTLOC", "../tests"};
+    Variable variable4 = {"TARGET", "../target"};
+    Variable variable5 = {"TESTTARGET", "../testtarget"};
 
- //    variables[0][0].var_value = "cc -std=c99";
- //    variables[1][0].var_value = "-Wall -pedantic -Werror";
- //    variables[2][0].var_value = "../tests";
- //    variables[3][0].var_value = "../target";
- //    variables[4][0].var_value = "../testtarget";
- //    variables[5] = NULL;
+    variables[0] = &variable1;
+    variables[1] = &variable2;
+    variables[2] = &variable3;
+    variables[3] = &variable4;
+    variables[4] = &variable5;
+    variables[5] = NULL;
 
 
-    // char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
-    // int err1 = 0;
-    // char * ln1expanded = expand_variables (ln1, variables, &err1);
+    char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+    int err1 = 0;
+    char * ln1expanded = expand_variables (ln1, variables, &err1);
 
-    // char * ln1expected = "bake : ../target/bake.o ../target/process_bakefile.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
+    char * ln1expected = "bake : ../target/bake.o ../target/process_bakefile.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
 
-    // CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
+    CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
 }
 
 

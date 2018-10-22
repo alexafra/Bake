@@ -102,6 +102,7 @@ int main (void) {
 	if (	(NULL == CU_add_test(pSuite1, "test expandvariables simple", test_expandvariablessimple ))
 		|| 	(NULL == CU_add_test(pSuite1, "test getspecialvar simple", test_getspecialvarsimple ))
 		|| 	(NULL == CU_add_test(pSuite1, "test getvarvalue simple", test_getvarvaluesimple ))
+		|| 	(NULL == CU_add_test(pSuite1, "test substitutevariable simple", test_substitutevariablesimple))
 	) { 
 		CU_cleanup_registry();
 		return CU_get_error();

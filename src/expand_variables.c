@@ -142,8 +142,8 @@ char * substitute_variable (int pos, char * line, Variable ** variables) {
 	int var_name_length = (end_var) - (pos + 2);
 	char var_name[var_name_length + 1];
 	//now you know you have a $( and a ) at some point AND end_var points to that end bracket.
-	for (int i = pos + 2; i < var_name_length; ++i) {
-		var_name[i - (pos + 2)] = line[i];
+	for (int i = 0; i < var_name_length; ++i) {
+		var_name[i] = line[i + pos + 2];
 	}
 	var_name[var_name_length] = '\0';
 

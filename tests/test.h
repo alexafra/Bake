@@ -12,4 +12,5 @@ extern void test_numberlengthsimple(void);
 extern void test_expandvariablessimple(void);
 extern void test_getspecialvarsimple(void);
 extern void test_getvarvaluesimple (void);
+extern void test_substitutevariablesimple (void);
 //extern void test_getvarvaluesimple (void);

@@ -28,7 +28,7 @@ extern int numberlength (int);
 extern char * expand_variables(char *, Variable **, int*);
 extern char * get_special_value (char *);
 extern char * get_var_value(char *, Variable **);
-extern char * substitute_variable(int, char *, Variable ** , int* );
+extern char * substitute_variable(int, char *, Variable ** );
 
 
 extern void process_variable_definition(char *, char *, int *, int *);

@@ -90,34 +90,33 @@ char * get_var_value(char * var_name, Variable ** variables) {
 
 	if (var_value == NULL) {
 		var_value = (char*) calloc(1, sizeof(char));
+		var_value[0] = '\0';
 	}
 	return var_value;
 }
 
-
-char * substitute_variable (int pos, char * line, Variable ** variables, int* error) {
+//return NULL if error?
+char * substitute_variable (int pos, char * line, Variable ** variables) {
 	int length = strlen(line);
-	char * exp_line = strdup(line);
+	char * exp_line = NULL;
+	int error;
 
 	if (pos < 0 || pos >= length) {
-		*error = 1; 
-		exp_line[0] = '\0';
 		return exp_line;
 	}
 	if (line[pos] != '$') {
-		*error = 2;
-		exp_line[0] = '\0';
 		return exp_line;
 	}
+	exp_line = strdup(line);
 
 	//covers case 3, 4, 5, 6, 7, 8, 9
 	if (length < pos + 2 || line[pos + 1] != '(') {
-		int mberr;
 
-		move_back(exp_line, pos, 1, &mberr);
-		if (mberr != 0) {
-			*error = 1;
-			exp_line[0] = '\0';
+
+		move_back(exp_line, pos, 1, &error);
+		if (error != 0) {
+			free (exp_line);
+			exp_line = NULL;
 			return exp_line;
 		}
 		return exp_line;
@@ -135,38 +134,36 @@ char * substitute_variable (int pos, char * line, Variable ** variables, int* er
 		}
 	} 
 	if (!is_closing_bracket) {
-		*error = 3;
-		exp_line[0] = '\0';
+		free (exp_line);
+		exp_line = NULL;
 		return exp_line;
 	}
 
 	int var_name_length = (end_var) - (pos + 2);
-	char * var_name = calloc(var_name_length + 1, sizeof(char));
+	char var_name[var_name_length + 1];
 	//now you know you have a $( and a ) at some point AND end_var points to that end bracket.
 	for (int i = pos + 2; i < var_name_length; ++i) {
-		var_name[i] = line[i];
+		var_name[i - (pos + 2)] = line[i];
 	}
 	var_name[var_name_length] = '\0';
 
 	//now you havbe the var name , the var length, the start of the var position.
 
 	//delete the variable $(var_name) bit
-	move_back (exp_line, pos, var_name_length + 3, error);
-	if (*error != 0) {
-		exp_line[0] = '\0';
+	move_back (exp_line, pos, var_name_length + 3, &error);
+	if (error != 0) {
+		free (exp_line);
+		exp_line = NULL;
 		return exp_line;
 	}
 
 	//now you need to get the variable, and insert it into the pos position
-	char * var_value = get_var_value(var_name, variables); //will there be an err?
-	if (*error != 0) { 
-		exp_line[0] = '\0';
-		return exp_line;
-	}
+	char * var_value = get_var_value(var_name, variables); //this will have a return value
 
-	exp_line = insert_string (exp_line, var_value, pos, error);
-	if (*error != 0) {
-		exp_line[0] = '\0';
+	exp_line = insert_string (exp_line, var_value, pos, &error);
+	if (error != 0) {
+		free (exp_line);
+		exp_line = NULL;
 		return exp_line;
 	}
 
@@ -196,9 +193,13 @@ char * expand_variables (char * line, Variable ** variables, int * error) {
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
 		
 		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, line, variables, error);
-			length = strlen(subs_line);
-			i = 0;
+			subs_line = substitute_variable (i, line, variables);
+			if (subs_line != NULL) {
+				length = strlen(subs_line);
+				i = 0;
+			} else {
+				return subs_line;
+			}
 		}
 	}
 	return line;

@@ -202,7 +202,7 @@ char * expand_variables (char * line, Variable ** variables) {
 
 			if (subs_line != NULL) {
 				length = strlen(subs_line);
-				i = 0;
+				i = -1;
 			} else {
 				return subs_line;
 			}

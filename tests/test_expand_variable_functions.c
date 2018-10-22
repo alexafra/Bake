@@ -291,8 +291,8 @@ void test_expandvariablessimple (void) {
 
 
     char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
-    int err1 = 0;
-    char * ln1expanded = expand_variables (ln1, variables, &err1);
+
+    char * ln1expanded = expand_variables (ln1, variables);
 
     char * ln1expected = "bake : ../target/bake.o ../target/process_bakefile.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
 

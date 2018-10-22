@@ -116,12 +116,9 @@ void process_bakefile(FILE *fp) {
             continue;
         }
 
-        int error;
         //expand any varibles in the line
         char * exp_line = expand_variables(line, variables);
-        if (error != 0) {
-            //do some error stuff
-        }
+        //could be NULL
 
         int length = strlen(exp_line);
 
@@ -129,7 +126,7 @@ void process_bakefile(FILE *fp) {
 
         int firstwordlength = strlen(firstword);
 
-        
+        int error = 0;
         char * rest_of_line = substring(exp_line , firstwordlength, length, &error);
         if (error != 0) {
             //do some error stuff
@@ -140,7 +137,7 @@ void process_bakefile(FILE *fp) {
         criticalChar = getcriticalchar(exp_line);
 
         if (criticalChar == '=') { //variable definition
-            //process_variable_definition(firstword, rest_of_line, no_variables, variable_length);
+            process_variable_definition(firstword, rest_of_line);
             //i think free here 
             free (firstword);
             free (rest_of_line);

@@ -350,7 +350,6 @@ void test_expandvariablessimple (void) {
 
     char *ln4 = "$(C99) $(HOME) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c";
     char *ln4expanded = expand_variables(ln4, variables);
-<<<<<<< HEAD
     char *ln4expected = "cc -std=c99 /home/kieren -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
 
     CU_ASSERT(0 == strcmp(ln4expanded, ln4expected));
@@ -422,17 +421,6 @@ void test_expandvariablessimple (void) {
     char *ln15expected = "   ";
 
     CU_ASSERT(0 == strcmp(ln15expanded, ln15expected));
-=======
-    char *ln4expected = "cc -std=c99 /Users/alexanderfrazis -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
-
-    CU_ASSERT(0 == strcmp(ln4expanded, ln4expected));
-
-	// char *ln5 = "$(C99";
- //    char *ln5expanded = expand_variables(ln5, variables, &err1);
- //    char *ln5expected = NULL;
-
- //    CU_ASSERT(0 == strcmp(ln5expanded, ln5expected));
->>>>>>> f8779a5f3c9744d42267f9f39a378dcfef1f6deb
 
 
 //     $(TARGET)/bake.o : bake.c bake.h

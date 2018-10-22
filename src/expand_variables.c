@@ -87,6 +87,10 @@ char * get_var_value(char * var_name, Variable ** variables) {
 	if (env_value != NULL) {
 		var_value = strdup(env_value);
 	}
+
+	if (var_value == NULL) {
+		var_value = (char*) calloc(1, sizeof(char));
+	}
 	return var_value;
 }
 

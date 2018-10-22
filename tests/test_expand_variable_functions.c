@@ -330,8 +330,6 @@ void test_expandvariablessimple (void) {
 	char *ln5 = "$(C99";
     char *ln5expanded = expand_variables(ln5, variables);
     char *ln5expected = NULL;
-<<<<<<< HEAD
-
 
     CU_ASSERT(ln5expanded == ln5expected);
 
@@ -396,7 +394,6 @@ void test_expandvariablessimple (void) {
     char *ln15expected = "   ";
 
     CU_ASSERT(0 == strcmp(ln15expanded, ln15expected));
->>>>>>> 6c2c475efee8a6db87e73b7ee2bd1850fafb0e3a
 
 
 //     $(TARGET)/bake.o : bake.c bake.h

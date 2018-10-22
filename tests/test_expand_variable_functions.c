@@ -124,17 +124,14 @@ void test_getvarvaluesimple (void) {
 	// //But you havent allocated any memory adjacent to these pointers.
 	// //thus this does closely may an array of Variables.
 
-		Variable * variables[5];
-    Variable variable1 = {"C99", "cc -std=c99"};
-    Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
-    Variable variable3 = {"TESTLOC", "../tests"};
-    Variable variable4 = {"TARGET", "../target"};
+	variables = (Variable **) calloc (1, sizeof(Variable*));
+	*variables = NULL;
 
-    variables[0] = &variable1;
-    variables[1] = &variable2;
-    variables[2] = &variable3;
-    variables[3] = &variable4;
-    variables[4] = NULL;
+    process_variable_definition("C99", "cc -std=c99");
+    process_variable_definition("CFLAGS", "-Wall -pedantic -Werror");
+    process_variable_definition("TESTLOC", "../tests");
+    process_variable_definition("TARGET", "../target");
+    process_variable_definition("TESTTARGET", "../testtarget");
 
   
     //set variables values
@@ -250,20 +247,14 @@ void test_getvarvaluesimple (void) {
 
 void test_substitutevariablesimple (void) {
 
-	Variable *variables[6];
+	variables = (Variable **) calloc (1, sizeof(Variable*));
+	*variables = NULL;
 
-	Variable variable1 = {"C99", "cc -std=c99"};
-    Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
-    Variable variable3 = {"TESTLOC", "../tests"};
-    Variable variable4 = {"TARGET", "../target"};
-    Variable variable5 = {"TESTTARGET", "../testtarget"};
-
-    variables[0] = &variable1;
-    variables[1] = &variable2;
-    variables[2] = &variable3;
-    variables[3] = &variable4;
-    variables[4] = &variable5;
-    variables[5] = NULL;
+    process_variable_definition("C99", "cc -std=c99");
+    process_variable_definition("CFLAGS", "-Wall -pedantic -Werror");
+    process_variable_definition("TESTLOC", "../tests");
+    process_variable_definition("TARGET", "../target");
+    process_variable_definition("TESTTARGET", "../testtarget");
 
 
 
@@ -283,21 +274,77 @@ void test_substitutevariablesimple (void) {
 
 }
 
+void test_addglobalvariablesimple (void) {
+	//*variables = NULL;
+
+	variables = (Variable **) calloc (1, sizeof(Variable*));
+	*variables = NULL;
+
+	char * name1 = calloc(10, sizeof(char));
+	char * name2 = calloc(10, sizeof(char));
+	char * name3 = calloc(10, sizeof(char));
+	char * name4 = calloc(10, sizeof(char));
+
+	strcpy(name1, "var1");
+	strcpy(name2, "var2");
+	strcpy(name3, "var3");
+	strcpy(name4, "var4");
+
+	char * value1 = calloc(10, sizeof(char));
+	char * value2 = calloc(10, sizeof(char));
+	char * value3 = calloc(10, sizeof(char));
+	char * value4 = calloc(10, sizeof(char));
+
+	strcpy(value1, "test1");
+	strcpy(value2, "test2");
+	strcpy(value3, "test3");
+	strcpy(value4, "test4");
+
+	process_variable_definition(name1, value1);
+	process_variable_definition(name2, value2);
+	process_variable_definition(name3, value3);
+	process_variable_definition(name4, value4);
+
+
+	CU_ASSERT(0 == strcmp(variables[0]->var_name, "var1"));
+	CU_ASSERT(0 == strcmp(variables[1]->var_name, "var2"));
+	CU_ASSERT(0 == strcmp(variables[2]->var_name, "var3"));
+	CU_ASSERT(0 == strcmp(variables[3]->var_name, "var4"));
+
+	CU_ASSERT(0 == strcmp(variables[0]->var_value, "test1"));
+	CU_ASSERT(0 == strcmp(variables[1]->var_value, "test2"));
+	CU_ASSERT(0 == strcmp(variables[2]->var_value, "test3"));
+	CU_ASSERT(0 == strcmp(variables[3]->var_value, "test4"));
+
+
+	process_variable_definition("var21", "test21");
+	process_variable_definition("var22", "test22");
+	process_variable_definition("var23", "test23");
+	process_variable_definition("var24", "test24");
+
+
+	CU_ASSERT(0 == strcmp(variables[4]->var_name, "var21"));
+	CU_ASSERT(0 == strcmp(variables[5]->var_name, "var22"));
+	CU_ASSERT(0 == strcmp(variables[6]->var_name, "var23"));
+	CU_ASSERT(0 == strcmp(variables[7]->var_name, "var24"));
+
+	CU_ASSERT(0 == strcmp(variables[4]->var_value, "test21"));
+	CU_ASSERT(0 == strcmp(variables[5]->var_value, "test22"));
+	CU_ASSERT(0 == strcmp(variables[6]->var_value, "test23"));
+	CU_ASSERT(0 == strcmp(variables[7]->var_value, "test24"));
+
+}
+
 void test_expandvariablessimple (void) {
-	Variable *variables[6];
+	
+	variables = (Variable **) calloc (1, sizeof(Variable*));
+	*variables = NULL;
 
-	Variable variable1 = {"C99", "cc -std=c99"};
-    Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
-    Variable variable3 = {"TESTLOC", "../tests"};
-    Variable variable4 = {"TARGET", "../target"};
-    Variable variable5 = {"TESTTARGET", "../testtarget"};
-
-    variables[0] = &variable1;
-    variables[1] = &variable2;
-    variables[2] = &variable3;
-    variables[3] = &variable4;
-    variables[4] = &variable5;
-    variables[5] = NULL;
+    process_variable_definition("C99", "cc -std=c99");
+    process_variable_definition("CFLAGS", "-Wall -pedantic -Werror");
+    process_variable_definition("TESTLOC", "../tests");
+    process_variable_definition("TARGET", "../target");
+    process_variable_definition("TESTTARGET", "../testtarget");
 
 
     char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
@@ -321,11 +368,11 @@ void test_expandvariablessimple (void) {
 
     CU_ASSERT(0 == strcmp(ln3expanded, ln3expected)); 
 
-    char *ln4 = "$(C99) $(HOME) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c";
-    char *ln4expanded = expand_variables(ln4, variables);
-    char *ln4expected = "cc -std=c99 /home/kieren -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
+    // char *ln4 = "$(C99) $(HOME) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c";
+    // char *ln4expanded = expand_variables(ln4, variables);
+    // char *ln4expected = "cc -std=c99 /home/kieren -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
 
-    CU_ASSERT(0 == strcmp(ln4expanded, ln4expected));
+    // CU_ASSERT(0 == strcmp(ln4expanded, ln4expected));
 
 	char *ln5 = "$(C99";
     char *ln5expanded = expand_variables(ln5, variables);
@@ -396,53 +443,6 @@ void test_expandvariablessimple (void) {
     CU_ASSERT(0 == strcmp(ln15expanded, ln15expected));
 
 
-//     $(TARGET)/bake.o : bake.c bake.h
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
 
-// $(TARGET)/process_bakefile.o : process_bakefile.c bake.h
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
-
-// $(TARGET)/nextline.o : nextline.c bake.h
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
-
-// $(TARGET)/string_modifiers.o : string_modifiers.c bake.h
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/string_modifiers.o string_modifiers.c
-
-// $(TARGET)/expand_variables.o : expand_variables.c bake.h
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/expand_variables.o expand_variables.c
-
-// $(TARGET)/process_variable_definition.o : process_variable_definition.c bake.h 
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_variable_definition.o process_variable_definition.c 
-
-// $(TARGET)/process_target_definition.o : process_target_definition.c bake.h 
-// 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_definition.o process_target_definition.c 
 }
 
-
-
-/*
-
-char * expand_variables (char * line, Variable ** variable, int * error) {
-
-	int length = strlen(line);
-	char * subs_line = line;
-	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
-		
-		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, line, variable, error);
-			length = strlen(subs_line);
-			i = 0;
-		}
-	}
-	return line;
-}
-
-*/
-
-
-
-/*
-Lone $ is not read
-
-
-*/

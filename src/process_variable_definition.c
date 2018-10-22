@@ -1,10 +1,10 @@
 #include "bake.h"
-
+//process_variable_defintion
 int get_variables_length() {
-	for int i = 0;
+	int i = 0;
 
-	while (variables[i] != '\0') {
-		i++
+	while (variables[i] != NULL) {
+		i++;
 	}
 
 	return i;
@@ -13,8 +13,23 @@ int get_variables_length() {
 void process_variable_definition(char *firstword, char *rest_of_line) {
 
 	int length = get_variables_length();
-	realloc(length + 1, sizeof(Variable));
-	variables[length]->var_name = firstword;
-	variables[length]->var_value = rest_of_line;
+	variables = realloc(variables, sizeof(Variable*) * (length + 2));
+	Variable *new_variable = calloc(1, sizeof(Variable));
+	new_variable->var_name = firstword, 
+	new_variable->var_value = rest_of_line;
+	variables[length] = new_variable;
+	variables[length + 1] = NULL;
+
 }
 
+
+
+//I think this wont have problems.
+// void free_variable (int pos) {
+
+// 	free(variables[pos]->var_name);
+// 	free(variables[pos]->var_value);
+
+// 	free (variables[pos]);
+
+// }

@@ -35,7 +35,7 @@ extern void process_variable_definition(char *, char *);
 extern void process_target_definition(char *firstword, char *rest_of_line, int *no_variables, int *variable_length);
 
 //Global Variables
-extern Variable * variables;
+extern Variable ** variables;
 
 //Global Constants
 #define CH_CONTINUATION         '\\'

@@ -8,6 +8,7 @@
 #include "variable.h"
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include <time.h>
 
 
 //Global Functions
@@ -39,6 +40,9 @@ extern void process_action_definition(char * );
 int get_num_variables (void);
 int get_num_targets (void);
 int get_num_actions (char ** actions);
+
+//Target line
+extern bool check_if_url(char *);
 
 //Global Variables
 extern Variable ** variables;

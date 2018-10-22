@@ -194,7 +194,7 @@ char * expand_variables (char * line, Variable ** variables, int * error) {
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
 		
 		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, subs_line, variables);
+			subs_line = substitute_variable (i, subs_line, variables); //there is an issue with memory
 			if (subs_line != NULL) {
 				length = strlen(subs_line);
 				i = 0;
@@ -204,7 +204,7 @@ char * expand_variables (char * line, Variable ** variables, int * error) {
 		}
 
 	}
-	return line;
+	return subs_line;
 }
 
 

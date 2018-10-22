@@ -118,6 +118,9 @@ void process_bakefile(FILE *fp) {
 
         //expand any varibles in the line
         char * exp_line = expand_variables(line, variables);
+        if (exp_line == NULL) {
+
+        }
         //could be NULL
 
         int length = strlen(exp_line);

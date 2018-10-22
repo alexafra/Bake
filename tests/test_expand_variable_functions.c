@@ -161,19 +161,14 @@ void test_getvarvaluesimple (void) {
     // char *envname2 = "HOME";
     // char *envname3 = "PWD";
     // char *envname4 = "LOGNAME";
-<<<<<<< HEAD
     // char *envname5 = " PWD";
     // char *envname6 = "PWD ";
     // char *envname7 = "\tPWD";
-
-=======
->>>>>>> f8779a5f3c9744d42267f9f39a378dcfef1f6deb
 
     // char *envvalue1 = get_var_value(envname1, variables);
     // char *envvalue2 = get_var_value(envname2, variables);
     // char *envvalue3 = get_var_value(envname3, variables);
     // char *envvalue4 = get_var_value(envname4, variables);
-<<<<<<< HEAD
     // char *envvalue5 = get_var_value(envname5, variables);
     // char *envvalue6 = get_var_value(envname6, variables);
     // char *envvalue7 = get_var_value(envname7, variables);
@@ -185,28 +180,6 @@ void test_getvarvaluesimple (void) {
     // CU_ASSERT(0 == strcmp(envvalue5, "\0"));
     // CU_ASSERT(0 == strcmp(envvalue6, "\0"));
     // CU_ASSERT(0 == strcmp(envvalue7, ""));
-=======
-
-    // CU_ASSERT(0 == strcmp(envvalue1, "/bin/bash"));
-    // CU_ASSERT(0 == strcmp(envvalue2, " /Users/alexanderfrazis"));
-    // CU_ASSERT(0 == strcmp(envvalue3, "/Users/alexanderfrazis/Bake/src"));
-    // CU_ASSERT(0 == strcmp(envvalue4, "alexanderfrazis"));
-
-    char *envname5 = " PWD";
-    char *envname6 = "PWD ";
-    char *envname7 = "\tPWD";
-
-
-    
-    char *envvalue5 = get_var_value(envname5, variables);
-    char *envvalue6 = get_var_value(envname6, variables);
-    char *envvalue7 = get_var_value(envname7, variables);
-
-    
-    CU_ASSERT(0 == strcmp(envvalue5, "\0"));
-    CU_ASSERT(0 == strcmp(envvalue6, "\0"));
-    CU_ASSERT(0 == strcmp(envvalue7, ""));
->>>>>>> f8779a5f3c9744d42267f9f39a378dcfef1f6deb
 
 
  //    ///////////////////////////////////////////////////////

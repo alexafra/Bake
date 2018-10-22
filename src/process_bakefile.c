@@ -61,6 +61,7 @@ void process_bakefile(FILE *fp) {
         //This line is an action
         if (line[0] == '\t' && just_processed_target == true) {
             process_action_definition(line);
+            just_processed_target = true;
             free (line);
             continue;
         }
@@ -70,7 +71,6 @@ void process_bakefile(FILE *fp) {
         //The line is all whitespace
         if (strlen(line) == 0) {
             free (line);
-            just_processed_target = false; //Not sure if this is correct.
             continue;
         }
 

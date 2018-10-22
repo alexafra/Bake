@@ -1,2 +1,3 @@
-char * name[BUFIZ]; //change size
-char * substitution[BUFSIZ];
+#include "variable.h"
+
+Variable * variables = NULL;

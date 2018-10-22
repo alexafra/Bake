@@ -1,3 +1,3 @@
 #include "variable.h"
 
-Variable * variables = NULL;
+Variable * variables = (Variable*) calloc(1, sizeof(Variable));

@@ -20,6 +20,62 @@ just use curl's --head option to find the modification date. However, any target
 . It is an error if curl reports if a URL-based dependency is not found; it is not sought as a target. 
 
 */
+
+int check_url(char *url) {
+
+	CURL = *curl;
+	CURLcode isurl;
+
+	curl = curl_easy_init();
+
+	if(curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, url);
+
+		//Dont send to stdout
+		curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
+
+		//Send request
+		isurl = curl_easy_perform(curl);
+		curl_easy_cleanup(curl);
+	}
+
+	return (isurl == CURLE_OK) ? 1 : 0;
+}
+
+bool startswith(char *url, char *dep) {
+
+	//Arbitrary function for checking start of strings
+	if(strncpm(url, dep, strlen(url) == 0)) {
+		return 1;
+	}
+
+	return 0; 
+}		
+
+char *get_url(char * dependency) {
+
+	//Check to see whether the dependency looks like a url
+	const char *url1 = "file://";
+	const char *url2 = "http://";
+	const char *url3 = "https://";
+
+	//If yes, return stuff with curl
+	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
+		//check if URL exists
+		if(check_url(dependency)) {
+
+		}
+		else {
+
+		}
+	}
+
+	else {
+		return //something
+	}
+		
+}
+
 process_this_line(char *target, char **dependencies, char *action_line) {
 
 	int something++ = 0;

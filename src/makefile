@@ -8,12 +8,12 @@ TESTTARGET = ../testtarget
 
 ###################test########################
 
-
+#process_target_line
 
 ################Compound Targets#######################
 
-bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o $(TARGET)/globals.o
-	$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o $(TARGET)/globals.o
+bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
+	$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
 
 
 
@@ -34,14 +34,16 @@ $(TARGET)/string_modifiers.o : string_modifiers.c bake.h
 $(TARGET)/expand_variables.o : expand_variables.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TARGET)/expand_variables.o expand_variables.c
 
-$(TARGET)/process_variable_definition.o : process_variable_definition.c bake.h 
-	$(C99) $(CFLAGS) -c -o $(TARGET)/process_variable_definition.o process_variable_definition.c 
+$(TARGET)/process_definitions.o : process_definitions.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_definitions.o process_definitions.c 
 
-$(TARGET)/process_target_definition.o : process_target_definition.c bake.h 
-	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_definition.o process_target_definition.c 
+$(TARGET)/process_target_line.o : process_target_line.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_line.o process_target_line.c 
 
 $(TARGET)/globals.o : globals.c bake.h 
 	$(C99) $(CFLAGS) -c -o $(TARGET)/globals.o globals.c 
+
+
 
 echostuff : 
 	echo $(TARGET)
@@ -57,10 +59,10 @@ clean :
 	rm -f ../tests/testD
 
 
-test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/expand_variables.o $(TARGET)/process_variable_definition.o $(TARGET)/string_modifiers.o $(TARGET)/globals.o 
+test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/expand_variables.o $(TARGET)/process_definitions.o $(TARGET)/string_modifiers.o $(TARGET)/process_target_line.o $(TARGET)/globals.o 
 
-	$(C99) $(CFLAGS) -o $(TESTLOC)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/expand_variables.o $(TARGET)/globals.o  -lcunit 
-	$(C99) $(CFLAGS) -o test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/expand_variables.o $(TARGET)/globals.o  -lcunit 
+	$(C99) $(CFLAGS) -o $(TESTLOC)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o $(TARGET)/expand_variables.o $(TARGET)/process_target_line.o $(TARGET)/globals.o  -lcunit 
+	$(C99) $(CFLAGS) -o test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o $(TARGET)/expand_variables.o $(TARGET)/process_target_line.o $(TARGET)/globals.o  -lcunit 
 
 $(TESTTARGET)/test.o : $(TESTLOC)/test.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test.o $(TESTLOC)/test.c 
@@ -78,11 +80,10 @@ $(TESTTARGET)/test_expand_variable_functions.o : $(TESTLOC)/test_expand_variable
 	$(C99) $(CFLAGS) -c -o $(TESTTARGET)/test_expand_variable_functions.o $(TESTLOC)/test_expand_variable_functions.c 
 
 
-
 ##################DEBUG MODE#########################
 
-bakeD : $(TARGET)/bakeD.o $(TARGET)/process_bakefileD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_variable_definitionD.o $(TARGET)/process_target_definitionD.o $(TARGET)/globalsD.o 
-	$(C99) $(CFLAGS) -g -o bake -ggdb $(TARGET)/bakeD.o $(TARGET)/process_bakefileD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_variable_definitionD.o $(TARGET)/process_target_definitionD.o $(TARGET)/globalsD.o 
+bakeD : $(TARGET)/bakeD.o $(TARGET)/process_bakefileD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
+	$(C99) $(CFLAGS) -g -o bake -ggdb $(TARGET)/bakeD.o $(TARGET)/process_bakefileD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
 
 
 $(TARGET)/bakeD.o : bake.c bake.h
@@ -100,11 +101,11 @@ $(TARGET)/string_modifiersD.o : string_modifiers.c bake.h
 $(TARGET)/expand_variablesD.o : expand_variables.c bake.h
 	$(C99) $(CFLAGS) -g -c -o $(TARGET)/expand_variablesD.o expand_variables.c
 
-$(TARGET)/process_variable_definitionD.o : process_variable_definition.c bake.h 
-	$(C99) $(CFLAGS) -g -c -o $(TARGET)/process_variable_definitionD.o process_variable_definition.c 
+$(TARGET)/process_definitionsD.o : process_definitions.c bake.h 
+	$(C99) $(CFLAGS) -g -c -o $(TARGET)/process_definitionsD.o process_definitions.c 
 
-$(TARGET)/process_target_definitionD.o : process_target_definition.c bake.h 
-	$(C99) $(CFLAGS) -g -c -o $(TARGET)/process_target_definitionD.o process_target_definition.c
+$(TARGET)/process_target_line.o : process_target_line.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_line.o process_target_line.c 
 
 $(TARGET)/globalsD.o : globals.c bake.h 
 	$(C99) $(CFLAGS) -g -c -o $(TARGET)/globalsD.o globals.c
@@ -114,9 +115,10 @@ $(TARGET)/globalsD.o : globals.c bake.h
 
 ##############DEBUG MODE ###########################
 
-testD : $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/expand_variablesD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_variable_definitionD.o $(TARGET)/globalsD.o 
-	$(C99) $(CFLAGS) -g -o $(TESTLOC)/test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o $(TARGET)/process_variable_definitionD.o $(TARGET)/globalsD.o  -lcunit 
-	$(C99) $(CFLAGS) -g -o test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o $(TARGET)/process_variable_definitionD.o $(TARGET)/globalsD.o  -lcunit 
+testD : $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/expand_variablesD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
+	$(C99) $(CFLAGS) -g -o $(TESTLOC)/test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o  -lcunit 
+	
+	$(C99) $(CFLAGS) -g -o test $(TESTTARGET)/testD.o $(TESTTARGET)/test_small_string_modifiersD.o $(TESTTARGET)/test_moderate_string_modifiersD.o $(TESTTARGET)/test_substringD.o $(TESTTARGET)/test_expand_variable_functionsD.o $(TARGET)/string_modifiersD.o $(TARGET)/expand_variablesD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o  -lcunit 
 
 $(TESTTARGET)/testD.o : $(TESTLOC)/test.c $(TESTLOC)/test.h
 	$(C99) $(CFLAGS) -g -c -o $(TESTTARGET)/testD.o $(TESTLOC)/test.c 

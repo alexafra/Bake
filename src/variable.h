@@ -15,6 +15,4 @@ typedef struct Target {
 	char ** actions;
 } Target;
 
-#define STRUCT_H ((Variable) {/* Null initializer */})
-
 #endif /* STRUCT_H */

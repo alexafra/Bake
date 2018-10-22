@@ -26,8 +26,7 @@ char * get_special_value (char * var_name) {
 	special_variable[3] = "RAND";
 	special_variable[4] = "\0";
 
-	char * special_value = calloc(1, sizeof(char));
-	*special_value = '\0';
+	char *special_value = NULL;
 
 	int i = 0;
 	//while tests first character in first word
@@ -62,21 +61,32 @@ char * get_special_value (char * var_name) {
 char * get_var_value(char * var_name, Variable ** variables) {
 	
 	int i = 0;
-	char * var_value = (char*) calloc(1, sizeof(char));
-	*var_value = '\0';
-	var_value = getenv(var_name);
+	char * var_value = NULL;
+
+	char *special_value = get_special_value(var_name);
+	if (special_value != NULL) { //have an issue freeing var_value.
+		var_value = special_value;
+		return var_value;
+	}
+	
+	//currently var_value is null.
 	while (variables[i] != '\0') {
 		if (0 == strcmp(variables[i]->var_name, var_name)) {
-			free (var_value);
-			var_value = strdup (variables[i]->var_value);
+			if (var_value != NULL) {
+				free (var_value);
+			}
+			var_value = strdup (variables[i]->var_value); //wont ever return NULL, at worst ""
 		}
 		++i;
 	}
-	char *special_value = get_special_value(var_name);
-	if (*special_value != '\0') {
-		var_value = special_value;
+	if (var_value != NULL) {
+		return var_value; 
 	}
-	free (special_value);
+
+	char * env_value = getenv(var_name);
+	if (env_value != NULL) {
+		var_value = strdup(env_value);
+	}
 	return var_value;
 }
 

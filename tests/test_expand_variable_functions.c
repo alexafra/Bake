@@ -122,10 +122,10 @@ void test_getvarvaluesimple (void) {
 	//thus this does closely may an array of Variables.
 
 	Variable * variables[5];
-    Variable variable1 = {"VAR1", "test1"};
-    Variable variable2 = {"VAR2", "test2"};
-    Variable variable3 = {"VAR3", "test3"};
-    Variable variable4 = {"VAR4", "test4"};
+    Variable variable1 = {"C99", "cc -std=c99"};
+    Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
+    Variable variable3 = {"TESTLOC", "../tests"};
+    Variable variable4 = {"TARGET", "../target"};
 
     variables[0] = &variable1;
     variables[1] = &variable2;
@@ -133,22 +133,32 @@ void test_getvarvaluesimple (void) {
     variables[3] = &variable4;
     variables[4] = NULL;
 
+    /*
+	C99 = cc -std=c99
+	CFLAGS = -Wall -pedantic -Werror
+	TESTLOC = ../tests
+	TARGET = ../target
+
+	TESTTARGET = ../testtarget
+
+    */
 
     //set variables values
-    char *name1 = "VAR1";
-    char *name2 = "VAR2";
-    char *name3 = "VAR3";
-    char *name4 = "VAR4";
+    char *name1 = "C99";
+    char *name2 = "CFLAGS";
+    char *name3 = "TESTLOC";
+    char *name4 = "TARGET";
 
     char *value1 = get_var_value(name1, variables);
     char *value2 = get_var_value(name2, variables);
     char *value3 = get_var_value(name3, variables);
     char *value4 = get_var_value(name4, variables);
 
-    CU_ASSERT(0 == strcmp(value1, "test1"));
-    CU_ASSERT(0 == strcmp(value2, "test2"));
-    CU_ASSERT(0 == strcmp(value3, "test3"));
-    CU_ASSERT(0 == strcmp(value4, "test4"));
+    CU_ASSERT(0 == strcmp(value1, "cc -std=c99"));
+    CU_ASSERT(0 == strcmp(value2, "-Wall -pedantic -Werror"));
+    CU_ASSERT(0 == strcmp(value3, "../tests"));
+    CU_ASSERT(0 == strcmp(value4, "../target"));
+
 
 
     //////////////////////////////////////////////////////

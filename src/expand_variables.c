@@ -70,7 +70,7 @@ char * get_var_value(char * var_name, Variable ** variables) {
 	}
 	
 	//currently var_value is null.
-	while (variables[i] != '\0') {
+	while (variables[i] != NULL) {
 		if (0 == strcmp(variables[i]->var_name, var_name)) {
 			if (var_value != NULL) {
 				free (var_value);

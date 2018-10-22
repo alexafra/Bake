@@ -8,6 +8,7 @@
 #include "variable.h"
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include <time.h>
 
 
 //Global Functions
@@ -34,6 +35,9 @@ extern char * substitute_variable(int, char *, Variable ** );
 
 extern void process_variable_definition(char *, char *);
 extern void process_target_definition(char *firstword, char *rest_of_line, int *no_variables, int *variable_length);
+
+//Target line
+extern bool check_if_url(char *);
 
 //Global Variables
 extern Variable ** variables;

@@ -21,6 +21,13 @@ just use curl's --head option to find the modification date. However, any target
 
 */
 
+time_t get_url_time(char *url) {
+	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
+
+	int pid = fork();
+
+}
+
 int url_exists(char *url) {
 
 	CURL = *curl;
@@ -52,7 +59,7 @@ bool startswith(char *url, char *dep) {
 	return 0; 
 }		
 
-bool *check_if_url(char * dependency) {
+bool check_if_url(char * dependency) {
 
 	//Check to see whether the dependency looks like a url
 	const char *url1 = "file://";

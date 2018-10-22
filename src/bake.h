@@ -33,7 +33,12 @@ extern char * substitute_variable(int, char *, Variable ** );
 
 
 extern void process_variable_definition(char *, char *);
-extern void process_target_definition(char *firstword, char *rest_of_line, int *no_variables, int *variable_length);
+extern void process_target_definition(char *, char *);
+extern void process_action_definition(char * );
+
+int get_num_variables (void);
+int get_num_targets (void);
+int get_num_actions (char ** actions);
 
 //Global Variables
 extern Variable ** variables;

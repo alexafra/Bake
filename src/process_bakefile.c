@@ -45,47 +45,6 @@
 
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    //bool first_target_line = true;
-
-
-   //I ASKED CHRIS MACDONALD AND HE SAID WE WOULD BE BETTER OFF USING A STRUCTURE TO STORE THE NAME & VALUEs. 
-   //YOU WOULD realloc EACH TIME YOU NEEDED TO STORE A NEW VALUE/NAME, WHICH MEANS YOU WOULDN"T DEAL WITH THE PROBLEM OF STARTING WITH ONLY 10 SPACES
-
-    //begin with space for 10 variables.
-    Variable *variables[5];    //insert the 4 variables
-    //insert the null pointer
-
-    Variable variable1 = {"VAR1", "test1"};
-    Variable variable2 = {"VAR2", "test2"};
-    Variable variable3 = {"VAR3", "test3"};
-    Variable variable4 = {"VAR4", "test4"};
-
-    variables[0] = &variable1;
-    variables[1] = &variable2;
-    variables[2] = &variable3;
-    variables[3] = &variable4;
-    variables[4] = NULL;
-
-
-
-
-
-    /*
-        so we want to create a list of structs.
-        Each struct contains a var_name and a var_value.
-        maybe use a hash.
-        the end of the list is a \0.
-
-        Can variabels be overriden
-        Can key variables be overriden
-    */
-
-
-    
-    //*no_variables = 0;
-    //*variable_length = 10;
-    
-    //init_variables (var_name_list, var_value_list, no_variables, variable_length);
     
 
     while(!feof(fp)) {
@@ -101,8 +60,7 @@ void process_bakefile(FILE *fp) {
 
         //This line is an action
         if (line[0] == '\t' && just_processed_target == true) {
-            //Add action to target
-
+            process_action_definition(line);
             free (line);
             continue;
         }
@@ -147,9 +105,8 @@ void process_bakefile(FILE *fp) {
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            //process_target_definition(firstword, rest_of_line, no_variables, variable_length);
-            //process_target_line(firstword, rest_of_line, no_variables, variable_length);
-            //i think free here
+            process_target_definition(firstword, rest_of_line);
+            
             free (firstword);
             free (rest_of_line);
             just_processed_target = true;

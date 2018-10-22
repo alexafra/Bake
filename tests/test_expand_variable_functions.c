@@ -116,6 +116,8 @@ void test_getspecialvarsimple (void) {
 	free(value3);
 	free(value4);
 
+
+
 }
 
 void test_getvarvaluesimple (void) {
@@ -242,6 +244,9 @@ void test_getvarvaluesimple (void) {
 	CU_ASSERT(0 == strcmp(value212, ""));
 
 
+	free (variables);
+
+
 
 }
 
@@ -256,8 +261,6 @@ void test_substitutevariablesimple (void) {
     process_variable_definition("TARGET", "../target");
     process_variable_definition("TESTTARGET", "../testtarget");
 
-
-
     int pos1 = 7;
     char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
 
@@ -267,6 +270,7 @@ void test_substitutevariablesimple (void) {
 
     CU_ASSERT(0 == strcmp(ln1expanded, ln2expected));
 
+    free (variables);
 
     // todo
     // char * line1 =
@@ -332,6 +336,9 @@ void test_addglobalvariablesimple (void) {
 	CU_ASSERT(0 == strcmp(variables[5]->var_value, "test22"));
 	CU_ASSERT(0 == strcmp(variables[6]->var_value, "test23"));
 	CU_ASSERT(0 == strcmp(variables[7]->var_value, "test24"));
+
+
+	free (variables);
 
 }
 
@@ -441,6 +448,9 @@ void test_expandvariablessimple (void) {
     char *ln15expected = "   ";
 
     CU_ASSERT(0 == strcmp(ln15expanded, ln15expected));
+
+
+    free (variables);
 
 
 

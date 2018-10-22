@@ -2,3 +2,6 @@
 #include <stdlib.h>
 
 Variable ** variables;
+Target ** targets;
+
+

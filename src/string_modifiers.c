@@ -226,6 +226,23 @@ char * itoa (int value) {
     return numberstring;
 }
 
+char ** separate_line (char * line) {
+    char ** wordlist = calloc(1, sizeof(char *));
+    wordlist = NULL;
+
+    char * word = getfirstword(line);
+    int i = 0;
+    while (0 != strcmp(word, "")) {
+        wordlist = realloc(wordlist, sizeof(char*) * (length + 2));
+        *(wordlist + i) = word;
+        *(wordlist + i + 1) = NULL;
+        line = get_rest_of_line(line);
+        word = getfirstword(line);
+        ++i;
+    }
+    return wordlist;
+}
+
 
 
     //Pretty sure this works... I tested it with a number of ways in a txt file

@@ -25,13 +25,13 @@ extern char * itoa (int);
 extern int numberlength (int); 
 //extern char * expand_variables2 (char *, char **, char ** , int*);
 
-extern char * expand_variables(char *, Variable **, int*);
+extern char * expand_variables(char *, Variable **);
 extern char * get_special_value (char *);
 extern char * get_var_value(char *, Variable **);
 extern char * substitute_variable(int, char *, Variable ** );
 
 
-extern void process_variable_definition(char *, char *, int *, int *);
+extern void process_variable_definition(char *, char *);
 extern void process_target_definition(char *firstword, char *rest_of_line, int *no_variables, int *variable_length);
 
 //Global Variables

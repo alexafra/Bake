@@ -186,7 +186,9 @@ char * substitute_variable (int pos, char * line, Variable ** variables) {
 //err 2, is defined expected input not given ie. line[pos] != '$'
 //err 3, invalid string? ie. $(hello no end of brace
 
-char * expand_variables (char * line, Variable ** variables, int * error) {
+//will return null on failure
+
+char * expand_variables (char * line, Variable ** variables) {
 
 	int length = strlen(line);
 	char * subs_line = line;
@@ -194,7 +196,10 @@ char * expand_variables (char * line, Variable ** variables, int * error) {
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
 		
 		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, subs_line, variables); //there is an issue with memory
+			
+			subs_line = substitute_variable (i, subs_line, variables);
+			 //there is an issue with memory
+
 			if (subs_line != NULL) {
 				length = strlen(subs_line);
 				i = 0;

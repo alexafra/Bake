@@ -1,4 +1,4 @@
-// #include "bake.h"
+#include "bake.h"
 
 
 // /*
@@ -21,16 +21,29 @@
 // . It is an error if curl reports if a URL-based dependency is not found; it is not sought as a target. 
 
 // */
+char * get_modification_date(char *filename) {
+	struct stat attrib;
+	stat(filename, &attrib);
+	char time[20];
+	strftime(time, 100, %X %x, st_mtime(&attrib.st_mtime));
+	return time;
+}
+
+bool compare_time(char *time1, char *time2) {
+	//compare the times here...
+}
 
 bool is_in_current_dir(char *targetname) {
 	
+	struct stat buf;
+	return (stat(targetname, &buf) == 0);  
 }
 
 time_t get_url_time(char *url) {
 	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
 
 	int pid = fork();
-
+	///DUNNO HOW TO DO THIS 
 }
 
 int url_exists(char *url) {

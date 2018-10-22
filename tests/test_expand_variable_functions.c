@@ -124,7 +124,7 @@ void test_getvarvaluesimple (void) {
 	// //But you havent allocated any memory adjacent to these pointers.
 	// //thus this does closely may an array of Variables.
 
-	Variable * variables[5];
+		Variable * variables[5];
     Variable variable1 = {"C99", "cc -std=c99"};
     Variable variable2 = {"CFLAGS", "-Wall -pedantic -Werror"};
     Variable variable3 = {"TESTLOC", "../tests"};
@@ -136,16 +136,7 @@ void test_getvarvaluesimple (void) {
     variables[3] = &variable4;
     variables[4] = NULL;
 
-    /*
-	C99 = cc -std=c99
-	CFLAGS = -Wall -pedantic -Werror
-	TESTLOC = ../tests
-	TARGET = ../target
-
-	TESTTARGET = ../testtarget
-
-    */
-
+  
     //set variables values
     char *name1 = "C99";
     char *name2 = "CFLAGS";
@@ -167,9 +158,29 @@ void test_getvarvaluesimple (void) {
  //    //////////////////////////////////////////////////////
  //    //environment values
     char *envname1 = "SHELL";
-    char *envvalue1 = get_var_value(envname1, variables);
-    CU_ASSERT(0 == strcmp(envvalue1, "/bin/bash"));
+    char *envname2 = "HOME";
+    char *envname3 = "PWD";
+    char *envname4 = "LOGNAME";
+    char *envname5 = " PWD";
+    char *envname6 = "PWD ";
+    char *envname7 = "\tPWD";
 
+
+    char *envvalue1 = get_var_value(envname1, variables);
+    char *envvalue2 = get_var_value(envname2, variables);
+    char *envvalue3 = get_var_value(envname3, variables);
+    char *envvalue4 = get_var_value(envname4, variables);
+    char *envvalue5 = get_var_value(envname5, variables);
+    char *envvalue6 = get_var_value(envname6, variables);
+    char *envvalue7 = get_var_value(envname7, variables);
+
+    CU_ASSERT(0 == strcmp(envvalue1, "/bin/bash"));
+    CU_ASSERT(0 == strcmp(envvalue2, "/home/kieren"));
+    CU_ASSERT(0 == strcmp(envvalue3, "/home/kieren/Bake/src"));
+    CU_ASSERT(0 == strcmp(envvalue4, "kieren"));
+    CU_ASSERT(0 == strcmp(envvalue5, "\0"));
+    CU_ASSERT(0 == strcmp(envvalue6, "\0"));
+    CU_ASSERT(0 == strcmp(envvalue7, ""));
 
 
  //    ///////////////////////////////////////////////////////
@@ -262,14 +273,14 @@ void test_substitutevariablesimple (void) {
 
     char * ln1expanded = substitute_variable (pos1, ln1, variables);
 
-    char * ln1expected = "bake : ../target/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+    char * ln2expected = "bake : ../target/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
 
-    CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
+    CU_ASSERT(0 == strcmp(ln1expanded, ln2expected));
 
 
-    //todo
-    //char * line1 =
-    //char * line2 = 
+    // todo
+    // char * line1 =
+    // char * line2 = 
 
 }
 
@@ -297,6 +308,53 @@ void test_expandvariablessimple (void) {
     char * ln1expected = "bake : ../target/bake.o ../target/process_bakefile.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
 
     CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
+
+
+    char *ln2 = "$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c";
+    char *ln2expanded = expand_variables(ln2, variables, &err1);
+    char *ln2expected = "cc -std=c99 -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
+
+    CU_ASSERT(0 == strcmp(ln2expanded, ln2expected));
+
+    char *ln3 = "$(C9 9) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c";
+    char *ln3expanded = expand_variables(ln3, variables, &err1);
+    char *ln3expected = " -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
+
+    CU_ASSERT(0 == strcmp(ln3expanded, ln3expected)); 
+
+    char *ln4 = "$(C99) $(HOME) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c";
+    char *ln4expanded = expand_variables(ln4, variables, &err1);
+    char *ln4expected = "cc -std=c99 /home/kieren -Wall -pedantic -Werror -c -o ../target/bake.o bake.c";
+
+    CU_ASSERT(0 == strcmp(ln4expanded, ln4expected));
+
+	char *ln5 = "$(C99";
+    char *ln5expanded = expand_variables(ln5, variables, &err1);
+    char *ln5expected = NULL;
+
+    CU_ASSERT(0 == strcmp(ln5expanded, ln5expected));
+
+
+//     $(TARGET)/bake.o : bake.c bake.h
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
+
+// $(TARGET)/process_bakefile.o : process_bakefile.c bake.h
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
+
+// $(TARGET)/nextline.o : nextline.c bake.h
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
+
+// $(TARGET)/string_modifiers.o : string_modifiers.c bake.h
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/string_modifiers.o string_modifiers.c
+
+// $(TARGET)/expand_variables.o : expand_variables.c bake.h
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/expand_variables.o expand_variables.c
+
+// $(TARGET)/process_variable_definition.o : process_variable_definition.c bake.h 
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_variable_definition.o process_variable_definition.c 
+
+// $(TARGET)/process_target_definition.o : process_target_definition.c bake.h 
+// 	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_definition.o process_target_definition.c 
 }
 
 

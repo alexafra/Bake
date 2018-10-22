@@ -6,7 +6,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "variable.h"
-
+#include <curl/curl.h>
+#include <curl/easy.h>
 
 
 //Global Functions

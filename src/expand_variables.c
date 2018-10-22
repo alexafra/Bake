@@ -190,10 +190,11 @@ char * expand_variables (char * line, Variable ** variables, int * error) {
 
 	int length = strlen(line);
 	char * subs_line = line;
+
 	for (int i = 0; i < length; ++i ) { //doesnt hit null byte
 		
 		if (subs_line[i] == '$') {
-			subs_line = substitute_variable (i, line, variables);
+			subs_line = substitute_variable (i, subs_line, variables);
 			if (subs_line != NULL) {
 				length = strlen(subs_line);
 				i = 0;
@@ -201,6 +202,7 @@ char * expand_variables (char * line, Variable ** variables, int * error) {
 				return subs_line;
 			}
 		}
+
 	}
 	return line;
 }

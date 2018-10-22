@@ -54,7 +54,7 @@ clean :
 	rm -f ../tests/testD
 
 
-test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o 
+test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/expand_variables.o $(TARGET)/string_modifiers.o 
 	$(C99) $(CFLAGS) -o $(TESTLOC)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/expand_variables.o -lcunit 
 	$(C99) $(CFLAGS) -o test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/string_modifiers.o $(TARGET)/expand_variables.o -lcunit 
 

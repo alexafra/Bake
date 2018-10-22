@@ -20,21 +20,6 @@ int get_num_targets (void) {
 	return i;
 }
 
-int get_num_actions (char ** actions) {
-	int i = 0;
-	while (actions[i] != NULL) {
-		++i
-	}
-	return i;
-}
-
-int get_num_actions (char ** actions) {
-	int i = 0;
-	while (actions[i] != NULL) {
-		++i
-	}
-	return i;
-}
 
 void process_variable_definition(char *firstword, char *rest_of_line) {
 
@@ -57,7 +42,7 @@ void process_target_definition(char *firstword, char *rest_of_line) {
 	int length = get_num_targets();
 	targets = realloc(targets, sizeof(*targets) * (length + 2));
 	Target * new_target = calloc(1, sizeof(Target));
-	new_target->firstword;
+	new_target->target = firstword;
 	new_target->dependencies = dependencies;
 	new_target->actions = actions;
 	targets[length] = new_target;
@@ -73,8 +58,8 @@ void process_action_definition(char * line) {
 
 	int numtargets = get_num_targets();
 	char ** actions = targets[numtargets - 1]->actions;
-	int numactions = get_num_actions(actions);
-	realloc(actions, sizeof(char*) * (numactions + 2));
+	int numactions = numstrings(actions);
+	actions = realloc(actions, sizeof(char*) * (numactions + 2));
 	actions[numactions] = line;
 
 }

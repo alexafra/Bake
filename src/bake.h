@@ -25,6 +25,9 @@ extern char getcriticalchar (char *);
 extern char * substring(char *, int , int, int*);
 extern char * itoa (int);
 extern int numberlength (int); 
+
+extern int numstrings (char **);
+extern char ** separate_line (char *);
 //extern char * expand_variables2 (char *, char **, char ** , int*);
 
 extern char * expand_variables(char *, Variable **);
@@ -39,13 +42,14 @@ extern void process_action_definition(char * );
 
 int get_num_variables (void);
 int get_num_targets (void);
-int get_num_actions (char ** actions);
+
 
 //Target line
 extern bool check_if_url(char *);
 
 //Global Variables
 extern Variable ** variables;
+extern Target ** targets;
 
 //Global Constants
 #define CH_CONTINUATION         '\\'

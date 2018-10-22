@@ -226,9 +226,19 @@ char * itoa (int value) {
     return numberstring;
 }
 
+int numstrings (char ** stringlist) {
+    int i = 0;
+    while (stringlist[i] != NULL) {
+        ++i;
+    }
+    return i;
+}
+
 char ** separate_line (char * line) {
     char ** wordlist = calloc(1, sizeof(char *));
     wordlist = NULL;
+
+    int length = numstrings(wordlist);
 
     char * word = getfirstword(line);
     int i = 0;

@@ -118,7 +118,7 @@ void process_bakefile(FILE *fp) {
 
         int error;
         //expand any varibles in the line
-        char * exp_line = expand_variables(line, variables, &error);
+        char * exp_line = expand_variables(line, variables);
         if (error != 0) {
             //do some error stuff
         }

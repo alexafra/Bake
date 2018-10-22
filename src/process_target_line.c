@@ -21,7 +21,7 @@ just use curl's --head option to find the modification date. However, any target
 
 */
 
-int check_url(char *url) {
+int url_exists(char *url) {
 
 	CURL = *curl;
 	CURLcode isurl;
@@ -52,28 +52,22 @@ bool startswith(char *url, char *dep) {
 	return 0; 
 }		
 
-char *get_url(char * dependency) {
+bool *check_if_url(char * dependency) {
 
 	//Check to see whether the dependency looks like a url
 	const char *url1 = "file://";
 	const char *url2 = "http://";
 	const char *url3 = "https://";
 
-	//If yes, return stuff with curl
+	//If yes
 	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
-		//check if URL exists
-		if(check_url(dependency)) {
+	
+		return 1;
 
-		}
-		else {
-
-		}
 	}
+	//If not a url
+	return 0;
 
-	else {
-		return //something
-	}
-		
 }
 
 process_this_line(char *target, char **dependencies, char *action_line) {
@@ -91,7 +85,7 @@ process_this_line(char *target, char **dependencies, char *action_line) {
 			char *newaction_line = struct.action_line;
 			process_this_line(newtarget, newdependencies, newaction_line);
 
-		} else if(dependency is an URL) {
+		} else if(check_if_url(*dependencies)) {
 			
 			DO URL-y THINGS HERE;
 

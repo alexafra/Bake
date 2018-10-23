@@ -21,16 +21,34 @@
 // . It is an error if curl reports if a URL-based dependency is not found; it is not sought as a target. 
 
 // */
-char * get_modification_date(char *filename) {
-	struct stat attrib;
-	stat(filename, &attrib);
-	char time[20];
-	strftime(time, 100, %X %x, st_mtime(&attrib.st_mtime));
-	return time;
+time_t * get_modification_date(char *filename) {
+	
+	struct stat time;
+	if(stat(filename, &time) != 0) {
+		perror("Stat fail");
+		return 0;
+	}
+	time_t t = time.st_mtime;
+	return t;
+
 }
 
-bool compare_time(char *time1, char *time2) {
+bool is_more_recent(time_t *time1, time_t *time2) {
 	//compare the times here...
+	if(difftime(time1, time2) > 0) {
+		return true;
+	}
+	return false;
+}
+
+char * get_directory() {
+	char cwd[MAXPATHLEN];
+	if(getcwd(cwd, sizeof(cwd)) != NULL) {
+		return cwd;
+	} else {
+		perror("getcwd() error");
+		exit(EXIT_FAILURE); //Do you even do this here?
+	}
 }
 
 bool is_in_current_dir(char *targetname) {

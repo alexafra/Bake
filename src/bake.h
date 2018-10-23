@@ -9,6 +9,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <time.h>
+#include <dirent.h>
 
 
 //Global Functions

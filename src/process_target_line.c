@@ -22,16 +22,62 @@
 
 // */
 
+// time_t * get_modification_date(char *filename) {
+	
+// 	//THIS COMPILES BUT MAY NOT WORK... NOT TESTED
+// 	time_t *filetime;
+// 	struct stat attrib;
+// 	if(stat(filename, &attrib) != 0) {
+// 		perror("Stat fail");
+	
+// 	} else {
+
+// 	filetime = &attrib.st_mtime;
+// 	return filetime;
+// 	}
+// }
+
+// bool is_more_recent(time_t *time1, time_t *time2) {
+	
+// 	//THIS HAS PROBLEMS WITH 'makes integer from pointer without a cast'
+
+// 	//compare the times here...
+
+// 	if(difftime(&time1, &time2) > 0) {
+// 		return true;
+// 	}
+// 	return false;
+// }
+
+char * get_directory() {
+	//THIS WORKS!!!!!!
+
+	char *cwd = malloc(PATH_MAX);
+	if(getcwd(cwd, PATH_MAX * sizeof(cwd)) != NULL) {
+		return cwd;
+	} else {
+		perror("getcwd() error");
+		exit(EXIT_FAILURE); //Do you even do this here?
+	}
+}
+
+bool is_in_current_dir(char *targetname) {
+	
+	//THIS WORKS
+	struct stat buf;
+	return (stat(targetname, &buf) == 0);  
+}
+
 // time_t get_url_time(char *url) {
 // 	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
 
 // 	int pid = fork();
-
+// 	///DUNNO HOW TO DO THIS 
 // }
 
-// int url_exists(char *url) {
+// bool url_exists(char *url) {
 
-// 	CURL = *curl;
+// 	CURL *curl;
 // 	CURLcode isurl;
 
 // 	curl = curl_easy_init();
@@ -47,36 +93,40 @@
 // 		curl_easy_cleanup(curl);
 // 	}
 
-// 	return (isurl == CURLE_OK) ? 1 : 0;
+// 	return (isurl == CURLE_OK); //? 1 : 0;
 // }
 
-// bool startswith(char *url, char *dep) {
+bool startswith(char *url, char *dep) {
 
-// 	//Arbitrary function for checking start of strings
-// 	if(strncpm(url, dep, strlen(url) == 0)) {
-// 		return 1;
-// 	}
+	//THIS WORKS
+	//Arbitrary function for checking start of strings
+	if(strncmp(url, dep, strlen(url)) == 0) {
+		return true;
+	} else {
+		return false;	
+	}
+	 
+}		
 
-// 	return 0; 
-// }		
-
-// bool check_if_url(char * dependency) {
-
-// 	//Check to see whether the dependency looks like a url
-// 	const char *url1 = "file://";
-// 	const char *url2 = "http://";
-// 	const char *url3 = "https://";
-
-// 	//If yes
-// 	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
+bool check_if_url(char *dependency) {
 	
-// 		return 1;
+	//THIS WORKS
+	//Check to see whether the dependency looks like a url
+	char *url1 = "file://";
+	char *url2 = "http://";
+	char *url3 = "https://";
 
-// 	}
-// 	//If not a url
-// 	return 0;
+	//If yes
+	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
+	
+		return true;
 
-// }
+	} else {
+	//If not a url
+	return false;
+	}
+}
+
 
 // process_this_line(char *target, char **dependencies, char *action_line) {
 

@@ -51,20 +51,22 @@ void process_target_definition(char *firstword, char *rest_of_line) {
 }
 
 
-
+//are we freeing up the line
 //add to last target
 //add to end of action
 void process_action_definition(char * line) {
 
+	char * action = strdup(line);
+
 	int numtargets = get_num_targets();
 	Target * target = targets[numtargets - 1];
 
-	int numactions = numstrings(target -> actions);
+	int numactions = numstrings(target->actions);
 
 	//this is a strange line
-	target->actions  = realloc (target->actions, sizeof(char*) * numactions + 2);
+	target->actions  = realloc (target->actions, sizeof(char*) * (numactions + 2)); //this could be ther line
 	
-	target->actions[numactions] = line;
+	target->actions[numactions] = action;
 	target->actions[numactions + 1] = NULL; 
 
 }

@@ -45,19 +45,22 @@
 
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    // int k = 0;
-    // int kk = 0;
+    int k = 0;
+    int kk = 0;
 
     while(!feof(fp)) {
-        // ++k;
-        // if (k > 155) {
-        //     kk = 1;
-        // }
+        ++k;
+        if (k > 154) {
+            kk = 1;
+        }
         
-        char *line = nextline(fp);  // HANDLES CONTINUATION LINES
+        char *line = nextline(fp);  // HANDLES CONTINUATION LINES returns null at eof, returns "" at empty line
         char * firstword;
         char criticalChar;
 
+        if (line == NULL) { //eof
+            continue;
+        }
 
         if (strlen(line) == 0) {
             free (line);
@@ -80,7 +83,7 @@ void process_bakefile(FILE *fp) {
         }
 
         //This line is an action
-        if (line[0] == '\t' && just_processed_target == true) {
+        if (exp_line[0] == '\t' && just_processed_target == true) {
             skip_leading_space(exp_line);
             process_action_definition(exp_line);
             free (line);
@@ -89,14 +92,12 @@ void process_bakefile(FILE *fp) {
 
         skip_leading_space(exp_line);
 
-        int length = strlen(exp_line);
 
         firstword = getfirstword(exp_line);
 
-        int firstwordlength = strlen(firstword);
 
         int error = 0;
-        char * rest_of_line = substring(exp_line , firstwordlength, length, &error); 
+        char * rest_of_line;
         if (error != 0) {
             // free (firstword);
             // free (rest_of_line);
@@ -109,7 +110,6 @@ void process_bakefile(FILE *fp) {
         criticalChar = getcriticalchar(exp_line);
 
         if (criticalChar == '=') { //variable definition
-            free(rest_of_line);
             rest_of_line = get_rest_of_line(exp_line);
             process_variable_definition(firstword, rest_of_line);
             //i think free here 
@@ -118,7 +118,6 @@ void process_bakefile(FILE *fp) {
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
-            free(rest_of_line);
             rest_of_line = get_rest_of_line(exp_line);
             process_target_definition(firstword, rest_of_line);
             

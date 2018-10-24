@@ -44,6 +44,17 @@ extern void process_action_definition(char * );
 
 extern void print_bakefile (void);
 
+
+
+extern int is_dependency_target (char * );
+extern bool is_dependency_url (char * );
+extern bool is_dependency_file (char * );
+extern void execute_actions (int);
+extern bool is_target_older (char *, char *);
+extern void process_target (int ) ;
+extern void process_bake ( void );
+extern bool is_url_accessible (char *dependency);
+
 int get_num_variables (void);
 int get_num_targets (void);
 

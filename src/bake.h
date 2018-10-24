@@ -41,6 +41,8 @@ extern void process_variable_definition(char *, char *);
 extern void process_target_definition(char *, char *);
 extern void process_action_definition(char * );
 
+extern void print_bakefile (void);
+
 int get_num_variables (void);
 int get_num_targets (void);
 

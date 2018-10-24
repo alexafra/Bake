@@ -76,6 +76,7 @@ int main (void) {
 		|| (NULL == CU_add_test(pSuite1, "test get substring simple", test_substringsimple ))
 		|| (NULL == CU_add_test(pSuite1, "test itoa simple", test_itoasimple ))
 		|| (NULL == CU_add_test(pSuite1, "test numberlength simple", test_numberlengthsimple ))
+		|| (NULL == CU_add_test(pSuite1, "test get rest of linexß", test_getrestofline ))
 		
 		
 
@@ -84,7 +85,7 @@ int main (void) {
 		|| (NULL == CU_add_test(pSuite1, "test get first word hard", test_getfirstwordhard))
 		|| (NULL == CU_add_test(pSuite1, "test get critical char hard", test_getcriticalcharhard))
 		|| (NULL == CU_add_test(pSuite1, "test get insert string hard", test_insertstringhard ))
-		|| (NULL == CU_add_test(pSuite1, "test get substring ahrd", test_substringhard ))
+		|| (NULL == CU_add_test(pSuite1, "test get substring hard", test_substringhard ))
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -99,12 +100,32 @@ int main (void) {
 		return CU_get_error();
 	}
 
-	if (	(NULL == CU_add_test(pSuite1, "test expandvariables simple", test_expandvariablessimple ))
-		|| 	(NULL == CU_add_test(pSuite1, "test getspecialvar simple", test_getspecialvarsimple ))
-		|| 	(NULL == CU_add_test(pSuite1, "test getvarvalue simple", test_getvarvaluesimple ))
-		|| 	(NULL == CU_add_test(pSuite1, "test substitutevariable simple", test_substitutevariablesimple))
-		|| 	(NULL == CU_add_test(pSuite1, "test substitutevariable simple", test_addglobalvariablesimple))
+	if (	(NULL == CU_add_test(pSuite2, "test expandvariables simple", test_expandvariablessimple ))
+		|| 	(NULL == CU_add_test(pSuite2, "test getspecialvar simple", test_getspecialvarsimple ))
+		|| 	(NULL == CU_add_test(pSuite2, "test getvarvalue simple", test_getvarvaluesimple ))
+		|| 	(NULL == CU_add_test(pSuite2, "test substitutevariable simple", test_substitutevariablesimple))
+		
 	) { 
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	CU_pSuite pSuite3 = NULL;
+	pSuite3 = CU_add_suite("process definitions testing", init_suite, clean_suite);
+
+	if (NULL == pSuite3) {
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (
+			(NULL == CU_add_test(pSuite3, "test numstrings", test_numstrings ))
+		|| 	(NULL == CU_add_test(pSuite3, "test separateline", test_separateline ))
+		|| 	(NULL == CU_add_test(pSuite3, "test processs target defintiion", test_processtargetdefinition ))
+		|| 	(NULL == CU_add_test(pSuite2, "test process variable definition", test_processvariabledefinition))
+		|| 	(NULL == CU_add_test(pSuite2, "test process action definitions", test_processactiondefinition))
+
+	) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}

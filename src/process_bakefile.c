@@ -45,14 +45,14 @@
 
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    int k = 0;
-    int kk = 0;
+    // int k = 0;
+    // int kk = 0;
 
     while(!feof(fp)) {
-        ++k;
-        if (k > 154) {
-            kk = 1;
-        }
+        // ++k;
+        // if (k > 154) {
+        //     kk = 1;
+        // }
         
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES returns null at eof, returns "" at empty line
         char * firstword;

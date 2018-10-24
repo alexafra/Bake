@@ -78,36 +78,101 @@
 
 // }
 
-// process_this_line(char *target, char **dependencies, char *action_line) {
+int is_dependency_target (char * dependency) {
 
-// 	int something++ = 0;
+	bool is_target = false;
+	int number_targets = get_num_targets();
+	int i;
+	for (i = 0; i < number_targets; ++i ) {
+		if (strcmp(dependency, targets[i]->target) == 0) {
+			is_target = true;
+			return i;
+		}
+	}
+	return -1;
+}
 
-// 	while(there are still dependencies to examine, ie **dependencies != '\0') {
+bool is_dependency_url (char * dependency) {
+	return true;
 
-// 		if(dependency is itself a target--check the data structure) {
-				
-// 			(somehow access data from the structure)
+}
+
+bool is_url_accessible (char *dependency) {
+	return true;
+}
+
+bool is_dependency_file (char * dependency) {
+	return true;
+}
+
+void execute_actions (int position) {
+
+}
+
+bool is_target_older (char *target, char *depencency) {
+	return true;
+}
+
+
+void process_target (int pos) {
+	Target * target = targets[pos];
+
+	int num_dependencies = numstrings(target->dependencies);
+
+	if (num_dependencies == 0) {
+		execute_actions(pos);
+	}
+
+	bool target_older = false;
+
+	for (int i = 0; i < num_dependencies; ++i) {
+		char * this_dependency = target->dependencies[i];
+
+		int is_target = is_dependency_target (this_dependency);
+		bool is_url = is_dependency_url (this_dependency);
+		bool file_exists = is_dependency_file(this_dependency);
+
+		if (is_target >= 0) {
 			
-// 			char *newtarget = struct.target;
-// 			char **newdependencies = struct.depenedencies;
-// 			char *newaction_line = struct.action_line;
-// 			process_this_line(newtarget, newdependencies, newaction_line);
+			process_target(is_target);
 
-// 		} else if(check_if_url(*dependencies)) {
+		} else if(is_url) {
+			bool url_exists = is_url_accessible(this_dependency);
+			if (!url_exists) {
+				perror("\n\nERROR URL DOES NOT EXIST!\n\n");
+				free (variables);
+				free (targets);
+				exit(EXIT_FAILURE);
+			}
+
+			target_older = is_target_older (target->target, this_dependency);
 			
-// 			DO URL-y THINGS HERE;
+		} else if (file_exists) {
+			target_older = is_target_older (target->target, this_dependency);
 
-// 		} else if(dependency is a file that can be found) {
+		} else {
+			perror("\n\nERROR FILE DOES NOT EXIST IN DIRECTORY!\n\n");
+			free (variables);
+			free (targets);
+			exit(EXIT_FAILURE);
+		}
 
-// 			move to next dependency;
 
-// 		} else if(dependency does not exist) {
-				
-// 			send some error;
-// 		}
-// 		something++;	
+	}
+	if (target_older) {
+		execute_actions (pos);
+	}
+	
+}
 
-// 	}	
+void process_bake ( void ) {
+
+	int numtargets = get_num_targets();
+	for (int i = 0; i < numtargets; ++i ) {
+		process_target(i);
+	}
+
+}
 
 		
 // 	if(target was modified more recently than all dependencies) {

@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
         *targets = NULL;
         
         process_bakefile(fp);
+
+        
                              // WE OPENED IT, SO WE CLOSE IT
         print_bakefile();
         fclose(fp);

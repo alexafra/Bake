@@ -1,139 +1,111 @@
 #include "bake.h"
 
 
-// /*
-// where zero-or-more whitespace characters (spaces and tabs) may appear before and after the ':' character. The first targetname found in a file is the default target, 
-// and is the one to be rebuilt if no other targetname is provided on bake's command-line (see later).
-
-// If the targetname represents a file in the current working directory, then the file's modification date is used as the date of the target. 
-// Otherwise, the target is assumed to be created by the target's actions, if they are successfully executed.
-
-// Dependencies: Each target line may provide zero-or-more dependencies. If there are no dependencies, then the target requires rebuilding.
-//  There are three types of dependencies - ones that identify existing files on disk, ones that identify other targets, and ones that identify 
-//  a web-based URL (a Uniform Resource Locator). If any dependency does not exist, or has been modified more recently that its target, then the target requires rebuilding (see Action lines).
-
-
-// URL dependencies: if a dependency looks like an simple URL (it commences with the pattern file://, http://, or https://) it is assumed to define a URL
-//  to be requested to determine if the associated file exists and has been modified more recently that the current target.
-// bake must use the external utility curl to determine if the file (indicated by the URL) has been modified more recently than the current target. 
-// curl is usually installed on macOS or Linux machines, and is available from curl.haxx.se. Note that bake should not download the indicated file, 
-// just use curl's --head option to find the modification date. However, any target's action may choose to explicitly download a file
-// . It is an error if curl reports if a URL-based dependency is not found; it is not sought as a target. 
-
-// */
-
-// time_t get_url_time(char *url) {
-// 	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
-
-// 	int pid = fork();
-
-// }
-
-// int url_exists(char *url) {
-
-// 	CURL = *curl;
-// 	CURLcode isurl;
-
-// 	curl = curl_easy_init();
-
-// 	if(curl) {
-// 		curl_easy_setopt(curl, CURLOPT_URL, url);
-
-// 		//Dont send to stdout
-// 		curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
-
-// 		//Send request
-// 		isurl = curl_easy_perform(curl);
-// 		curl_easy_cleanup(curl);
-// 	}
-
-// 	return (isurl == CURLE_OK) ? 1 : 0;
-// }
-
-// bool startswith(char *url, char *dep) {
-
-// 	//Arbitrary function for checking start of strings
-// 	if(strncpm(url, dep, strlen(url) == 0)) {
-// 		return 1;
-// 	}
-
-// 	return 0; 
-// }		
-
-// bool check_if_url(char * dependency) {
-
-// 	//Check to see whether the dependency looks like a url
-// 	const char *url1 = "file://";
-// 	const char *url2 = "http://";
-// 	const char *url3 = "https://";
-
-// 	//If yes
-// 	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
+time_t * get_modification_date(char *filename) {
 	
-// 		return 1;
+	//THIS COMPILES BUT MAY NOT WORK... NOT TESTED
+	time_t *filetime;
+	struct stat attrib;
+	if(stat(filename, &attrib) != 0) {
+		perror("Stat fail");
+	
+	} else {
 
-// 	}
-// 	//If not a url
-// 	return 0;
+	filetime = &attrib.st_mtime;
+	return filetime;
+	}
+}
 
-// }
+bool is_more_recent(time_t *time1, time_t *time2) {
+	
+	//THIS HAS PROBLEMS WITH 'makes integer from pointer without a cast'
 
-// process_this_line(char *target, char **dependencies, char *action_line) {
+	//compare the times here...
 
-// 	int something++ = 0;
+	if(difftime(&time1, &time2) > 0) {
+		return true;
+	}
+	return false;
+}
 
-// 	while(there are still dependencies to examine, ie **dependencies != '\0') {
+char * get_directory() {
+	//THIS WORKS!!!!!!
 
-// 		if(dependency is itself a target--check the data structure) {
-				
-// 			(somehow access data from the structure)
-			
-// 			char *newtarget = struct.target;
-// 			char **newdependencies = struct.depenedencies;
-// 			char *newaction_line = struct.action_line;
-// 			process_this_line(newtarget, newdependencies, newaction_line);
+	char *cwd = malloc(PATH_MAX);
+	if(getcwd(cwd, PATH_MAX * sizeof(cwd)) != NULL) {
+		return cwd;
+	} else {
+		perror("getcwd() error");
+		exit(EXIT_FAILURE); //Do you even do this here?
+	}
+}
 
-// 		} else if(check_if_url(*dependencies)) {
-			
-// 			DO URL-y THINGS HERE;
+bool is_in_current_dir(char *targetname) {
+	
+	//THIS WORKS
+	struct stat buf;
+	return (stat(targetname, &buf) == 0);  
+}
 
-// 		} else if(dependency is a file that can be found) {
+time_t get_url_time(char *url) {
+	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
 
-// 			move to next dependency;
+	int pid = fork();
+	///DUNNO HOW TO DO THIS 
+}
 
-// 		} else if(dependency does not exist) {
-				
-// 			send some error;
-// 		}
-// 		something++;	
+bool url_exists(char *url) {
 
-// 	}	
+	CURL *curl;
+	CURLcode isurl;
 
-		
-// 	if(target was modified more recently than all dependencies) {
-			
-// 		do nothing with this entire line--ie exit;
-		
-// 	} else {
+	curl = curl_easy_init();
 
-// 		run action_line on SHELL;
-// 	}	
+	if(curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, url);
 
-// }	
+		//Dont send to stdout
+		curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
 
-// char ** isolate_dependencies(char *rest_of_line) {
-// 	//split up all dependencies and return an array of char pointers
-// }
+		//Send request
+		isurl = curl_easy_perform(curl);
+		curl_easy_cleanup(curl);
+	}
 
-// //If(no )
+	return (isurl == CURLE_OK); //? 1 : 0;
+}
 
+bool startswith(char *url, char *dep) {
 
-// process_target_line(char *firstword, char *rest_of_line, int *no_variables, int *variable_length) {
+	//THIS WORKS
+	//Arbitrary function for checking start of strings
+	if(strncmp(url, dep, strlen(url)) == 0) {
+		return true;
+	} else {
+		return false;	
+	}
+	 
+}		
 
-// 	create structure filled with (MAYBE PUT THIS OUTSIDE OF THIS FUNCTION) 
-// 	- target
-// 	- array of dependencies
-// 	- action line 
+bool check_if_url(char *dependency) {
+	
+	//THIS WORKS
+	//Check to see whether the dependency looks like a url
+	char *url1 = "file://";
+	char *url2 = "http://";
+	char *url3 = "https://";
+
+	//If yes
+	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
+	
+		return true;
+
+	} else {
+	//If not a url
+	return false;
+	}
+}
+
 
 
 // 	//ALGORITHM FOR THIS FUNCTION

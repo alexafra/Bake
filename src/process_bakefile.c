@@ -45,14 +45,14 @@
 
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    int k = 0;
-    int kk = 0;
+    // int k = 0;
+    // int kk = 0;
 
     while(!feof(fp)) {
-        ++k;
-        if (k > 155) {
-            kk = 1;
-        }
+        // ++k;
+        // if (k > 155) {
+        //     kk = 1;
+        // }
         
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
         char * firstword;
@@ -81,7 +81,8 @@ void process_bakefile(FILE *fp) {
 
         //This line is an action
         if (line[0] == '\t' && just_processed_target == true) {
-            process_action_definition(line);
+            skip_leading_space(exp_line);
+            process_action_definition(exp_line);
             free (line);
             continue;
         }
@@ -97,8 +98,8 @@ void process_bakefile(FILE *fp) {
         int error = 0;
         char * rest_of_line = substring(exp_line , firstwordlength, length, &error); 
         if (error != 0) {
-            free (firstword);
-            free (rest_of_line);
+            // free (firstword);
+            // free (rest_of_line);
             free (line);
             exit (EXIT_FAILURE);
         } 
@@ -109,27 +110,27 @@ void process_bakefile(FILE *fp) {
 
         if (criticalChar == '=') { //variable definition
             free(rest_of_line);
-            rest_of_line = get_rest_of_line(line);
+            rest_of_line = get_rest_of_line(exp_line);
             process_variable_definition(firstword, rest_of_line);
             //i think free here 
-            free (firstword);
-            free (rest_of_line);
+            // free (firstword);
+            // free (rest_of_line);
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
             free(rest_of_line);
-            rest_of_line = get_rest_of_line(line);
+            rest_of_line = get_rest_of_line(exp_line);
             process_target_definition(firstword, rest_of_line);
             
-            free (firstword);
-            free (rest_of_line);
+            // free (firstword);
+            // free (rest_of_line);
             just_processed_target = true;
             //first_target_line = false;
             
         } else { //Line is unrecognised, printing expanded version or not??
             printf("%s\n%s\n", "unrecognised line.", line);
-            free (firstword);
-            free (rest_of_line);
+            // free (firstword);
+            // free (rest_of_line);
             free (line);
             exit (EXIT_FAILURE);
         }

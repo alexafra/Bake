@@ -14,7 +14,7 @@ char *nextline(FILE *fp)
         thislength      = strlen(thisline);
         fulllength      += thislength;
 
-        printf("%8s()\t%s\n", __func__, thisline); //the 8 refers to how many characters, minimum, it should have (and it pads it otherwise)... the \t is a "tab"
+       // printf("%8s()\t%s\n", __func__, thisline); //the 8 refers to how many characters, minimum, it should have (and it pads it otherwise)... the \t is a "tab"
 
         if(fullline == NULL) {
             fullline    = strdup(thisline);

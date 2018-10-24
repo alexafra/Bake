@@ -115,3 +115,60 @@ void test_insertstringsimple (void) {
 	free(result19);
 
 }
+
+void test_getrestofline (void) {
+	char line1[] = "hello my name is alex";
+	char line2[] = "  hello what are you doing";
+	char line3[] = "\t hello gotcha doing";
+	char line4[] = "$(TARGET)/nextline.o : nextline.c bake.h";
+	char line5[] = "/expand_variables.o : expand_variables.c bake.h";
+	char line6[] = "TARGET = ../target";
+	char line7[] = "CFLAGS = -Wall -pedantic -Werror";
+	char line8[] = "9 = cc -std=c99";
+	char line9[] = "9";
+	char line10[] = "Abigsingleword";
+	char line11[] = "Abigsingleword       ";
+	char line12[] = "       Abigsingleword";
+
+	char * result1 = get_rest_of_line(line1);
+	char * result2 = get_rest_of_line(line2);
+	char * result3 = get_rest_of_line(line3);
+	char * result4 = get_rest_of_line(line4);
+	char * result5 = get_rest_of_line(line5);
+	char * result6 = get_rest_of_line(line6);
+	char * result7 = get_rest_of_line(line7);
+	char * result8 = get_rest_of_line(line8);
+	char * result9 = get_rest_of_line(line9);
+	char * result10 = get_rest_of_line(line10);
+	char * result11 = get_rest_of_line(line11);
+	char * result12 = get_rest_of_line(line12);
+
+
+	char eresult1[] = "y name is alex";
+	char eresult2[] = "hat are you doing";
+	char eresult3[] = "otcha doing";
+	char eresult4[] = "nextline.c bake.h";
+	char eresult5[] = "expand_variables.c bake.h";
+	char eresult6[] = "../target";
+	char eresult7[] = "-Wall -pedantic -Werror";
+	char eresult8[] = "cc -std=c99";
+	char eresult9[] = "";
+	char eresult10[] = "";
+	char eresult11[] = "";
+	char eresult12[] = ""; 
+
+	CU_ASSERT(0 == strcmp(eresult1, result1));
+	CU_ASSERT(0 == strcmp(eresult2, result2));
+	CU_ASSERT(0 == strcmp(eresult3, result3));
+	CU_ASSERT(0 == strcmp(eresult4, result4));
+	CU_ASSERT(0 == strcmp(eresult5, result5));
+	CU_ASSERT(0 == strcmp(eresult6, result6));
+	CU_ASSERT(0 == strcmp(eresult7, result7));
+	CU_ASSERT(0 == strcmp(eresult8, result8));
+	CU_ASSERT(0 == strcmp(eresult9, result9));
+	CU_ASSERT(0 == strcmp(eresult10, result10));
+	CU_ASSERT(0 == strcmp(eresult11, result11));
+	CU_ASSERT(0 == strcmp(eresult12, result12));
+
+
+}

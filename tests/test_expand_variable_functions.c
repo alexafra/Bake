@@ -278,69 +278,7 @@ void test_substitutevariablesimple (void) {
 
 }
 
-void test_addglobalvariablesimple (void) {
-	//*variables = NULL;
 
-	variables = (Variable **) calloc (1, sizeof(Variable*));
-	*variables = NULL;
-
-	char * name1 = calloc(10, sizeof(char));
-	char * name2 = calloc(10, sizeof(char));
-	char * name3 = calloc(10, sizeof(char));
-	char * name4 = calloc(10, sizeof(char));
-
-	strcpy(name1, "var1");
-	strcpy(name2, "var2");
-	strcpy(name3, "var3");
-	strcpy(name4, "var4");
-
-	char * value1 = calloc(10, sizeof(char));
-	char * value2 = calloc(10, sizeof(char));
-	char * value3 = calloc(10, sizeof(char));
-	char * value4 = calloc(10, sizeof(char));
-
-	strcpy(value1, "test1");
-	strcpy(value2, "test2");
-	strcpy(value3, "test3");
-	strcpy(value4, "test4");
-
-	process_variable_definition(name1, value1);
-	process_variable_definition(name2, value2);
-	process_variable_definition(name3, value3);
-	process_variable_definition(name4, value4);
-
-
-	CU_ASSERT(0 == strcmp(variables[0]->var_name, "var1"));
-	CU_ASSERT(0 == strcmp(variables[1]->var_name, "var2"));
-	CU_ASSERT(0 == strcmp(variables[2]->var_name, "var3"));
-	CU_ASSERT(0 == strcmp(variables[3]->var_name, "var4"));
-
-	CU_ASSERT(0 == strcmp(variables[0]->var_value, "test1"));
-	CU_ASSERT(0 == strcmp(variables[1]->var_value, "test2"));
-	CU_ASSERT(0 == strcmp(variables[2]->var_value, "test3"));
-	CU_ASSERT(0 == strcmp(variables[3]->var_value, "test4"));
-
-
-	process_variable_definition("var21", "test21");
-	process_variable_definition("var22", "test22");
-	process_variable_definition("var23", "test23");
-	process_variable_definition("var24", "test24");
-
-
-	CU_ASSERT(0 == strcmp(variables[4]->var_name, "var21"));
-	CU_ASSERT(0 == strcmp(variables[5]->var_name, "var22"));
-	CU_ASSERT(0 == strcmp(variables[6]->var_name, "var23"));
-	CU_ASSERT(0 == strcmp(variables[7]->var_name, "var24"));
-
-	CU_ASSERT(0 == strcmp(variables[4]->var_value, "test21"));
-	CU_ASSERT(0 == strcmp(variables[5]->var_value, "test22"));
-	CU_ASSERT(0 == strcmp(variables[6]->var_value, "test23"));
-	CU_ASSERT(0 == strcmp(variables[7]->var_value, "test24"));
-
-
-	free (variables);
-
-}
 
 void test_expandvariablessimple (void) {
 	

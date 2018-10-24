@@ -45,41 +45,48 @@
 
 void process_bakefile(FILE *fp) {
     bool just_processed_target = false;
-    
+    int k = 0;
+    int kk = 0;
 
     while(!feof(fp)) {
+        ++k;
+        if (k > 155) {
+            kk = 1;
+        }
+        
         char *line = nextline(fp);  // HANDLES CONTINUATION LINES
         char * firstword;
         char criticalChar;
 
-        //The line is a comment line
-        if(line[0] == '#') {
+
+        if (strlen(line) == 0) {
             free (line);
             continue;
+        } //were not exiting the file.
+
+        //The line is a comment line
+        if(line[0] == '#') { //this fao;s
+            free (line);
+            continue;
+        }
+
+        
+
+        char * exp_line = expand_variables(line, variables);
+        if (exp_line == NULL) {
+            printf("%s\n%s\n", "unrecognised line.", line);
+            free (exp_line);
+            exit (EXIT_FAILURE);
         }
 
         //This line is an action
         if (line[0] == '\t' && just_processed_target == true) {
             process_action_definition(line);
-            just_processed_target = true;
             free (line);
             continue;
         }
 
-        skip_leading_space(line);
-
-        //The line is all whitespace
-        if (strlen(line) == 0) {
-            free (line);
-            continue;
-        }
-
-        //expand any varibles in the line
-        char * exp_line = expand_variables(line, variables);
-        if (exp_line == NULL) {
-
-        }
-        //could be NULL
+        skip_leading_space(exp_line);
 
         int length = strlen(exp_line);
 
@@ -88,9 +95,12 @@ void process_bakefile(FILE *fp) {
         int firstwordlength = strlen(firstword);
 
         int error = 0;
-        char * rest_of_line = substring(exp_line , firstwordlength, length, &error);
+        char * rest_of_line = substring(exp_line , firstwordlength, length, &error); 
         if (error != 0) {
-            //do some error stuff
+            free (firstword);
+            free (rest_of_line);
+            free (line);
+            exit (EXIT_FAILURE);
         } 
         //start and end
 
@@ -98,6 +108,8 @@ void process_bakefile(FILE *fp) {
         criticalChar = getcriticalchar(exp_line);
 
         if (criticalChar == '=') { //variable definition
+            free(rest_of_line);
+            rest_of_line = get_rest_of_line(line);
             process_variable_definition(firstword, rest_of_line);
             //i think free here 
             free (firstword);
@@ -105,6 +117,8 @@ void process_bakefile(FILE *fp) {
             just_processed_target = false;
 
         } else if (criticalChar == ':') { // target definition
+            free(rest_of_line);
+            rest_of_line = get_rest_of_line(line);
             process_target_definition(firstword, rest_of_line);
             
             free (firstword);
@@ -112,7 +126,7 @@ void process_bakefile(FILE *fp) {
             just_processed_target = true;
             //first_target_line = false;
             
-        } else { //Line is unrecognised
+        } else { //Line is unrecognised, printing expanded version or not??
             printf("%s\n%s\n", "unrecognised line.", line);
             free (firstword);
             free (rest_of_line);
@@ -124,7 +138,6 @@ void process_bakefile(FILE *fp) {
 
 
         free (line);
-        free(exp_line);
     }
 }
 

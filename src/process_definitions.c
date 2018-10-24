@@ -57,21 +57,15 @@ void process_target_definition(char *firstword, char *rest_of_line) {
 void process_action_definition(char * line) {
 
 	int numtargets = get_num_targets();
-	char ** actions = targets[numtargets - 1]->actions;
-	int numactions = numstrings(actions);
-	actions = realloc(actions, sizeof(char*) * (numactions + 2));
-	actions[numactions] = line;
+	Target * target = targets[numtargets - 1];
+
+	int numactions = numstrings(target -> actions);
+
+	//this is a strange line
+	target->actions  = realloc (target->actions, sizeof(char*) * numactions + 2);
+	
+	target->actions[numactions] = line;
+	target->actions[numactions + 1] = NULL; 
 
 }
 
-//separate_line
-
-//I think this wont have problems.
-// void free_variable (int pos) {
-
-// 	free(variables[pos]->var_name);
-// 	free(variables[pos]->var_value);
-
-// 	free (variables[pos]);
-
-// }

@@ -1,5 +1,6 @@
 #include "bake.h"
 //  READ SUCCESSIVE LINES UNTIL END-OF-FILE OR ONE DOES NOT END WITH '\'
+//returns null at eof?
 char *nextline(FILE *fp)
 {
     char        *fullline       = NULL;

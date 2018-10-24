@@ -15,6 +15,12 @@ int main(int argc, char *argv[])
             perror(argv[1]);
             return 1;
         }
+
+        variables = (Variable **) calloc (1, sizeof(Variable*));
+        *variables = NULL;
+
+        targets = (Target **) calloc (1, sizeof(Target*));
+        *targets = NULL;
         
         process_bakefile(fp);
                              // WE OPENED IT, SO WE CLOSE IT

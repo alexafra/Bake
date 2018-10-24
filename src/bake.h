@@ -23,6 +23,7 @@ extern void skip_leading_space (char *);
 extern char * getfirstword (char *);
 extern char getcriticalchar (char *);
 extern char * substring(char *, int , int, int*);
+extern char * get_rest_of_line (char *);
 extern char * itoa (int);
 extern int numberlength (int); 
 

@@ -1,6 +1,8 @@
 
 #include "bake.h"
 
+//there cant be an equal sign in the dependencies
+
 //trim line of carriage return or next line character, replacing with null
 void trimline(char *line)
 {
@@ -97,6 +99,7 @@ char * getfirstword (char * line) {
 
 }
 
+//overshooting
 char * get_rest_of_line (char *line) {
     
     char * firstword = getfirstword (line);
@@ -236,18 +239,27 @@ int numstrings (char ** stringlist) {
 
 char ** separate_line (char * line) {
     char ** wordlist = calloc(1, sizeof(char *));
-    wordlist = NULL;
-
-    int length = numstrings(wordlist);
+    *wordlist = NULL;
 
     char * word = getfirstword(line);
+    int fwlength = strlen(word);
+    int fulllength = strlen(line);
+    int error = 0;
     int i = 0;
+
     while (0 != strcmp(word, "")) {
-        wordlist = realloc(wordlist, sizeof(char*) * (length + 2));
+        wordlist = realloc(wordlist, sizeof(char*) * (i + 2));
         *(wordlist + i) = word;
         *(wordlist + i + 1) = NULL;
-        line = get_rest_of_line(line);
+        line = substring(line, fwlength, fulllength, &error);
+        if (error != 0) {
+            //something
+        }
+
+        skip_leading_space(line);
         word = getfirstword(line);
+        fwlength  = strlen(word);
+        fulllength = strlen(line);
         ++i;
     }
     return wordlist;

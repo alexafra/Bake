@@ -101,7 +101,7 @@ bool is_older (time_t time1, time_t time2) {
 	
 	//Compare modification dates here
 
-	if(difftime(time1, time2) < 0) {
+	if(time1 < time2) {
 		return true;
 	}
 	return false;
@@ -116,15 +116,17 @@ time_t get_modification_date (char *filename) {
 		perror("Stat fail");
 		exit(EXIT_FAILURE);
 	} else {
-
-	filetime = attrib.st_mtime;
-	return filetime;
+		filetime = attrib.st_mtime;
+		return filetime;
 	}
 }
 
 bool is_target_older (char *target, char *dependency) {
-	
-	if(is_older (get_modification_date(target), get_modification_date(dependency))) {
+	//return true;
+	time_t target_date = get_modification_date(target);
+	time_t dependency_date = get_modification_date(dependency);
+	bool is_target_older = is_older (target_date, dependency_date);
+	if (is_target_older) {
 		return true;	
 	} else {
 		return false;
@@ -134,38 +136,41 @@ bool is_target_older (char *target, char *dependency) {
 bool execute_action (int target_pos, int action_pos) {
 	Target * target = targets[target_pos];
 	char * action = target->actions[action_pos];
-	char * shell = getenv("SHELL");
-	if (shell == NULL) {
-		shell = '/bin/bash';
+	// char * shell = getenv("SHELL");
+	// if (shell == NULL) {
+	// 	shell = "/bin/bash";
+	// ;
+	int err = system(action);
+	if (err < 0) {
+		return false;
+	} else {
+		return true;
 	}
 
-	pid_t pid;
-	pid = fork();
-	int status;
-	if (pid == 0) { //chld
-        if (-1 == execl(shell, action , NULL)) {
-            perror("child process execve failed");
-            exit (1);
-        } else {
-        	exit (0);
-        }
-    } else if (pid < 0) {
-    	return false;
-	} else {   
-	    waitpid(pid, &status, 0);  // Parent process waits here for child to terminate.
-	    if (status == 0) {
-	    	return true;
-	    } else {
-	    	return false;
-	    }
-	} 
+	//return true;
+
+	// pid_t child_pid;
+	// child_pid = fork();
+	// int status;
+	// if (child_pid == 0) { 
+ //        execl(shell, action , NULL);
+ //        exit(0);
+ //    } else if (child_pid < 0) {
+ //    	return false;
+	// } else { 
+	// 	pid_t tpid;
+	// 	do {
+	// 		tpid = wait(&status25);
+	// 	} while (tpid != child_pid);
+	//     return true;
+	// } 
 
 }
 
 void execute_actions (int position) {
-	Target * target = targets[pos];
+	Target * target = targets[position];
 	char ** actions = target->actions;
-	int num_actions = num_strings(actions);
+	int num_actions = numstrings(actions);
 	
 	
 
@@ -174,22 +179,25 @@ void execute_actions (int position) {
 		if (starts_with_char(actions[i], '-')) { //something specific
 			skip_leading_space(actions[i]);
 			action_successful = execute_action(position, i);
-			if (!action_successful) {
-				//do some stuff
-			}
 
 		} else if (starts_with_char(actions[i], '@')) {
 			skip_leading_space(actions[i]);
 			printf("%s\n", actions[i]);
 			action_successful = execute_action(position, i);
 			if (!action_successful) {
-				//do some stuff
+				perror("\n\naction unsuccessful\n\n");
+				free (variables);
+				free (targets);
+				exit(0);
 			}
 		} else {
 			skip_leading_space(actions[i]);
 			action_successful = execute_action(position, i);
 			if (!action_successful) {
-				//do some stuff
+				perror("\n\naction unsuccessful\n\n");
+				free (variables);
+				free (targets);
+				exit(0);
 			}
 		}
 	}
@@ -198,7 +206,7 @@ void execute_actions (int position) {
 
 
 
-void process_target (int pos) {
+bool process_target (int pos) {
 	Target * target = targets[pos];
 
 	int num_dependencies = numstrings(target->dependencies);
@@ -217,13 +225,15 @@ void process_target (int pos) {
 		bool file_exists = is_dependency_file(this_dependency);
 
 		if (is_target >= 0) {
-			
-			process_target(is_target);
+
+			if (process_target(is_target)) {
+				target_older = true;
+			} 
 
 		} else if(is_url) {
 			bool url_exists = is_url_accessible(this_dependency);
 			if (!url_exists) {
-				perror("\n\nERROR URL DOES NOT EXIST!\n\n");
+				perror("\nERROR URL DOES NOT EXIST!\n");
 				free (variables);
 				free (targets);
 				exit(EXIT_FAILURE);
@@ -237,7 +247,7 @@ void process_target (int pos) {
 		} else {
 
 			//Actually, if it doesn't exist, we need to run the action line (see CITS2002 description)
-			perror("\n\nERROR FILE DOES NOT EXIST IN DIRECTORY!\n\n");
+			perror("\nERROR FILE DOES NOT EXIST IN DIRECTORY!\n");
 			free (variables);
 			free (targets);
 			exit(EXIT_FAILURE);
@@ -247,7 +257,9 @@ void process_target (int pos) {
 	}
 	if (target_older) {
 		execute_actions (pos);
+		return true;
 	}
+	return false;
 	
 }
 
@@ -260,4 +272,3 @@ void process_bake ( void ) {
 
 }
 
-		

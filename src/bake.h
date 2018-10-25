@@ -26,6 +26,7 @@ extern char * substring(char *, int , int, int*);
 extern char * get_rest_of_line (char *);
 extern char * itoa (int);
 extern int numberlength (int); 
+extern bool starts_with_char (char *, char);
 
 extern int numstrings (char **);
 extern char ** separate_line (char *);
@@ -50,7 +51,7 @@ extern bool is_dependency_url (char * );
 extern bool is_dependency_file (char * );
 extern void execute_actions (int);
 extern bool is_target_older (char *, char *);
-extern void process_target (int ) ;
+extern bool process_target (int ) ;
 extern void process_bake ( void );
 extern bool is_url_accessible (char *dependency);
 extern bool startswith (char *, char* );
@@ -59,6 +60,7 @@ extern bool is_older (time_t, time_t);
 
 int get_num_variables (void);
 int get_num_targets (void);
+
 
 
 //Target line

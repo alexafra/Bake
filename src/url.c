@@ -51,6 +51,18 @@
 // 	fclose(header);
 // }
 
+bool startswith(char *start_string, char *string) {
+
+    //THIS WORKS
+    //Arbitrary function for checking start of strings
+    if(0 == strncmp(start_string, string, strlen(start_string)) ) {
+        return true;
+    } else {
+        return false;   
+    }
+     
+}   
+
 char * geturldetails(char * url ) {
 	// FILE * header;
 	// header = fopen("details.txt", "w");
@@ -94,10 +106,11 @@ char * geturldetails(char * url ) {
         if (line == NULL) { //eof
             continue;
         }
-
+        printf("%s\n", line);
     	char *dateline = "< Last-Modified:";
 
     	if(startswith(dateline, line)) {
+            printf("\n\nHERE\n\n");
     		
     		//Copy this line into another char
     		int err;
@@ -460,17 +473,7 @@ void add_char_to_start (char * string, char character) {
 // 	return (isurl == CURLE_OK); //? 1 : 0;
 // }
 
-bool startswith(char *url, char *dep) {
-
-	//THIS WORKS
-	//Arbitrary function for checking start of strings
-	if(strncmp(url, dep, strlen(url)) == 0) {
-		return true;
-	} else {
-		return false;	
-	}
-	 
-}		
+	
 
 // bool check_if_url(char *dependency) {
 	

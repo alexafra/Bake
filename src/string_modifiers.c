@@ -265,7 +265,19 @@ char ** separate_line (char * line) {
     return wordlist;
 }
 
+bool starts_with_char (char * string, char character) {
+    skip_leading_space(string);
+    if (strlen(string) > 0) {
+        if (string[0] == character) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 
+}
 
     //Pretty sure this works... I tested it with a number of ways in a txt file
     //May still have some bugs though

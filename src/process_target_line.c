@@ -136,9 +136,71 @@ bool is_target_older (char *target, char *depencency) {
 	return true;
 }
 
-void execute_actions (int position) {
+bool execute_action (int target_pos, int action_pos) {
+	Target * target = targets[target_pos];
+	char * action = target->actions[action_pos];
+	char * shell = getenv("SHELL");
+	if (shell == NULL) {
+		shell = '/bin/bash';
+	}
+
+	pid_t pid;
+	pid = fork();
+	int status;
+	if (pid == 0) { //chld
+        if (-1 == execl(shell, action , NULL)) {
+            perror("child process execve failed");
+            exit (1);
+        } else {
+        	exit (0);
+        }
+    } else if (pid < 0) {
+    	return false;
+	} else {   
+	    waitpid(pid, &status, 0);  // Parent process waits here for child to terminate.
+	    if (status == 0) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	} 
 
 }
+
+void execute_actions (int position) {
+	Target * target = targets[pos];
+	char ** actions = target->actions;
+	int num_actions = num_strings(actions);
+	
+	
+
+	for (int i = 0; i < num_actions; ++i) {
+		bool action_successful = true;
+		if (starts_with_char(actions[i], '-')) { //something specific
+			skip_leading_space(actions[i]);
+			action_successful = execute_action(position, i);
+			if (!action_successful) {
+				//do some stuff
+			}
+
+		} else if (starts_with_char(actions[i], '@')) {
+			skip_leading_space(actions[i]);
+			printf("%s\n", actions[i]);
+			action_successful = execute_action(position, i);
+			if (!action_successful) {
+				//do some stuff
+			}
+		} else {
+			skip_leading_space(actions[i]);
+			action_successful = execute_action(position, i);
+			if (!action_successful) {
+				//do some stuff
+			}
+		}
+	}
+	
+}
+
 
 
 void process_target (int pos) {

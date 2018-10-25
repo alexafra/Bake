@@ -1,17 +1,17 @@
 #include "bake.h"
 
 
-char * get_directory() {
-	//THIS WORKS!!!!!!
+// char * get_directory() {
+// 	//THIS WORKS!!!!!!
 
-	char *cwd = malloc(PATH_MAX);
-	if(getcwd(cwd, PATH_MAX * sizeof(cwd)) != NULL) {
-		return cwd;
-	} else {
-		perror("getcwd() error");
-		exit(EXIT_FAILURE); //Do you even do this here?
-	}
-}
+// 	char *cwd = malloc(PATH_MAX);
+// 	if(getcwd(cwd, PATH_MAX * sizeof(cwd)) != NULL) {
+// 		return cwd;
+// 	} else {
+// 		perror("getcwd() error");
+// 		exit(EXIT_FAILURE); //Do you even do this here?
+// 	}
+// }
 
 // time_t get_url_time(char *url) {
 // 	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
@@ -131,10 +131,6 @@ bool is_target_older (char *target, char *dependency) {
 	}
 }
 
-
-bool is_target_older (char *target, char *depencency) {
-	return true;
-}
 
 void execute_actions (int position) {
 

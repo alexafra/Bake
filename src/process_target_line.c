@@ -1,35 +1,6 @@
 #include "bake.h"
 
 
-// */
-
-// time_t * get_modification_date(char *filename) {
-	
-// 	//THIS COMPILES BUT MAY NOT WORK... NOT TESTED
-// 	time_t *filetime;
-// 	struct stat attrib;
-// 	if(stat(filename, &attrib) != 0) {
-// 		perror("Stat fail");
-	
-// 	} else {
-
-// 	filetime = &attrib.st_mtime;
-// 	return filetime;
-// 	}
-// }
-
-// bool is_more_recent(time_t *time1, time_t *time2) {
-	
-// 	//THIS HAS PROBLEMS WITH 'makes integer from pointer without a cast'
-
-// 	//compare the times here...
-
-// 	if(difftime(&time1, &time2) > 0) {
-// 		return true;
-// 	}
-// 	return false;
-// }
-
 char * get_directory() {
 	//THIS WORKS!!!!!!
 

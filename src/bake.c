@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
                 directoryname = optarg;
 
                 if (chdir(directoryname) != 0) {
-                   printf("Directory change failed"); 
+                   perror("Directory change failed"); 
                    exit(EXIT_FAILURE);
                 }
 

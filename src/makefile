@@ -45,8 +45,6 @@ $(TARGET)/globals.o : globals.c bake.h
 
 
 
-echostuff : 
-	echo $(TARGET)
 
 clean :
 	rm -f ../target/*

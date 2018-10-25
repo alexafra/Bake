@@ -97,6 +97,14 @@ int main(int argc, char *argv[])
         }
     }
 
+// //      -i : ignore the unsuccessful termination of actions; continue executing a target's actions even if any fail.
+// // 
+//         -n : print (to stdout) each shell-command-sequence before it is to be executed, but do not actually execute the commands. Assume that each shell-command-sequence executes successfully. This option enables bake to simply report what it would do, without doing it.
+// //      
+//         -p : after reading in the specification file, print its information (from bake's internal representation) to stdout with all variable expansions performed. Then simply exit with success. 
+// // Only the targets, dependencies, and actions need be printed (though you may wish to also print the variables (names and values).
+// //      -s : execute silently, do not print each shell-command-sequence before it is executed.
+
     
 
     

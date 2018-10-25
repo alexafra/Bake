@@ -13,20 +13,20 @@ TESTTARGET = ../testtarget
 ################Compound Targets#######################
 
 bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
-	@$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
+	$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
 
 
 
 ##################Base Targets#########################
 
 $(TARGET)/bake.o : bake.c bake.h
-	@$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
+	$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
 
 $(TARGET)/process_bakefile.o : process_bakefile.c bake.h
-	@$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
 
 $(TARGET)/nextline.o : nextline.c bake.h
-	@$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
+	$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
 
 $(TARGET)/string_modifiers.o : string_modifiers.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TARGET)/string_modifiers.o string_modifiers.c
@@ -45,18 +45,18 @@ $(TARGET)/globals.o : globals.c bake.h
 
 
 
-# echostuff : 
-# 	echo $(TARGET)
+echostuff : 
+	echo $(TARGET)
 
-# clean :
-# 	rm -f ../target/*
-# 	rm -f ../testtarget/*
-# 	rm -f bake
-# 	rm -f bakeD
-# 	rm -f test
-# 	rm -f testD
-# 	rm -f ../tests/test
-# 	rm -f ../tests/testD
+clean :
+	rm -f ../target/*
+	rm -f ../testtarget/*
+	#rm -f bake
+	rm -f bakeD
+	rm -f test
+	rm -f testD
+	rm -f ../tests/test
+	rm -f ../tests/testD
 
 
 test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/expand_variables.o $(TESTTARGET)/test_process_definitions.o $(TESTTARGET)/test_target_lines.o $(TARGET)/process_definitions.o $(TARGET)/string_modifiers.o $(TARGET)/process_target_line.o $(TARGET)/globals.o 

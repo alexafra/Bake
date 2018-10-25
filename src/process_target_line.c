@@ -225,7 +225,12 @@ bool process_target (int pos) {
 		execute_actions(pos);
 	}
 
-	bool target_older = false;
+	
+
+	bool target_file_exists = is_file(target->target);
+
+	bool target_older = !target_file_exists;
+
 
 	for (int i = 0; i < num_dependencies; ++i) {
 		char * this_dependency = target->dependencies[i];
@@ -248,8 +253,6 @@ bool process_target (int pos) {
 				free (targets);
 				exit(EXIT_FAILURE);
 			}
-
-			bool target_file_exists = is_file(target->target);
 			if (target_file_exists) {
 				target_older = is_url_recent (target->target, this_dependency);
 			} else {

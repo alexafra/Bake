@@ -1,0 +1,48 @@
+C99 = cc -std=c99
+CFLAGS = -Wall -pedantic -Werror
+TESTLOC = ../tests
+TARGET = ../target
+
+TESTTARGET = ../testtarget
+
+
+###################test########################
+
+#process_target_line
+
+################Compound Targets#######################
+
+bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
+	$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
+
+
+
+##################Base Targets#########################
+
+$(TARGET)/bake.o : bake.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
+
+$(TARGET)/process_bakefile.o : process_bakefile.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
+
+$(TARGET)/nextline.o : nextline.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
+
+$(TARGET)/string_modifiers.o : string_modifiers.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/string_modifiers.o string_modifiers.c
+
+$(TARGET)/expand_variables.o : expand_variables.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/expand_variables.o expand_variables.c
+
+$(TARGET)/process_definitions.o : process_definitions.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_definitions.o process_definitions.c 
+
+$(TARGET)/process_target_line.o : process_target_line.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/process_target_line.o process_target_line.c 
+
+$(TARGET)/globals.o : globals.c bake.h 
+	$(C99) $(CFLAGS) -c -o $(TARGET)/globals.o globals.c 
+
+
+
+

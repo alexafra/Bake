@@ -53,6 +53,9 @@ extern bool is_target_older (char *, char *);
 extern void process_target (int ) ;
 extern void process_bake ( void );
 extern bool is_url_accessible (char *dependency);
+extern bool startswith (char *, char* );
+extern time_t get_modification_date (char *);
+extern bool is_older (time_t, time_t);
 
 int get_num_variables (void);
 int get_num_targets (void);

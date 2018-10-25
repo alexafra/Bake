@@ -36,7 +36,49 @@ void print_actions (void) {
 
 
 int main(int argc, char *argv[])
-{
+{   
+
+    int option;
+    char *directoryname = NULL;
+    char *filename = NULL;
+
+    while( (option = getopt(argc, argv, "C:f:inps")) != -1) {
+
+        switch (option) {
+
+            case 'C' :
+                directoryname = optarg;
+                break;
+
+            case 'f' :
+                filename = optarg;
+                break;
+
+            case 'i' :
+                break;
+
+            case 'n' :
+                break;
+
+            case 'p' :
+                break;
+
+            case 's' :
+                break;
+
+            case '?' :
+                if(optopt == 'C' | optopt == 'f')
+                    printf("Option -%c needs an argument\n", optopt);
+                else 
+                    printf("Unknown option -%c.\n", optopt);
+
+            default :
+                printf("getopt");                                              
+        }
+    }
+
+
+
     if(argc > 1) {
         //need to check access()
         FILE *fp        = fopen(argv[1], "r");

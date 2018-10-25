@@ -4,7 +4,7 @@
 
 #endif
 
-void print_bakefile (void) {
+void beautiful_print_bakefile (void) {
     int i = 0;
     printf("Targets:\n\n");
     while (targets[i] != NULL) {
@@ -27,6 +27,18 @@ void print_bakefile (void) {
     }
 }
 
+void print_bakefile (void) {
+    int i = 0;
+    while (targets[i] != NULL) {
+        int j = 0;
+        while (targets[i]->actions[j] != NULL) {
+            printf("%s\n", targets[i]->actions[j]);
+            ++j;
+        }
+        ++i;
+    }
+}
+
 void print_actions (void) {
     int num_targets = get_num_targets();
     for (int i = 0; i < num_targets; ++i) {
@@ -40,7 +52,7 @@ int main(int argc, char *argv[])
 
     int option;
     char *directoryname = NULL;
-    char *filename = NULL;
+    char *filename;
 
     while( (option = getopt(argc, argv, "C:f:inps")) != -1) {
 
@@ -52,6 +64,7 @@ int main(int argc, char *argv[])
 
             case 'f' :
                 filename = optarg;
+
                 break;
 
             case 'i' :
@@ -93,8 +106,8 @@ int main(int argc, char *argv[])
         
         process_bakefile(fp);
 
-        if ()
-//
+//         if ()
+// //
         
                              // WE OPENED IT, SO WE CLOSE IT
         //print_bakefile();

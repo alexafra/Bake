@@ -4,7 +4,7 @@
 
 #endif
 
-void print_bakefile (void) {
+void beautiful_print_bakefile (void) {
     int i = 0;
     printf("Targets:\n\n");
     while (targets[i] != NULL) {
@@ -24,6 +24,18 @@ void print_bakefile (void) {
         }
         ++i;
         printf("\n");
+    }
+}
+
+void print_bakefile (void) {
+    int i = 0;
+    while (targets[i] != NULL) {
+        int j = 0;
+        while (targets[i]->actions[j] != NULL) {
+            printf("%s\n", targets[i]->actions[j]);
+            ++j;
+        }
+        ++i;
     }
 }
 
@@ -58,6 +70,7 @@ int main(int argc, char *argv[])
 
             case 'f' :
                 filename = optarg;
+
                 break;
 
             case 'i' :
@@ -76,7 +89,8 @@ int main(int argc, char *argv[])
                 if(optopt == 'C' | optopt == 'f') {
                     printf("Option -%c needs an argument\n", optopt);
                     exit(EXIT_FAILURE);
-                } else 
+
+                } else {
                     printf("Unknown option -%c.\n", optopt);
                     exit(EXIT_FAILURE);
                 }
@@ -87,22 +101,40 @@ int main(int argc, char *argv[])
         }
     }
 
-
+    
 
     if(argc > 1) {
-        //need to check access()
-        FILE *fp        = fopen(argv[1], "r");
+        //filename sorted.
+        FILE *fp;
+        if (filename != NULL) {
+            fp        = fopen(filename, "r");
 
-        if(fp == NULL) {
-            perror(argv[1]);
-            return 1;
+            if(fp == NULL) {
+                perror(filename);
+                return 1;
+            }
+        } else {
+            filename = "Bakefile";
+            fp        = fopen(filename, "r");
+            if(fp == NULL) {
+                filename = "bakefile";
+                fp        = fopen(filename, "r");
+                if(fp == NULL) {
+                    perror(filename);
+                    return 1;
+                }
+            }
         }
+
+        if (filename == NULL) {
+        filename = "Bakefile";
+    }
+
 
         targets = (Target **) calloc (1, sizeof(Target*));
         *targets = NULL;
         
         process_bakefile(fp);
-//
         
         // WE OPENED IT, SO WE CLOSE IT
         //print_bakefile();

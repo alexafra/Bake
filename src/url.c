@@ -9,6 +9,7 @@
 #include <curl/easy.h>
 #include <time.h>
 #include <linux/limits.h>
+#include "bake.h"
 
 // char * get_directory() {
 // 	//THIS WORKS!!!!!!
@@ -55,13 +56,14 @@ char * geturldetails(char * url ) {
 	// header = fopen("details.txt", "w");
 	// char *filename = "details.txt";
 
+	FILE *header;
+	char *filename = "time.txt";
+
 	pid_t pid;
 	pid = fork();
 	if(pid == 0) {
 		//Open a file to send header to
-		FILE *header;
-		char *filename = "time.txt";
-
+		
 		header = fopen("time.txt", "w");
 		
 		//Check if the file fails to open
@@ -73,33 +75,88 @@ char * geturldetails(char * url ) {
 		execl(getenv("SHELL"),"curl -o ", filename, "-s -v --head ", url, NULL);
 		
 		}
-	fclose(header);
+	
 	}
 			
-		// //check the file to see where "< Last-Modified:" line is
-		// while(!feof(header)) {
+		//check the file to see where "< Last-Modified:" line is
+		while(!feof(header)) {
 
-  //       	char *line = nextline(header);
-  //       	char *dateline = "< Last-Modified:";
-  //       	if(startswith(dateline, line)) {
+        	char *line = nextline(header);
+        	char *dateline = "< Last-Modified:";
+        	if(startswith(dateline, line)) {
         		
-  //       		//Copy this line into another char
-  //       		int err;
-  //       		move_back(line, 0, strlen(dateline), &err);
-  //       		if(err !=0) {
-  //       			perror("Move back method failed");
-  //       		} else {
-  //       			return line;
-  //       		}
-  //       	} else{
-  //       		free(line);
-  //       	}
-  //       }	
+        		//Copy this line into another char
+        		int err;
+        		move_back(line, 0, strlen(dateline), &err);
+        		if(err !=0) {
+        			perror("Move back method failed");
+        		} else {
+        			return line;
+        		}
+        	} else{
+        		free(line);
+        	}
+        }	
 
-		
+	fclose(header);		
 	} 
 	
+char *nextline(FILE *fp)
+{
+    char        *fullline       = NULL;
+    int         fulllength      = 0;
 
+    char        thisline[BUFSIZ];
+    int         thislength      = 0;
+
+    while(fgets(thisline, sizeof thisline, fp) != NULL) {
+        trimline(thisline);                     // REMOVE TRAILING \n or \r
+        thislength      = strlen(thisline);
+        fulllength      += thislength;
+
+       // printf("%8s()\t%s\n", __func__, thisline); 
+
+        if(fullline == NULL) {
+            fullline    = strdup(thisline);
+        }
+        else {
+            fullline     = realloc(fullline, fulllength+1);
+            strcat(fullline, thisline);
+        }
+		//  SHOULD WE CONTINUE READING, OR IS THE LINE COMPLETE?
+        if(fullline[ fulllength-1 ] != CH_CONTINUATION) {
+            break;
+        }
+        fullline[ --fulllength ] = '\0';        // REMOVE TRAILING '\'
+    }
+    return fullline;
+}
+
+void trimline(char *line)
+{
+    while(*line != '\0') {      // loop until we reach the end of line
+        if( *line == '\n' || *line == '\r' ) {
+            *line = '\0';       // overwrite with null-byte
+            break;              // leave the loop early
+        }
+        ++line;                 // iterate through characters on line
+    }
+}
+
+void move_back (char * line, int start, int amount, int *error) {
+    int length = strlen(line);
+    if (start < 0 || (amount + start) > length) {
+        *error = 1;
+        *line = '\0';
+        return;
+    } else {
+        *error = 0;
+    }
+    
+    for (int i = start; (i + amount) < (length + 1); ++i) {
+        line [i] = line[i + amount];
+    }
+}
 // }
 
 
@@ -124,17 +181,17 @@ char * geturldetails(char * url ) {
 // 	return (isurl == CURLE_OK); //? 1 : 0;
 // }
 
-// bool startswith(char *url, char *dep) {
+bool startswith(char *url, char *dep) {
 
-// 	//THIS WORKS
-// 	//Arbitrary function for checking start of strings
-// 	if(strncmp(url, dep, strlen(url)) == 0) {
-// 		return true;
-// 	} else {
-// 		return false;	
-// 	}
+	//THIS WORKS
+	//Arbitrary function for checking start of strings
+	if(strncmp(url, dep, strlen(url)) == 0) {
+		return true;
+	} else {
+		return false;	
+	}
 	 
-// }		
+}		
 
 // bool check_if_url(char *dependency) {
 	
@@ -203,20 +260,6 @@ char * geturldetails(char * url ) {
 
 int main(char argc, char *argv[]) {
 
-	// get_url_time(argv[1]);
-	// char *url = "anything";
-	// time_t urltime = geturltime(url);
-
-	// sleep(3);
-
-	// char *url2 = "anything2";
-	// time_t urltime2 = geturltime(url);
-
-	// if(is_older(urltime, urltime2)) {
-	// 	printf("worked\n");
-	// } else {
-	// 	printf("didn't work\n");
-	// }
 	geturldetails("http://teaching.csse.uwa.edu.au/units/CITS2002/project/dependency-5m");
 	exit(EXIT_SUCCESS);
 

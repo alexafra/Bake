@@ -88,7 +88,7 @@ bool is_url_accessible (char *dependency) {
 	return true;
 }
 
-bool is_dependency_file (char * dependency) {
+bool is_file (char * dependency) {
 	struct stat buf;
 	if(stat(dependency, &buf) == 0) {
 		return true;
@@ -222,7 +222,7 @@ bool process_target (int pos) {
 
 		int is_target = is_dependency_target (this_dependency);
 		bool is_url = is_dependency_url (this_dependency);
-		bool file_exists = is_dependency_file(this_dependency);
+		bool file_exists = is_file(this_dependency);
 
 		if (is_target >= 0) {
 
@@ -239,10 +239,21 @@ bool process_target (int pos) {
 				exit(EXIT_FAILURE);
 			}
 
-			target_older = is_target_older (target->target, this_dependency);
+			bool target_file_exists = is_file(target->target);
+			if (target_file_exists) {
+				target_older = is_target_older (target->target, this_dependency);
+			} else {
+				target_older = true;
+			}
 			
 		} else if (file_exists) {
-			target_older = is_target_older (target->target, this_dependency);
+			bool target_file_exists = is_file(target->target);
+			if (target_file_exists) {
+				target_older = is_target_older (target->target, this_dependency);
+			} else {
+				target_older = true;
+			}
+			
 
 		} else {
 

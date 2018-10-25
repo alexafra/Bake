@@ -131,6 +131,11 @@ bool is_target_older (char *target, char *dependency) {
 	}
 }
 
+
+bool is_target_older (char *target, char *depencency) {
+	return true;
+}
+
 void execute_actions (int position) {
 
 }

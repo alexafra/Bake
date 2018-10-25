@@ -107,7 +107,7 @@ char * geturldetails(char * url ) {
             continue;
         }
         printf("%s\n", line);
-    	char *dateline = "< Last-Modified:";
+    	char *dateline = "Last-Modified:";
 
     	if(startswith(dateline, line)) {
             printf("\n\nHERE\n\n");

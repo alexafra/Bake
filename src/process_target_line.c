@@ -41,6 +41,15 @@
 // 	return (isurl == CURLE_OK); //? 1 : 0;
 // }
 
+time_t geturltime (char *url) {
+	
+	//Could not get curl to work, so...
+	time_t timer;
+	time(&timer);
+
+	return timer;
+}
+
 int is_dependency_target (char * dependency) {
 
 	//bool is_target = false;
@@ -118,6 +127,15 @@ time_t get_modification_date (char *filename) {
 	} else {
 		filetime = attrib.st_mtime;
 		return filetime;
+	}
+}
+
+bool is_url_recent (char *target, char * url) {
+
+	if (is_older (get_modification_date(target), geturltime(url))) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -241,10 +259,11 @@ bool process_target (int pos) {
 
 			bool target_file_exists = is_file(target->target);
 			if (target_file_exists) {
-				target_older = is_target_older (target->target, this_dependency);
+				target_older = is_url_recent (target->target, this_dependency);
 			} else {
 				target_older = true;
 			}
+
 			
 		} else if (file_exists) {
 			bool target_file_exists = is_file(target->target);

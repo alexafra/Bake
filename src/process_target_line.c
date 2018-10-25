@@ -155,14 +155,13 @@ bool is_dependency_file (char * dependency) {
 	return true;
 }
 
-void execute_actions (int position) {
-
-}
-
 bool is_target_older (char *target, char *depencency) {
 	return true;
 }
 
+void execute_actions (int position) {
+
+}
 
 void process_target (int pos) {
 	Target * target = targets[pos];

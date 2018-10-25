@@ -63,8 +63,6 @@ extern bool is_older (time_t, time_t);
 int get_num_variables (void);
 int get_num_targets (void);
 
-
-
 //Target line
 extern bool check_if_url(char *);
 

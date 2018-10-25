@@ -153,9 +153,6 @@ char * substring(char * line, int start, int end, int * error) {
 
 }
 
-//assume non empty no leading space
-//must be string
-//what to do if no critical char?
 char getcriticalchar (char * line) {
     char * line_dup = strdup(line);
     skip_leading_space (line_dup);
@@ -305,8 +302,6 @@ void add_char_to_string_list (char ** stringlist, char character) {
     }
 }
 
-    //Pretty sure this works... I tested it with a number of ways in a txt file
-    //May still have some bugs though
 
 
 

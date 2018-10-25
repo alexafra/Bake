@@ -1,46 +1,5 @@
 #include "bake.h"
 
-
-// char * get_directory() {
-// 	//THIS WORKS!!!!!!
-
-// 	char *cwd = malloc(PATH_MAX);
-// 	if(getcwd(cwd, PATH_MAX * sizeof(cwd)) != NULL) {
-// 		return cwd;
-// 	} else {
-// 		perror("getcwd() error");
-// 		exit(EXIT_FAILURE); //Do you even do this here?
-// 	}
-// }
-
-// time_t get_url_time(char *url) {
-// 	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
-
-// 	int pid = fork();
-// 	///DUNNO HOW TO DO THIS 
-// }
-
-// bool url_exists(char *url) {
-
-// 	CURL *curl;
-// 	CURLcode isurl;
-
-// 	curl = curl_easy_init();
-
-// 	if(curl) {
-// 		curl_easy_setopt(curl, CURLOPT_URL, url);
-
-// 		//Dont send to stdout
-// 		curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
-
-// 		//Send request
-// 		isurl = curl_easy_perform(curl);
-// 		curl_easy_cleanup(curl);
-// 	}
-
-// 	return (isurl == CURLE_OK); //? 1 : 0;
-// }
-
 time_t geturltime (char *url) {
 	
 	//Could not get curl to work, so...
@@ -52,12 +11,10 @@ time_t geturltime (char *url) {
 
 int is_dependency_target (char * dependency) {
 
-	//bool is_target = false;
 	int number_targets = get_num_targets();
 	int i;
 	for (i = 0; i < number_targets; ++i ) {
 		if (strcmp(dependency, targets[i]->target) == 0) {
-			//is_target = true;
 			return i;
 		}
 	}
@@ -66,7 +23,6 @@ int is_dependency_target (char * dependency) {
 
 bool startswith(char *url, char *dep) {
 
-	//THIS WORKS
 	//Arbitrary function for checking start of strings
 	if(strncmp(url, dep, strlen(url)) == 0) {
 		return true;
@@ -77,11 +33,12 @@ bool startswith(char *url, char *dep) {
 
 bool is_dependency_url (char * dependency) {
 	
+	//Check these three strings
 	char *url1 = "file://";
 	char *url2 = "http://";
 	char *url3 = "https://";
 
-	//If yes
+	//If a url
 	if(startswith(url1, dependency) || startswith(url2, dependency) || startswith(url3, dependency)) {
 	
 		return true;
@@ -94,10 +51,12 @@ bool is_dependency_url (char * dependency) {
 }
 
 bool is_url_accessible (char *dependency) {
+	//We pretend that all urls are helllll good
 	return true;
 }
 
 bool is_file (char * dependency) {
+	//If stat doesn't return anything, the file doesn't exist
 	struct stat buf;
 	if(stat(dependency, &buf) == 0) {
 		return true;
@@ -109,7 +68,6 @@ bool is_file (char * dependency) {
 bool is_older (time_t time1, time_t time2) {
 	
 	//Compare modification dates here
-
 	if(time1 < time2) {
 		return true;
 	}
@@ -121,9 +79,11 @@ time_t get_modification_date (char *filename) {
 	//Returns the modification date of file 
 	time_t filetime;
 	struct stat attrib;
+	//If stat cannot access the file, we run error
 	if(stat(filename, &attrib) != 0) {
 		perror("Stat fail");
 		exit(EXIT_FAILURE);
+	//If it success, return the time_t value
 	} else {
 		filetime = attrib.st_mtime;
 		return filetime;
@@ -132,6 +92,7 @@ time_t get_modification_date (char *filename) {
 
 bool is_url_recent (char *target, char * url) {
 
+	//Get the two time_t values and compare 
 	if (is_older (get_modification_date(target), geturltime(url))) {
 		return true;
 	} else {
@@ -140,10 +101,13 @@ bool is_url_recent (char *target, char * url) {
 }
 
 bool is_target_older (char *target, char *dependency) {
-	//return true;
+	
+	//First get the time_t values
 	time_t target_date = get_modification_date(target);
 	time_t dependency_date = get_modification_date(dependency);
 	bool is_target_older = is_older (target_date, dependency_date);
+	
+	//Then compare the values
 	if (is_target_older) {
 		return true;	
 	} else {
@@ -152,6 +116,7 @@ bool is_target_older (char *target, char *dependency) {
 }
 
 bool execute_action (char * action) {
+	
 	int err = system(action);
 	
 	if (err < 0) {
@@ -163,6 +128,7 @@ bool execute_action (char * action) {
 }
 
 void execute_actions (int position) {
+	
 	Target * target = targets[position];
 	char ** actions = target->actions;
 	int num_actions = numstrings(actions);
@@ -171,6 +137,8 @@ void execute_actions (int position) {
 
 	for (int i = 0; i < num_actions; ++i) {
 		bool action_successful = true;
+
+		//If we find '-' then we pretend it is successful
 		if (starts_with_char(actions[i], '-')) { //something specific
 			skip_leading_space(actions[i]);
 			printf("%s\n", actions[i]);
@@ -182,6 +150,7 @@ void execute_actions (int position) {
 
 			action_successful = execute_action(new_action);
 
+		//If we find @ then we do not print the action	
 		} else if (starts_with_char(actions[i], '@')) {
 			skip_leading_space(actions[i]);
 			
@@ -296,27 +265,3 @@ void process_bake ( void ) {
 	}
 
 }
-
-
-// char * shell = getenv("SHELL");
-	// if (shell == NULL) {
-	// 	shell = "/bin/bash";
-	// ;
-
-
-// pid_t child_pid;
-	// child_pid = fork();
-	// int status;
-	// if (child_pid == 0) { 
- //        execl(shell, action , NULL);
- //        exit(0);
- //    } else if (child_pid < 0) {
- //    	return false;
-	// } else { 
-	// 	pid_t tpid;
-	// 	do {
-	// 		tpid = wait(&status25);
-	// 	} while (tpid != child_pid);
-	//     return true;
-	// } 
-

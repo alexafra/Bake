@@ -1,4 +1,5 @@
 #include "bake.h"
+
 //process_variable_defintion
 int get_num_variables (void) {
 	int i = 0;
@@ -50,10 +51,6 @@ void process_target_definition(char *firstword, char *rest_of_line) {
 
 }
 
-
-//are we freeing up the line
-//add to last target
-//add to end of action
 void process_action_definition(char * line) {
 
 	char * action = strdup(line);
@@ -63,7 +60,6 @@ void process_action_definition(char * line) {
 
 	int numactions = numstrings(target->actions);
 
-	//this is a strange line
 	target->actions  = realloc (target->actions, sizeof(char*) * (numactions + 2)); //this could be ther line
 	
 	target->actions[numactions] = action;

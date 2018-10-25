@@ -2,23 +2,8 @@
 #include "variable.h"
 
 
-/*
-Can you override old variables
-can you override the 4 key variables
-
-cant override old variables
-can override new variables.
-
-*/
-
-//pos 0 should be $
-//0 <= pos < length
-//return null on failure
-
-//nesting penalised????
-//escaping naming??? <= highly unlikely
-
 char * get_special_value (char * var_name) {
+	//Set up our special values/names
 	char *special_variable[5];
 	special_variable[0] = "PID";
 	special_variable[1] = "PPID";
@@ -50,21 +35,21 @@ char * get_special_value (char * var_name) {
 
 /*
 	Override strategy from least to most important/
-	1.set var_value to env_values
+	1. set var_value to env_values
 	2. set var_value to saved variables
 	3. set var_value to special variable
 
 	Each one will override the next if valid.
 */
 
-//issues with freeing memory here.
 char * get_var_value(char * var_name, Variable ** variables) {
 	
 	int i = 0;
 	char * var_value = NULL;
 
 	char *special_value = get_special_value(var_name);
-	if (special_value != NULL) { //have an issue freeing var_value.
+	//Check to see if it is one of our special cases
+	if (special_value != NULL) { 
 		var_value = special_value;
 		return var_value;
 	}
@@ -84,10 +69,11 @@ char * get_var_value(char * var_name, Variable ** variables) {
 	}
 
 	char * env_value = getenv(var_name);
+	//If the var is an environmental variable, set it to this
 	if (env_value != NULL) {
 		var_value = strdup(env_value);
 	}
-
+	//Case where we cannot find value, so put empty string
 	if (var_value == NULL) {
 		var_value = (char*) calloc(1, sizeof(char));
 		var_value[0] = '\0';
@@ -95,7 +81,7 @@ char * get_var_value(char * var_name, Variable ** variables) {
 	return var_value;
 }
 
-//return NULL if error?
+
 char * substitute_variable (int pos, char * line, Variable ** variables) {
 	int length = strlen(line);
 	char * exp_line = NULL;
@@ -147,7 +133,7 @@ char * substitute_variable (int pos, char * line, Variable ** variables) {
 	}
 	var_name[var_name_length] = '\0';
 
-	//now you havbe the var name , the var length, the start of the var position.
+	//now you have the var name , the var length, the start of the var position.
 
 	//delete the variable $(var_name) bit
 	move_back (exp_line, pos, var_name_length + 3, &error);
@@ -171,22 +157,6 @@ char * substitute_variable (int pos, char * line, Variable ** variables) {
 	return exp_line;
 
 }
-
-// #1. $( ) any space inside becomes an unrecognisable variable <= simply wont match a varible name.
-// #2. $( this is undefined and throws an error.
-// #3. other braces are not acceptable
-// #4. dollar sign is invisible
-// #5. $ () means $is invisible and carry on '$ ()' => ' ()' 
-// #6. a$b => ab, 
-// #7. a$ b => a b, 
-// #8. $a => a
-// #9. abc$ => abc
-
-//err 1, is index of array is out of bounds.
-//err 2, is defined expected input not given ie. line[pos] != '$'
-//err 3, invalid string? ie. $(hello no end of brace
-
-//will return null on failure
 
 char * expand_variables (char * line, Variable ** variables) {
 
@@ -212,13 +182,4 @@ char * expand_variables (char * line, Variable ** variables) {
 	return subs_line;
 }
 
-
-//this is a toughie, time to work out your structures.
-/*
-	Your not making function calls
-
-	1. check environment
-	2. check variables
-	3. check defined variables
-*/
 

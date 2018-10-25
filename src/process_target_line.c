@@ -127,7 +127,6 @@ bool execute_action (char * action) {
 	
 }
 
-<<<<<<< HEAD
 
 // //      -i : ignore the unsuccessful termination of actions; continue executing a target's actions even if any fail.
 // // 
@@ -137,10 +136,7 @@ bool execute_action (char * action) {
 
 
 void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
-=======
-void execute_actions (int position) {
-	
->>>>>>> 59da021dc0f9d4a1cd6bcc63c56a1d618913989e
+
 	Target * target = targets[position];
 	char ** actions = target->actions;
 	int num_actions = numstrings(actions);
@@ -149,13 +145,9 @@ void execute_actions (int position) {
 
 	for (int i = 0; i < num_actions; ++i) {
 		bool action_successful = true;
-<<<<<<< HEAD
-		if (starts_with_char(actions[i], '-')) { //fail silently
-=======
 
-		//If we find '-' then we pretend it is successful
-		if (starts_with_char(actions[i], '-')) { //something specific
->>>>>>> 59da021dc0f9d4a1cd6bcc63c56a1d618913989e
+		if (starts_with_char(actions[i], '-')) { //fail silently
+
 			skip_leading_space(actions[i]);
 
 			if (!s_flag) {
@@ -173,12 +165,9 @@ void execute_actions (int position) {
 			}
 			
 
-<<<<<<< HEAD
+
 		} else if (starts_with_char(actions[i], '@')) { //dont print
-=======
-		//If we find @ then we do not print the action	
-		} else if (starts_with_char(actions[i], '@')) {
->>>>>>> 59da021dc0f9d4a1cd6bcc63c56a1d618913989e
+
 			skip_leading_space(actions[i]);
 			
 			char * new_action = strdup(actions[i]);

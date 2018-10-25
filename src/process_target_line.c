@@ -97,11 +97,11 @@ bool is_dependency_file (char * dependency) {
 	}
 }
 
-bool is_more_recent (time_t time1, time_t time2) {
+bool is_older (time_t time1, time_t time2) {
 	
 	//Compare modification dates here
 
-	if(difftime(time1, time2) > 0) {
+	if(difftime(time1, time2) < 0) {
 		return true;
 	}
 	return false;
@@ -124,7 +124,7 @@ time_t get_modification_date (char *filename) {
 
 bool is_target_older (char *target, char *dependency) {
 	
-	if(is_more_recent(get_modification_date(target), get_modification_date(dependency))) {
+	if(is_older (get_modification_date(target), get_modification_date(dependency))) {
 		return true;	
 	} else {
 		return false;
@@ -173,6 +173,8 @@ void process_target (int pos) {
 			target_older = is_target_older (target->target, this_dependency);
 
 		} else {
+
+			//Actually, if it doesn't exist, we need to run the action line (see CITS2002 description)
 			perror("\n\nERROR FILE DOES NOT EXIST IN DIRECTORY!\n\n");
 			free (variables);
 			free (targets);

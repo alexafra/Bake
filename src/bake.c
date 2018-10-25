@@ -54,15 +54,13 @@ int main(int argc, char *argv[])
     char *directoryname = NULL;
     char *filename = NULL;
 
-<<<<<<< HEAD
+
     bool i_flag = false;
     bool n_flag = false;
     bool p_flag = false;
     bool s_flag = false;
 
-=======
-    //C and f will take another string
->>>>>>> 59da021dc0f9d4a1cd6bcc63c56a1d618913989e
+
     while( (option = getopt(argc, argv, "C:f:inps")) != -1) {
 
         switch (option) {

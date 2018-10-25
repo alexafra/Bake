@@ -1,47 +1,5 @@
 #include "bake.h"
 #include "variable.h"
-/*
-    What about:
-
-    target
-    Whitespace
-    action
-    action
-    whitespace 
-    action
-
-    ??
-*/
-
-/*
-    ............. spaces may be ok in variables ..........
-    ............. not inbetween $() ..........
-
-    https://www.eskimo.com/~scs/cclass/int/sx8.html
-
-    
-    add our two variable methods to the heap.
-    they will be destroyed after this method.
-    We will end each pointer array with a \0 to determine the end.
-
-    We dont know the length of the array
-    immutable strings
-    immutable pointers
-
-    char ** var_names;
-    char ** var_values;
-
-    malloc realloc calloc free
-
-    One variable definition per line?
-
-    target and actions are the only things that should be global.
-
-    //place $(PID), $(PPID), $(PWD), and $(RAND) into var_name_list and var_value_list
-*/
-
-
-
 
 void internal_representation(FILE *fp) {
     bool just_processed_target = false;
@@ -138,33 +96,3 @@ void internal_representation(FILE *fp) {
         free (line);
     }
 }
-
-
-
-
-
-/*
-while not end of file
-get the next full/continuation line
-expand any variables on that line
-
-categorise the expanded line:
-  if it begins with '#', ignore this line and loop to read the next line
-
-  if the line begins with a tab **and we've just processed a new target**, add this action to that target
-
-  skip any leading spaces or tabs
-
-  if we've reached the end of line, then the whole line was a blank line, so ignore it like a comment line
-
-  now find the first 'word' on the line, collecting its characters until we find a space, tab, =, or :
-
-  if we found '=', call   process_variable_definition(word, rest_of_line),  ideally in a different file
-
-  if we found ':', call   process_target_definition(word, rest_of_line), ideally in a different file
-
-  otherwise the line is unrecognised, print any error message and exit
-
-fclose file
-
-*/

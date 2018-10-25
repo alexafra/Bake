@@ -5,17 +5,21 @@
 #endif
 
 void print_targets (void) {
+    
     int i = 0;
+    //Loop through target structure and print
     printf("Targets:\n\n");
     while (targets[i] != NULL) {
         printf("\tTarget:\n");
         printf("\t\t%s\n", targets[i]->target);
         int j = 0;
         printf("\tDependencies:\n");
+        //Loop through the dependency structure and print
         while (targets[i]->dependencies[j] != NULL) {
             printf("\t\t%s\n", targets[i]->dependencies[j]);
             ++j;
         }
+        //Loop through the action structure and print
         int k = 0;
         printf("\tActions:\n");
         while (targets[i]->actions[k] != NULL) {
@@ -29,8 +33,10 @@ void print_targets (void) {
 
 void print_actions (void) {
     int i = 0;
+    //While you haven't reached the end of targets
     while (targets[i] != NULL) {
         int j = 0;
+        //Loop through all actions and print
         while (targets[i]->actions[j] != NULL) {
             printf("%s\n", targets[i]->actions[j]);
             ++j;
@@ -40,20 +46,23 @@ void print_actions (void) {
 }
 
 
-
-
 int main(int argc, char *argv[])
 {   
 
+    //Parse your command line arguments
     int option;
     char *directoryname = NULL;
     char *filename = NULL;
 
+<<<<<<< HEAD
     bool i_flag = false;
     bool n_flag = false;
     bool p_flag = false;
     bool s_flag = false;
 
+=======
+    //C and f will take another string
+>>>>>>> 59da021dc0f9d4a1cd6bcc63c56a1d618913989e
     while( (option = getopt(argc, argv, "C:f:inps")) != -1) {
 
         switch (option) {
@@ -109,11 +118,11 @@ int main(int argc, char *argv[])
 
     
 
-    
+    //Open the bakefile     
     FILE *fp;
     if (filename != NULL) {
         fp        = fopen(filename, "r");
-
+        //Check for error in opening file
         if(fp == NULL) {
             perror(filename);
             return 1;
@@ -132,10 +141,11 @@ int main(int argc, char *argv[])
     }
     
 
-
+    //Create structure for holding targets, dependencies, and actions
     targets = (Target **) calloc (1, sizeof(Target*));
     *targets = NULL;
     
+
     internal_representation(fp);
     if (p_flag) {
         print_targets();
@@ -144,6 +154,7 @@ int main(int argc, char *argv[])
     if (!p_flag) {
         process_bake(i_flag, n_flag, s_flag);
     }
+
 
     fclose(fp);
     return 0;

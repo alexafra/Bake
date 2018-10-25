@@ -43,7 +43,6 @@ $(TARGET)/process_target_line.o : process_target_line.c bake.h
 $(TARGET)/globals.o : globals.c bake.h 
 	$(C99) $(CFLAGS) -c -o $(TARGET)/globals.o globals.c 
 
-
 clean :
 	rm -f ../target/*
 	rm -f ../testtarget/*

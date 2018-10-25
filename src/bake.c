@@ -49,6 +49,11 @@ int main(int argc, char *argv[])
     char *directoryname = NULL;
     char *filename = NULL;
 
+    bool i_flag = false;
+    bool n_flag = false;
+    bool p_flag = false;
+    bool s_flag = false;
+
     while( (option = getopt(argc, argv, "C:f:inps")) != -1) {
 
         switch (option) {
@@ -69,16 +74,19 @@ int main(int argc, char *argv[])
                 break;
 
             case 'i' :
+                i_flag = true;
                 break;
 
             case 'n' :
+                n_flag = true;
                 break;
 
             case 'p' :
-                print_targets();
+                p_flag = true;
                 break;
 
             case 's' :
+                s_flag = true;
                 break;
 
             case '?' :
@@ -97,13 +105,7 @@ int main(int argc, char *argv[])
         }
     }
 
-// //      -i : ignore the unsuccessful termination of actions; continue executing a target's actions even if any fail.
-// // 
-//         -n : print (to stdout) each shell-command-sequence before it is to be executed, but do not actually execute the commands. Assume that each shell-command-sequence executes successfully. This option enables bake to simply report what it would do, without doing it.
-// //      
-//         -p : after reading in the specification file, print its information (from bake's internal representation) to stdout with all variable expansions performed. Then simply exit with success. 
-// // Only the targets, dependencies, and actions need be printed (though you may wish to also print the variables (names and values).
-// //      -s : execute silently, do not print each shell-command-sequence before it is executed.
+
 
     
 
@@ -134,14 +136,16 @@ int main(int argc, char *argv[])
     targets = (Target **) calloc (1, sizeof(Target*));
     *targets = NULL;
     
-    process_bakefile(fp);
-    
-    // WE OPENED IT, SO WE CLOSE IT
-    //print_bakefile();
+    internal_representation(fp);
+    if (p_flag) {
+        print_targets();
+    }
 
-    process_bake();
+    if (!p_flag) {
+        process_bake(i_flag, n_flag, s_flag);
+    }
+
     fclose(fp);
-
     return 0;
 }
 

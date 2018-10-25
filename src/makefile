@@ -12,8 +12,8 @@ TESTTARGET = ../testtarget
 
 ################Compound Targets#######################
 
-bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
-	$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
+bake : $(TARGET)/bake.o $(TARGET)/internal_representation.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
+	$(C99) $(CFLAGS) -o bake $(TARGET)/bake.o $(TARGET)/internal_representation.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o  $(TARGET)/globals.o $(TARGET)/process_target_line.o
 
 
 
@@ -22,8 +22,8 @@ bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.
 $(TARGET)/bake.o : bake.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TARGET)/bake.o bake.c
 
-$(TARGET)/process_bakefile.o : process_bakefile.c bake.h
-	$(C99) $(CFLAGS) -c -o $(TARGET)/process_bakefile.o process_bakefile.c
+$(TARGET)/internal_representation.o : internal_representation.c bake.h
+	$(C99) $(CFLAGS) -c -o $(TARGET)/internal_representation.o internal_representation.c
 
 $(TARGET)/nextline.o : nextline.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TARGET)/nextline.o nextline.c
@@ -88,15 +88,15 @@ $(TESTTARGET)/test_target_lines.o : $(TESTLOC)/test_target_lines.c bake.h
 
 ##################DEBUG MODE#########################
 
-bakeD : $(TARGET)/bakeD.o $(TARGET)/process_bakefileD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
-	$(C99) $(CFLAGS) -g -o bake -ggdb $(TARGET)/bakeD.o $(TARGET)/process_bakefileD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
+bakeD : $(TARGET)/bakeD.o $(TARGET)/internal_representationD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
+	$(C99) $(CFLAGS) -g -o bake -ggdb $(TARGET)/bakeD.o $(TARGET)/internal_representationD.o $(TARGET)/expand_variablesD.o $(TARGET)/nextlineD.o $(TARGET)/string_modifiersD.o $(TARGET)/process_definitionsD.o $(TARGET)/process_target_lineD.o $(TARGET)/globalsD.o 
 
 
 $(TARGET)/bakeD.o : bake.c bake.h
 	$(C99) $(CFLAGS) -g -c -o $(TARGET)/bakeD.o bake.c
 
-$(TARGET)/process_bakefileD.o : process_bakefile.c bake.h
-	$(C99) $(CFLAGS) -g -c -o $(TARGET)/process_bakefileD.o process_bakefile.c
+$(TARGET)/internal_representationD.o : internal_representation.c bake.h
+	$(C99) $(CFLAGS) -g -c -o $(TARGET)/internal_representationD.o internal_representation.c
 
 $(TARGET)/nextlineD.o : nextline.c bake.h
 	$(C99) $(CFLAGS) -g -c -o $(TARGET)/nextlineD.o nextline.c

@@ -262,11 +262,11 @@ void test_substitutevariablesimple (void) {
     process_variable_definition("TESTTARGET", "../testtarget");
 
     int pos1 = 7;
-    char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+    char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/internal_representation.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
 
     char * ln1expanded = substitute_variable (pos1, ln1, variables);
 
-    char * ln2expected = "bake : ../target/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+    char * ln2expected = "bake : ../target/bake.o $(TARGET)/internal_representation.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
 
     CU_ASSERT(0 == strcmp(ln1expanded, ln2expected));
 
@@ -292,11 +292,11 @@ void test_expandvariablessimple (void) {
     process_variable_definition("TESTTARGET", "../testtarget");
 
 
-    char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/process_bakefile.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
+    char * ln1 = "bake : $(TARGET)/bake.o $(TARGET)/internal_representation.o $(TARGET)/expand_variables.o $(TARGET)/nextline.o $(TARGET)/string_modifiers.o $(TARGET)/process_variable_definition.o $(TARGET)/process_target_definition.o";
 
     char * ln1expanded = expand_variables (ln1, variables);
 
-    char * ln1expected = "bake : ../target/bake.o ../target/process_bakefile.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
+    char * ln1expected = "bake : ../target/bake.o ../target/internal_representation.o ../target/expand_variables.o ../target/nextline.o ../target/string_modifiers.o ../target/process_variable_definition.o ../target/process_target_definition.o";
 
     CU_ASSERT(0 == strcmp(ln1expanded, ln1expected));
 

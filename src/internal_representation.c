@@ -43,7 +43,7 @@
 
 
 
-void process_bakefile(FILE *fp) {
+void internal_representation(FILE *fp) {
     bool just_processed_target = false;
 
     variables = (Variable **) calloc (1, sizeof(Variable*));

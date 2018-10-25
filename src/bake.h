@@ -14,7 +14,7 @@
 
 //Global Functions
 extern char * nextline (FILE *);
-extern void process_bakefile (FILE *);
+extern void internal_representation (FILE *);
 //extern char * substitute_variable (int pos, char * line, Variable * variable, int* error);
 
 extern void trimline (char *);
@@ -51,10 +51,10 @@ extern void print_bakefile (void);
 extern int is_dependency_target (char * );
 extern bool is_dependency_url (char * );
 extern bool is_dependency_file (char * );
-extern void execute_actions (int);
+extern void execute_actions (int, bool, bool, bool);
 extern bool is_target_older (char *, char *);
-extern bool process_target (int ) ;
-extern void process_bake ( void );
+extern bool process_target (int, bool, bool, bool ) ;
+extern void process_bake ( bool, bool, bool );
 extern bool is_url_accessible (char *dependency);
 extern bool startswith (char *, char* );
 extern time_t get_modification_date (char *);

@@ -162,7 +162,15 @@ bool execute_action (char * action) {
 	
 }
 
-void execute_actions (int position) {
+
+// //      -i : ignore the unsuccessful termination of actions; continue executing a target's actions even if any fail.
+// // 
+//         -n : print (to stdout) each shell-command-sequence before it is to be executed, but do not actually execute the commands. Assume that each shell-command-sequence executes successfully. This option enables bake to simply report what it would do, without doing it.
+// //      
+// //      -s : execute silently, do not print each shell-command-sequence before it is executed.
+
+
+void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
 	Target * target = targets[position];
 	char ** actions = target->actions;
 	int num_actions = numstrings(actions);
@@ -171,43 +179,61 @@ void execute_actions (int position) {
 
 	for (int i = 0; i < num_actions; ++i) {
 		bool action_successful = true;
-		if (starts_with_char(actions[i], '-')) { //something specific
+		if (starts_with_char(actions[i], '-')) { //fail silently
 			skip_leading_space(actions[i]);
-			printf("%s\n", actions[i]);
 
-			char * new_action = strdup(actions[i]);
-			int error;
-			move_back(new_action, 0, 1, &error);
-			skip_leading_space(new_action);
-
-			action_successful = execute_action(new_action);
-
-		} else if (starts_with_char(actions[i], '@')) {
-			skip_leading_space(actions[i]);
-			
-			char * new_action = strdup(actions[i]);
-			int error;
-			move_back(new_action, 0, 1, &error);
-			skip_leading_space(new_action);
-
-			
-			action_successful = execute_action(new_action);
-			if (!action_successful) {
-				perror("\n\naction unsuccessful\n\n");
-				free (variables);
-				free (targets);
-				exit(EXIT_FAILURE);
+			if (!s_flag) {
+				printf("%s\n", actions[i]);
 			}
+			
+
+			char * new_action = strdup(actions[i]);
+			int error;
+			move_back(new_action, 0, 1, &error);
+			skip_leading_space(new_action);
+
+			if (!n_flag) {
+				action_successful = execute_action(new_action);
+			}
+			
+
+		} else if (starts_with_char(actions[i], '@')) { //dont print
+			skip_leading_space(actions[i]);
+			
+			char * new_action = strdup(actions[i]);
+			int error;
+			move_back(new_action, 0, 1, &error);
+			skip_leading_space(new_action);
+
+			
+			if (!n_flag) {
+				action_successful = execute_action(new_action);
+
+				if (!action_successful && !i_flag) {
+					perror("\n\naction unsuccessful\n\n");
+					free (variables);
+					free (targets);
+					exit(EXIT_FAILURE);
+				}
+			}
+
+			
 		} else {
 			skip_leading_space(actions[i]);
-			printf("%s\n", actions[i]);
-			action_successful = execute_action(actions[i]);
+
+			if (!s_flag) {
+				printf("%s\n", actions[i]);
+			}
+
+			if (!n_flag) {
+				action_successful = execute_action(actions[i]);
 			
-			if (!action_successful) {
-				perror("\n\naction unsuccessful\n\n");
-				free (variables);
-				free (targets);
-				exit(EXIT_FAILURE);
+				if (!action_successful && !i_flag) {
+					perror("\n\naction unsuccessful\n\n");
+					free (variables);
+					free (targets);
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
 	}
@@ -216,13 +242,14 @@ void execute_actions (int position) {
 
 
 
-bool process_target (int pos) {
+
+bool process_target (int pos, bool i_flag, bool n_flag, bool s_flag) {
 	Target * target = targets[pos];
 
 	int num_dependencies = numstrings(target->dependencies);
 
 	if (num_dependencies == 0) {
-		execute_actions(pos);
+		execute_actions(pos, i_flag, n_flag, s_flag);
 	}
 
 	
@@ -241,7 +268,7 @@ bool process_target (int pos) {
 
 		if (is_target >= 0) {
 
-			if (process_target(is_target)) {
+			if (process_target(is_target, i_flag, n_flag, s_flag)) {
 				target_older = true;
 			} 
 
@@ -270,29 +297,24 @@ bool process_target (int pos) {
 			
 
 		} else {
-
-			//Actually, if it doesn't exist, we need to run the action line (see CITS2002 description)
-			perror("\nERROR FILE DOES NOT EXIST IN DIRECTORY!\n");
-			free (variables);
-			free (targets);
-			exit(EXIT_FAILURE);
+			target_older = true;
 		}
 
 
 	}
 	if (target_older) {
-		execute_actions (pos);
+		execute_actions (pos, i_flag, n_flag, s_flag);
 		return true;
 	}
 	return false;
 	
 }
 
-void process_bake ( void ) {
+void process_bake (bool i_flag, bool n_flag, bool s_flag) {
 
 	int numtargets = get_num_targets();
 	for (int i = 0; i < numtargets; ++i ) {
-		process_target(i);
+		process_target(i, i_flag, n_flag, s_flag);
 	}
 
 }

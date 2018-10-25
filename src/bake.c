@@ -48,6 +48,12 @@ int main(int argc, char *argv[])
 
             case 'C' :
                 directoryname = optarg;
+
+                if (chdir(directoryname) != 0) {
+                   printf("Directory change failed"); 
+                   exit(EXIT_FAILURE);
+                }
+
                 break;
 
             case 'f' :
@@ -67,12 +73,13 @@ int main(int argc, char *argv[])
                 break;
 
             case '?' :
-                if(optopt == 'C' | optopt == 'f')
-                    perror("Option -%c needs an argument\n", optopt);
+                if(optopt == 'C' | optopt == 'f') {
+                    printf("Option -%c needs an argument\n", optopt);
                     exit(EXIT_FAILURE);
-                else 
-                    perror("Unknown option -%c.\n", optopt);
+                } else 
+                    printf("Unknown option -%c.\n", optopt);
                     exit(EXIT_FAILURE);
+                }
                 break;
 
             default :

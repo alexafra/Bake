@@ -5,14 +5,86 @@ Student numbers:    21988858,       21315543
 
 #include "bake.h"
 
-time_t geturltime (char *url) {
-	
-	//Could not get curl to work, so...
-	time_t timer;
-	time(&timer);
+bool start_of_string(char *start_string, char *string) {
 
-	return timer;
+    //THIS WORKS
+    //Arbitrary function for checking start of strings
+    if(0 == strncmp(start_string, string, strlen(start_string)) ) {
+        return true;
+    } else {
+        return false;   
+    }
+     
+}   
+
+time_t geturltime(char * url ) {
+
+	FILE *header;
+	char *filename = "time.txt";
+
+    char * shell = getenv("SHELL");
+    if (shell == NULL) {
+        shell = "/bin/bash";
+    }
+	//Open a file to send header to
+	header = fopen("time.txt", "w");
+	
+	//Check if the file fails to open
+	if (header == NULL) {
+		printf("Failed to create file for storage\n");
+
+		exit(EXIT_FAILURE);
+	} else { 
+        int err = 0;
+
+        char *shell_command = "curl -o ";
+        int shell_st_length = strlen(shell_command);
+        shell_command = insert_string(shell_command, filename, shell_st_length, &err);
+        shell_st_length = strlen(shell_command);
+        shell_command = insert_string(shell_command, " -s -v --head ", shell_st_length, &err);
+        shell_st_length = strlen(shell_command);
+        shell_command = insert_string(shell_command, url, shell_st_length, &err);
+
+		//run the curl operation	
+		system(shell_command);
+        fclose(header);
+	}
+		//check the file to see where "< Last-Modified:" line is
+    header = fopen("time.txt", "r");
+	while(!feof(header)) {
+    	char *line = nextline(header);
+
+        if (line == NULL) { //eof
+            continue;
+        }
+        printf("%s\n", line);
+    	char *dateline = "Last-Modified: ";
+
+    	if(start_of_string(dateline, line)) {    		
+    		//Copy this line into another char
+    		int err;
+    		move_back(line, 0, strlen(dateline) + 5, &err);
+            int length = strlen(line);
+            line[length - 4] = '\0';
+
+            struct tm tm;
+            time_t t;
+            strptime(line, "%d %b %Y %H:%M:%S", &tm);
+
+            t = mktime(&tm);
+            free(line);
+            return t;
+
+    	} else{
+    		free(line);
+    	}
+    }	
+    fclose(header);
+    time_t timer;
+    time(&timer);
+    return timer;	
 }
+
 
 int is_dependency_target (char * dependency) {
 

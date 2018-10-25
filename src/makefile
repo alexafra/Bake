@@ -44,10 +44,6 @@ $(TARGET)/globals.o : globals.c bake.h
 	$(C99) $(CFLAGS) -c -o $(TARGET)/globals.o globals.c 
 
 
-
-echostuff : 
-	echo $(TARGET)
-
 clean :
 	rm -f ../target/*
 	rm -f ../testtarget/*

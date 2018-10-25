@@ -115,6 +115,7 @@ bool is_target_older (char *target, char *dependency) {
 	}
 }
 
+//executes a specific action in the shell
 bool execute_action (char * action) {
 	
 	int err = system(action);
@@ -127,22 +128,14 @@ bool execute_action (char * action) {
 	
 }
 
-
-// //      -i : ignore the unsuccessful termination of actions; continue executing a target's actions even if any fail.
-// // 
-//         -n : print (to stdout) each shell-command-sequence before it is to be executed, but do not actually execute the commands. Assume that each shell-command-sequence executes successfully. This option enables bake to simply report what it would do, without doing it.
-// //      
-// //      -s : execute silently, do not print each shell-command-sequence before it is executed.
-
-
+//executes the actions belonging to a target
 void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
 
 	Target * target = targets[position];
 	char ** actions = target->actions;
 	int num_actions = numstrings(actions);
 	
-	
-
+	//loop through each action
 	for (int i = 0; i < num_actions; ++i) {
 		bool action_successful = true;
 
@@ -150,21 +143,19 @@ void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
 
 			skip_leading_space(actions[i]);
 
-			if (!s_flag) {
+			if (!s_flag) { //dont print if s_flag
 				printf("%s\n", actions[i]);
 			}
-			
 
 			char * new_action = strdup(actions[i]);
 			int error;
 			move_back(new_action, 0, 1, &error);
 			skip_leading_space(new_action);
 
-			if (!n_flag) {
+			if (!n_flag) { //dont execute action with n flag
 				action_successful = execute_action(new_action);
 			}
-			
-
+			free(new_action);
 
 		} else if (starts_with_char(actions[i], '@')) { //dont print
 
@@ -176,10 +167,10 @@ void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
 			skip_leading_space(new_action);
 
 			
-			if (!n_flag) {
+			if (!n_flag) { //dont execute action with n flag
 				action_successful = execute_action(new_action);
 
-				if (!action_successful && !i_flag) {
+				if (!action_successful && !i_flag) { //dont cause error with i flag
 					perror("\n\naction unsuccessful\n\n");
 					free (variables);
 					free (targets);
@@ -187,18 +178,19 @@ void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
 				}
 			}
 
+			free(new_action);
 			
 		} else {
 			skip_leading_space(actions[i]);
 
-			if (!s_flag) {
+			if (!s_flag) { //dont print action with s flag
 				printf("%s\n", actions[i]);
 			}
 
-			if (!n_flag) {
+			if (!n_flag) { //dont execute action with n flag
 				action_successful = execute_action(actions[i]);
 			
-				if (!action_successful && !i_flag) {
+				if (!action_successful && !i_flag) { //dont cause error with i flag
 					perror("\n\naction unsuccessful\n\n");
 					free (variables);
 					free (targets);
@@ -210,9 +202,7 @@ void execute_actions (int position, bool i_flag, bool n_flag, bool s_flag) {
 	
 }
 
-
-
-
+//Processes a target to check dependencies and execute actions in the shell
 bool process_target (int pos, bool i_flag, bool n_flag, bool s_flag) {
 	Target * target = targets[pos];
 
@@ -222,13 +212,10 @@ bool process_target (int pos, bool i_flag, bool n_flag, bool s_flag) {
 		execute_actions(pos, i_flag, n_flag, s_flag);
 	}
 
-	
-
 	bool target_file_exists = is_file(target->target);
-
 	bool target_older = !target_file_exists;
 
-
+	//go through each dependency
 	for (int i = 0; i < num_dependencies; ++i) {
 		char * this_dependency = target->dependencies[i];
 
@@ -237,7 +224,8 @@ bool process_target (int pos, bool i_flag, bool n_flag, bool s_flag) {
 		bool file_exists = is_file(this_dependency);
 
 		if (is_target >= 0) {
-
+			//recursively calls process_target on each dependency thats a target, returns true 
+			//if it has to rebuild
 			if (process_target(is_target, i_flag, n_flag, s_flag)) {
 				target_older = true;
 			} 
@@ -250,36 +238,31 @@ bool process_target (int pos, bool i_flag, bool n_flag, bool s_flag) {
 				free (targets);
 				exit(EXIT_FAILURE);
 			}
+
 			if (target_file_exists) {
 				target_older = is_url_recent (target->target, this_dependency);
 			} else {
 				target_older = true;
 			}
-
 			
 		} else if (file_exists) {
-			bool target_file_exists = is_file(target->target);
 			if (target_file_exists) {
 				target_older = is_target_older (target->target, this_dependency);
 			} else {
 				target_older = true;
 			}
-			
-
-		} else {
+		} else { //execute actions if file doesnt exist 
 			target_older = true;
 		}
-
-
 	}
-	if (target_older) {
+	if (target_older) { //if target is older execute actions
 		execute_actions (pos, i_flag, n_flag, s_flag);
 		return true;
 	}
 	return false;
-	
 }
 
+//loops through all targets calling process_target
 void process_bake (bool i_flag, bool n_flag, bool s_flag) {
 
 	int numtargets = get_num_targets();

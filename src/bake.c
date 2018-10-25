@@ -112,10 +112,6 @@ int main(int argc, char *argv[])
         }
     }
 
-
-
-    
-
     //Open the bakefile     
     FILE *fp;
     if (filename != NULL) {
@@ -137,12 +133,10 @@ int main(int argc, char *argv[])
             }
         }
     }
-    
 
     //Create structure for holding targets, dependencies, and actions
     targets = (Target **) calloc (1, sizeof(Target*));
     *targets = NULL;
-    
 
     internal_representation(fp);
     if (p_flag) {
@@ -152,7 +146,6 @@ int main(int argc, char *argv[])
     if (!p_flag) {
         process_bake(i_flag, n_flag, s_flag);
     }
-
 
     fclose(fp);
     return 0;

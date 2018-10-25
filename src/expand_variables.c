@@ -33,15 +33,6 @@ char * get_special_value (char * var_name) {
 	return special_value;
 }
 
-/*
-	Override strategy from least to most important/
-	1. set var_value to env_values
-	2. set var_value to saved variables
-	3. set var_value to special variable
-
-	Each one will override the next if valid.
-*/
-
 char * get_var_value(char * var_name, Variable ** variables) {
 	
 	int i = 0;
@@ -133,8 +124,6 @@ char * substitute_variable (int pos, char * line, Variable ** variables) {
 	}
 	var_name[var_name_length] = '\0';
 
-	//now you have the var name , the var length, the start of the var position.
-
 	//delete the variable $(var_name) bit
 	move_back (exp_line, pos, var_name_length + 3, &error);
 	if (error != 0) {
@@ -144,7 +133,7 @@ char * substitute_variable (int pos, char * line, Variable ** variables) {
 	}
 
 	//now you need to get the variable, and insert it into the pos position
-	char * var_value = get_var_value(var_name, variables); //this will have a return value
+	char * var_value = get_var_value(var_name, variables); 
 
 	exp_line = insert_string (exp_line, var_value, pos, &error);
 	if (error != 0) {

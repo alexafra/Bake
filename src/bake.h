@@ -17,6 +17,8 @@ extern char * nextline (FILE *);
 extern void internal_representation (FILE *);
 //extern char * substitute_variable (int pos, char * line, Variable * variable, int* error);
 
+
+//string modifier methods
 extern void trimline (char *);
 extern void move_back (char *, int, int, int*);
 extern char * insert_string (char *, char *, int, int*);
@@ -28,26 +30,24 @@ extern char * get_rest_of_line (char *);
 extern char * itoa (int);
 extern int numberlength (int); 
 extern bool starts_with_char (char *, char);
-extern void add_char_to_string_list(char **, char);
-
 extern int numstrings (char **);
 extern char ** separate_line (char *);
-//extern char * expand_variables2 (char *, char **, char ** , int*);
 
+//expand variable methods
 extern char * expand_variables(char *, Variable **);
 extern char * get_special_value (char *);
 extern char * get_var_value(char *, Variable **);
 extern char * substitute_variable(int, char *, Variable ** );
 
-
+//process variable/action/target methods
 extern void process_variable_definition(char *, char *);
 extern void process_target_definition(char *, char *);
 extern void process_action_definition(char * );
 
+
 extern void print_bakefile (void);
 
-
-
+//checking dependency and executing actions methods
 extern int is_dependency_target (char * );
 extern bool is_dependency_url (char * );
 extern bool is_dependency_file (char * );
@@ -60,6 +60,7 @@ extern bool startswith (char *, char* );
 extern time_t get_modification_date (char *);
 extern bool is_older (time_t, time_t);
 
+//key global variable helper methods
 int get_num_variables (void);
 int get_num_targets (void);
 

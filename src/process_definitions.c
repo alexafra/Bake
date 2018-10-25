@@ -1,6 +1,5 @@
 #include "bake.h"
 
-//process_variable_defintion
 int get_num_variables (void) {
 	int i = 0;
 
@@ -21,7 +20,7 @@ int get_num_targets (void) {
 	return i;
 }
 
-
+//adds variable to variables struct pointer array
 void process_variable_definition(char *firstword, char *rest_of_line) {
 
 	int length = get_num_variables();
@@ -34,6 +33,7 @@ void process_variable_definition(char *firstword, char *rest_of_line) {
 
 }
 
+//adds target to targets struct pointer array
 void process_target_definition(char *firstword, char *rest_of_line) {
 
 	char ** dependencies = separate_line (rest_of_line);
@@ -51,6 +51,7 @@ void process_target_definition(char *firstword, char *rest_of_line) {
 
 }
 
+//adds action to a target in the targets struct pointer array
 void process_action_definition(char * line) {
 
 	char * action = strdup(line);

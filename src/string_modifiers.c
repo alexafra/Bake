@@ -15,6 +15,7 @@ void trimline(char *line)
     }
 }
 
+//moves part of the string backwards from a certain position by a certain amount 
 void move_back (char * line, int start, int amount, int *error) {
     int length = strlen(line);
     if (start < 0 || (amount + start) > length) {
@@ -30,6 +31,7 @@ void move_back (char * line, int start, int amount, int *error) {
     }
 }
 
+//inserts string at a certain position into another string
 char * insert_string (char * line, char * word, int position, int* error) {
     int length_line = strlen(line);
     if (position < 0 || position > length_line ) {
@@ -61,6 +63,7 @@ char * insert_string (char * line, char * word, int position, int* error) {
     return new_line;
 }
 
+//skips all leading space in a string
 void skip_leading_space (char *line) {
     int jump = 0;
     while (line[jump] != '\0' && (line[jump] == '\t' || line[jump] == ' ')) {
@@ -81,8 +84,6 @@ char * getfirstword (char * line) {
     int length;
 
     length = 0;
-    //printf("\n1\n");
-    //printf("\n%d\n", length1);
     while ( *(line + length) != ' ' && *(line + length) != '\t' && *(line + length) != ':' && *(line + length) != '='  && *(line + length) != '\0') {
         ++length;
     }
@@ -99,7 +100,7 @@ char * getfirstword (char * line) {
 
 }
 
-//overshooting
+//returns the rest of the string after the first word and the critical char
 char * get_rest_of_line (char *line) {
     
     char * firstword = getfirstword (line);
@@ -126,7 +127,7 @@ char * get_rest_of_line (char *line) {
     return rest_of_line;
 }
 
-//stub
+//returns a substring from a given start to an end point
 char * substring(char * line, int start, int end, int * error) {
     int length = strlen(line);
     char * new_line;
@@ -153,6 +154,7 @@ char * substring(char * line, int start, int end, int * error) {
 
 }
 
+//gets the critical char - the first non-whitespace after the first word
 char getcriticalchar (char * line) {
     char * line_dup = strdup(line);
     skip_leading_space (line_dup);
@@ -184,6 +186,7 @@ char getcriticalchar (char * line) {
 
 }
 
+// returns the number of digits in a number
 int numberlength (int value) {
     if (value == 0) {
         return 1;
@@ -201,11 +204,9 @@ int numberlength (int value) {
     return numsize;
 }
 
-
+//converts an integer into a character string
 char * itoa (int value) {
     int remainder;
-    
-    
 
     int numsize = numberlength(value);
 
@@ -226,6 +227,7 @@ char * itoa (int value) {
     return numberstring;
 }
 
+//returns how many strings are in a array of strings
 int numstrings (char ** stringlist) {
     int i = 0;
     while (stringlist[i] != NULL) {
@@ -234,6 +236,7 @@ int numstrings (char ** stringlist) {
     return i;
 }
 
+//separates a string into an array of the words in the string
 char ** separate_line (char * line) {
     char ** wordlist = calloc(1, sizeof(char *));
     *wordlist = NULL;
@@ -262,6 +265,7 @@ char ** separate_line (char * line) {
     return wordlist;
 }
 
+//checks if a string starts with a given character
 bool starts_with_char (char * string, char character) {
     skip_leading_space(string);
     if (strlen(string) > 0) {
@@ -273,9 +277,9 @@ bool starts_with_char (char * string, char character) {
     } else {
         return false;
     }
-
 }
 
+//adds a given character to the start of the string
 void add_char_to_start (char * string, char character) {
     int length = strlen(string);
     string = realloc(string, sizeof(char) * (length + 2));
@@ -285,22 +289,6 @@ void add_char_to_start (char * string, char character) {
     string[0] = character;
 }
 
-void add_char_to_string_list (char ** stringlist, char character) {
-    int num_strings = numstrings(stringlist);
-    for (int i = 0; i < num_strings; ++i) {
-        if (stringlist[i][0] != '@' && stringlist[i][0] != '-') {
-            add_char_to_start(stringlist[i], character);
-        } else if (stringlist[i][0] == '@' && character == '@') {
-            continue;
-        } else if (stringlist[i][0] == '@' && character == '-') {
-            stringlist[i][0] = '-';
-        } else if (stringlist[i][0] == '-' && character == '@') {
-            stringlist[i][0] = '@';
-        } else if (stringlist[i][0] == '-' && character == '-') {
-            continue;
-        }
-    }
-}
 
 
 

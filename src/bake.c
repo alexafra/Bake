@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     int option;
     char *directoryname = NULL;
-    char *filename;
+    char *filename = NULL;
 
     while( (option = getopt(argc, argv, "C:f:inps")) != -1) {
 
@@ -80,12 +80,13 @@ int main(int argc, char *argv[])
                 break;
 
             case '?' :
-                if(optopt == 'C' | optopt == 'f')
-                    perror("Option -%c needs an argument\n", optopt);
+                if(optopt == 'C' | optopt == 'f') {
+                    printf("Option -%c needs an argument\n", optopt);
                     exit(EXIT_FAILURE);
-                else 
-                    perror("Unknown option -%c.\n", optopt);
+                } else {
+                    printf("Unknown option -%c.\n", optopt);
                     exit(EXIT_FAILURE);
+                }
                 break;
 
             default :
@@ -93,16 +94,35 @@ int main(int argc, char *argv[])
         }
     }
 
-
+    
 
     if(argc > 1) {
-        //need to check access()
-        FILE *fp        = fopen(argv[1], "r");
+        //filename sorted.
+        FILE *fp;
+        if (filename != NULL) {
+            fp        = fopen(filename, "r");
 
-        if(fp == NULL) {
-            perror(argv[1]);
-            return 1;
+            if(fp == NULL) {
+                perror(filename);
+                return 1;
+            }
+        } else {
+            filename = "Bakefile";
+            fp        = fopen(filename, "r");
+            if(fp == NULL) {
+                filename = "bakefile";
+                fp        = fopen(filename, "r");
+                if(fp == NULL) {
+                    perror(filename);
+                    return 1;
+                }
+            }
         }
+
+        if (filename == NULL) {
+        filename = "Bakefile";
+    }
+
 
         targets = (Target **) calloc (1, sizeof(Target*));
         *targets = NULL;

@@ -42,21 +42,43 @@ void test_targets (void) {
 	char *file7 = "bake.h";
 
 	bool f1 = is_target_older(file1, file2);
-	bool f2 = is_target_older(file2, file1);
-	bool f3 = is_target_older(file3, file1);
-	bool f4 = is_target_older(file4, file5);
-	bool f5 = is_target_older(file5, file1);
+	bool f2 = is_target_older(file2, file3);
+	bool f3 = is_target_older(file3, file4);
+	// bool f4 = is_target_older(file4, file5);
+	bool f5 = is_target_older(file5, file6);
 	bool f6 = is_target_older(file6, file7);
-	bool f7 = is_target_older(file7, file2);
+	bool f7 = is_target_older(file7, file5);
 
-	CU_ASSERT(f1 != true);
-	CU_ASSERT(f2 == true);
-	CU_ASSERT(f3 != true);
-	CU_ASSERT(f4 != true);
+	CU_ASSERT(f1 == true);
+	CU_ASSERT(f2 != true);
+	CU_ASSERT(f3 == true);
+	// CU_ASSERT(f4 != true);
 	CU_ASSERT(f5 == true);
-	CU_ASSERT(f6 != true);
-	CU_ASSERT(f7 == true);
+	CU_ASSERT(f6 == true);
+	CU_ASSERT(f7 != true);
 	
-	
+	// char *file1 = "makefile";
+	// char *file2 = "bake.c";
+	// char *file3 = "globals.c";
+	// // char *file4 = "nothing";
+	// char *file5 = "../tests/test_substring.c";
+	// char *file6 = "../tests/test_target_lines.c";
+	// char *file7 = "nextline.c";
+
+	// bool dep1 = is_dependency_file(file1);
+	// bool dep2 = is_dependency_file(file2);
+	// bool dep3 = is_dependency_file(file3);
+	// // bool dep4 = is_dependency_file(file4);
+	// bool dep5 = is_dependency_file(file5);
+	// bool dep6 = is_dependency_file(file6);
+	// bool dep7 = is_dependency_file(file7);
+
+	// CU_ASSERT(dep1 == true);
+	// CU_ASSERT(dep2 == true);
+	// CU_ASSERT(dep3 == true);
+	// // CU_ASSERT(dep4 != true);
+	// CU_ASSERT(dep5 == true);
+	// CU_ASSERT(dep6 == true);
+	// CU_ASSERT(dep7 == true);
 
 }

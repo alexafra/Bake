@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
                 break;
 
             case '?' :
-                if(optopt == 'C' | optopt == 'f') {
+                if((optopt == 'C') | (optopt == 'f')) {
                     printf("Option -%c needs an argument\n", optopt);
                     exit(EXIT_FAILURE);
 

@@ -15,7 +15,7 @@ extern void test_getspecialvarsimple(void);
 extern void test_getvarvaluesimple (void);
 extern void test_substitutevariablesimple (void);
 
-extern void test_checkifurl(void);
+extern void test_targets (void);
 //extern void test_getvarvaluesimple (void);
 
 extern void test_numstrings (void); 

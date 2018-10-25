@@ -86,6 +86,7 @@ int main (void) {
 		|| (NULL == CU_add_test(pSuite1, "test get critical char hard", test_getcriticalcharhard))
 		|| (NULL == CU_add_test(pSuite1, "test get insert string hard", test_insertstringhard ))
 		|| (NULL == CU_add_test(pSuite1, "test get substring hard", test_substringhard ))
+		|| (NULL == CU_add_test(pSuite1, "test get targets", test_targets ))
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();

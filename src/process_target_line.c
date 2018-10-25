@@ -42,13 +42,6 @@ char * get_directory() {
 	}
 }
 
-bool is_in_current_dir(char *targetname) {
-	
-	//THIS WORKS
-	struct stat buf;
-	return (stat(targetname, &buf) == 0);  
-}
-
 // time_t get_url_time(char *url) {
 // 	//curl -s -v --head http://foo.com/bar/baz.pdf 2>&1 | grep '^< Last-Modified:'
 
@@ -79,12 +72,12 @@ bool is_in_current_dir(char *targetname) {
 
 int is_dependency_target (char * dependency) {
 
-	bool is_target = false;
+	//bool is_target = false;
 	int number_targets = get_num_targets();
 	int i;
 	for (i = 0; i < number_targets; ++i ) {
 		if (strcmp(dependency, targets[i]->target) == 0) {
-			is_target = true;
+			//is_target = true;
 			return i;
 		}
 	}
@@ -126,30 +119,45 @@ bool is_url_accessible (char *dependency) {
 
 bool is_dependency_file (char * dependency) {
 	struct stat buf;
-	if(stat(targetname, &buf) == 0) {
+	if(stat(dependency, &buf) == 0) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-time_t * get_modification_date(char *filename) {
+bool is_more_recent (time_t time1, time_t time2) {
 	
-	//THIS COMPILES BUT MAY NOT WORK... NOT TESTED
-	time_t *filetime;
+	//Compare modification dates here
+
+	if(difftime(time1, time2) > 0) {
+		return true;
+	}
+	return false;
+}
+
+time_t get_modification_date (char *filename) {
+	
+	//Returns the modification date of file 
+	time_t filetime;
 	struct stat attrib;
 	if(stat(filename, &attrib) != 0) {
 		perror("Stat fail");
-	
+		exit(EXIT_FAILURE);
 	} else {
 
-	filetime = &attrib.st_mtime;
+	filetime = attrib.st_mtime;
 	return filetime;
 	}
 }
 
-bool is_target_older (char *target, char *depencency) {
-	return true;
+bool is_target_older (char *target, char *dependency) {
+	
+	if(is_more_recent(get_modification_date(target), get_modification_date(dependency))) {
+		return true;	
+	} else {
+		return false;
+	}
 }
 
 void execute_actions (int position) {

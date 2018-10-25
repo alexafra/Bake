@@ -59,7 +59,7 @@ clean :
 	rm -f ../tests/testD
 
 
-test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/expand_variables.o $(TESTTARGET)/test_process_definitions.o $(TARGET)/process_definitions.o $(TARGET)/string_modifiers.o $(TARGET)/process_target_line.o $(TARGET)/globals.o 
+test : $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TARGET)/expand_variables.o $(TESTTARGET)/test_process_definitions.o $(TESTTARGET)/test_target_lines.o $(TARGET)/process_definitions.o $(TARGET)/string_modifiers.o $(TARGET)/process_target_line.o $(TARGET)/globals.o 
 
 	$(C99) $(CFLAGS) -o $(TESTLOC)/test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TESTTARGET)/test_process_definitions.o $(TESTTARGET)/test_target_lines.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o $(TARGET)/expand_variables.o $(TARGET)/process_target_line.o $(TARGET)/globals.o  -lcunit 
 	$(C99) $(CFLAGS) -o test $(TESTTARGET)/test.o $(TESTTARGET)/test_small_string_modifiers.o $(TESTTARGET)/test_moderate_string_modifiers.o $(TESTTARGET)/test_substring.o $(TESTTARGET)/test_expand_variable_functions.o $(TESTTARGET)/test_process_definitions.o $(TESTTARGET)/test_target_lines.o $(TARGET)/string_modifiers.o $(TARGET)/process_definitions.o $(TARGET)/expand_variables.o $(TARGET)/process_target_line.o $(TARGET)/globals.o  -lcunit 

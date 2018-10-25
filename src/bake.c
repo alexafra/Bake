@@ -4,7 +4,7 @@
 
 #endif
 
-void beautiful_print_bakefile (void) {
+void print_targets (void) {
     int i = 0;
     printf("Targets:\n\n");
     while (targets[i] != NULL) {
@@ -27,7 +27,7 @@ void beautiful_print_bakefile (void) {
     }
 }
 
-void print_bakefile (void) {
+void print_actions (void) {
     int i = 0;
     while (targets[i] != NULL) {
         int j = 0;
@@ -39,12 +39,7 @@ void print_bakefile (void) {
     }
 }
 
-void print_actions (void) {
-    int num_targets = get_num_targets();
-    for (int i = 0; i < num_targets; ++i) {
-        add_char_to_string_list(targets[i]->dependencies, '@');
-    }
-}
+
 
 
 int main(int argc, char *argv[])
@@ -74,6 +69,7 @@ int main(int argc, char *argv[])
                 break;
 
             case 'p' :
+                print_targets();
                 break;
 
             case 's' :

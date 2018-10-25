@@ -27,6 +27,7 @@ extern char * get_rest_of_line (char *);
 extern char * itoa (int);
 extern int numberlength (int); 
 extern bool starts_with_char (char *, char);
+extern void add_char_to_string_list(char **, char);
 
 extern int numstrings (char **);
 extern char ** separate_line (char *);

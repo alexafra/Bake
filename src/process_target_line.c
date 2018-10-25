@@ -151,38 +151,15 @@ bool is_target_older (char *target, char *dependency) {
 	}
 }
 
-bool execute_action (int target_pos, int action_pos) {
-	Target * target = targets[target_pos];
-	char * action = target->actions[action_pos];
-	// char * shell = getenv("SHELL");
-	// if (shell == NULL) {
-	// 	shell = "/bin/bash";
-	// ;
+bool execute_action (char * action) {
 	int err = system(action);
+	
 	if (err < 0) {
 		return false;
 	} else {
 		return true;
 	}
-
-	//return true;
-
-	// pid_t child_pid;
-	// child_pid = fork();
-	// int status;
-	// if (child_pid == 0) { 
- //        execl(shell, action , NULL);
- //        exit(0);
- //    } else if (child_pid < 0) {
- //    	return false;
-	// } else { 
-	// 	pid_t tpid;
-	// 	do {
-	// 		tpid = wait(&status25);
-	// 	} while (tpid != child_pid);
-	//     return true;
-	// } 
-
+	
 }
 
 void execute_actions (int position) {
@@ -196,26 +173,41 @@ void execute_actions (int position) {
 		bool action_successful = true;
 		if (starts_with_char(actions[i], '-')) { //something specific
 			skip_leading_space(actions[i]);
-			action_successful = execute_action(position, i);
+			printf("%s\n", actions[i]);
+
+			char * new_action = strdup(actions[i]);
+			int error;
+			move_back(new_action, 0, 1, &error);
+			skip_leading_space(new_action);
+
+			action_successful = execute_action(new_action);
 
 		} else if (starts_with_char(actions[i], '@')) {
 			skip_leading_space(actions[i]);
-			printf("%s\n", actions[i]);
-			action_successful = execute_action(position, i);
+			
+			char * new_action = strdup(actions[i]);
+			int error;
+			move_back(new_action, 0, 1, &error);
+			skip_leading_space(new_action);
+
+			
+			action_successful = execute_action(new_action);
 			if (!action_successful) {
 				perror("\n\naction unsuccessful\n\n");
 				free (variables);
 				free (targets);
-				exit(0);
+				exit(EXIT_FAILURE);
 			}
 		} else {
 			skip_leading_space(actions[i]);
-			action_successful = execute_action(position, i);
+			printf("%s\n", actions[i]);
+			action_successful = execute_action(actions[i]);
+			
 			if (!action_successful) {
 				perror("\n\naction unsuccessful\n\n");
 				free (variables);
 				free (targets);
-				exit(0);
+				exit(EXIT_FAILURE);
 			}
 		}
 	}
@@ -301,4 +293,27 @@ void process_bake ( void ) {
 	}
 
 }
+
+
+// char * shell = getenv("SHELL");
+	// if (shell == NULL) {
+	// 	shell = "/bin/bash";
+	// ;
+
+
+// pid_t child_pid;
+	// child_pid = fork();
+	// int status;
+	// if (child_pid == 0) { 
+ //        execl(shell, action , NULL);
+ //        exit(0);
+ //    } else if (child_pid < 0) {
+ //    	return false;
+	// } else { 
+	// 	pid_t tpid;
+	// 	do {
+	// 		tpid = wait(&status25);
+	// 	} while (tpid != child_pid);
+	//     return true;
+	// } 
 

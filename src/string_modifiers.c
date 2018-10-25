@@ -279,6 +279,32 @@ bool starts_with_char (char * string, char character) {
 
 }
 
+void add_char_to_start (char * string, char character) {
+    int length = strlen(string);
+    string = realloc(string, sizeof(char) * (length + 2));
+    for (int i = length - 1; i >= 0; --i) {
+        string[i + 1] = string[i]; 
+    }
+    string[0] = character;
+}
+
+void add_char_to_string_list (char ** stringlist, char character) {
+    int num_strings = numstrings(stringlist);
+    for (int i = 0; i < num_strings; ++i) {
+        if (stringlist[i][0] != '@' && stringlist[i][0] != '-') {
+            add_char_to_start(stringlist[i], character);
+        } else if (stringlist[i][0] == '@' && character == '@') {
+            continue;
+        } else if (stringlist[i][0] == '@' && character == '-') {
+            stringlist[i][0] = '-';
+        } else if (stringlist[i][0] == '-' && character == '@') {
+            stringlist[i][0] = '@';
+        } else if (stringlist[i][0] == '-' && character == '-') {
+            continue;
+        }
+    }
+}
+
     //Pretty sure this works... I tested it with a number of ways in a txt file
     //May still have some bugs though
 

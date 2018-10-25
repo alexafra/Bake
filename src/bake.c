@@ -27,6 +27,13 @@ void print_bakefile (void) {
     }
 }
 
+void print_actions (void) {
+    int num_targets = get_num_targets();
+    for (int i = 0; i < num_targets; ++i) {
+        add_char_to_string_list(targets[i]->dependencies, '@');
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -43,6 +50,8 @@ int main(int argc, char *argv[])
         *targets = NULL;
         
         process_bakefile(fp);
+
+        if ()
 //
         
                              // WE OPENED IT, SO WE CLOSE IT

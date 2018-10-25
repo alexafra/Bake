@@ -1,4 +1,7 @@
-//why do i need the if statements
+/* CITS2002 Project 2018 
+Names:              Alex Franzis,   Kieren Underwood
+Student numbers:    21988858,       21315543 
+*/
 
 #ifndef STRUCT_H
 #define STRUCT_H

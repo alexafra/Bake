@@ -1,6 +1,11 @@
+/* CITS2002 Project 2018 
+Names:              Alex Franzis,   Kieren Underwood
+Student numbers:    21988858,       21315543 
+*/
+
 #include "bake.h"
+
 //  READ SUCCESSIVE LINES UNTIL END-OF-FILE OR ONE DOES NOT END WITH '\'
-//returns null at eof?
 char *nextline(FILE *fp)
 {
     char        *fullline       = NULL;

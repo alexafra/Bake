@@ -68,9 +68,12 @@ int main(int argc, char *argv[])
 
             case '?' :
                 if(optopt == 'C' | optopt == 'f')
-                    printf("Option -%c needs an argument\n", optopt);
+                    perror("Option -%c needs an argument\n", optopt);
+                    exit(EXIT_FAILURE);
                 else 
-                    printf("Unknown option -%c.\n", optopt);
+                    perror("Unknown option -%c.\n", optopt);
+                    exit(EXIT_FAILURE);
+                break;
 
             default :
                 printf("getopt");                                              
@@ -92,11 +95,9 @@ int main(int argc, char *argv[])
         *targets = NULL;
         
         process_bakefile(fp);
-
-        if ()
 //
         
-                             // WE OPENED IT, SO WE CLOSE IT
+        // WE OPENED IT, SO WE CLOSE IT
         //print_bakefile();
 
         process_bake();

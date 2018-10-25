@@ -99,45 +99,40 @@ int main(int argc, char *argv[])
 
     
 
-    if(argc > 1) {
-        //filename sorted.
-        FILE *fp;
-        if (filename != NULL) {
-            fp        = fopen(filename, "r");
+    
+    FILE *fp;
+    if (filename != NULL) {
+        fp        = fopen(filename, "r");
 
+        if(fp == NULL) {
+            perror(filename);
+            return 1;
+        }
+    } else {
+        filename = "Bakefile";
+        fp        = fopen(filename, "r");
+        if(fp == NULL) {
+            filename = "bakefile";
+            fp        = fopen(filename, "r");
             if(fp == NULL) {
                 perror(filename);
                 return 1;
             }
-        } else {
-            filename = "Bakefile";
-            fp        = fopen(filename, "r");
-            if(fp == NULL) {
-                filename = "bakefile";
-                fp        = fopen(filename, "r");
-                if(fp == NULL) {
-                    perror(filename);
-                    return 1;
-                }
-            }
         }
-
-        if (filename == NULL) {
-        filename = "Bakefile";
     }
+    
 
 
-        targets = (Target **) calloc (1, sizeof(Target*));
-        *targets = NULL;
-        
-        process_bakefile(fp);
-        
-        // WE OPENED IT, SO WE CLOSE IT
-        //print_bakefile();
+    targets = (Target **) calloc (1, sizeof(Target*));
+    *targets = NULL;
+    
+    process_bakefile(fp);
+    
+    // WE OPENED IT, SO WE CLOSE IT
+    //print_bakefile();
 
-        process_bake();
-        fclose(fp);
-    }
+    process_bake();
+    fclose(fp);
 
     return 0;
 }
